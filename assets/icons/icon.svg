@@ -1,0 +1,5 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#2D5F4F"/>
+  <text x="50%" y="50%" font-family="Arial" font-size="120" font-weight="bold" fill="#FDFCF9" text-anchor="middle" dominant-baseline="middle">99</text>
+  <text x="50%" y="70%" font-family="Arial" font-size="32" fill="#C9A961" text-anchor="middle" dominant-baseline="middle">Names</text>
+</svg>

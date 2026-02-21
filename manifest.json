@@ -1,0 +1,21 @@
+{
+  "name": "Names of Allah - Asma'ul Husna",
+  "short_name": "99 Names",
+  "description": "Learn and memorize the 99 Beautiful Names of Allah with authentic sources from Quran and Sunnah",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#2A5F5C",
+  "background_color": "#FDFCF9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "lifestyle", "spirituality"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

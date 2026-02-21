@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn and memorize the 99 Beautiful Names of Allah (Asma'ul Husna) with authentic sources from Quran and Sunnah">
+  <meta name="theme-color" content="#2A5F5C">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- iOS PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="99 Names">
+  <link rel="apple-touch-icon" href="assets/icons/icon.svg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/names.css">
+  <link rel="stylesheet" href="css/memorization.css">
+  <link rel="stylesheet" href="css/progress.css">
+
+  <title>Names of Allah - Asma'ul Husna</title>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <button class="btn-icon btn-menu" aria-label="Open menu" id="menuToggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <h1 class="header-title">
+          <a href="#welcome" class="header-link" id="headerHomeLink">
+            <span class="arabic-small">أَسْمَاءُ ٱللَّٰهِ ٱلْحُسْنَىٰ</span>
+            <span class="header-subtitle">99 Names of Allah</span>
+          </a>
+        </h1>
+
+        <!-- Settings button removed - not implemented yet -->
+        <div style="width: 40px;"></div> <!-- Spacer for layout balance -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Drawer -->
+  <nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+    <div class="nav-overlay" id="navOverlay"></div>
+    <div class="nav-content">
+      <div class="nav-header">
+        <h2 class="nav-title">Menu</h2>
+        <button class="btn-icon btn-close" aria-label="Close menu" id="navClose">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="nav-menu">
+        <li>
+          <a href="#welcome" class="nav-link" data-view="welcome">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#browse" class="nav-link active" data-view="browse">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>Browse All</span>
+          </a>
+        </li>
+        <li>
+          <a href="#memorize" class="nav-link" data-view="memorize">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            <span>Memorize</span>
+          </a>
+        </li>
+        <li>
+          <a href="#progress" class="nav-link" data-view="progress">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <span>My Progress</span>
+          </a>
+        </li>
+        <li>
+          <a href="#favorites" class="nav-link" data-view="favorites">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Favorites</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-footer">
+        <p class="text-sm text-muted">Version 1.0</p>
+        <p class="text-sm text-muted">Based on Shaykh Uthaymeen's list</p>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main" id="mainContent">
+    <div class="container">
+
+      <!-- Welcome Screen (First Visit) -->
+      <div class="view" id="welcomeView">
+        <div class="welcome-card">
+          <h2 class="arabic-large mb-md">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
+          <p class="text-lg mb-lg">Learn and memorize the 99 Beautiful Names of Allah with authentic sources from the Quran and Sunnah.</p>
+
+          <div class="feature-grid">
+            <div class="feature-item">
+              <span class="feature-icon">📖</span>
+              <h3>Authentic Sources</h3>
+              <p class="text-sm">Based on Shaykh Uthaymeen's classification</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">🧠</span>
+              <h3>Spaced Repetition</h3>
+              <p class="text-sm">Scientifically proven memorization technique</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">🌙</span>
+              <h3>Bilingual</h3>
+              <p class="text-sm">English and Bahasa Melayu support</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">📱</span>
+              <h3>Works Offline</h3>
+              <p class="text-sm">Install and use without internet</p>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" id="getStartedBtn">Get Started</button>
+        </div>
+      </div>
+
+      <!-- Browse View (placeholder) -->
+      <div class="view hidden" id="browseView">
+        <h2 class="mb-lg">All 99 Names</h2>
+        <div id="namesList">
+          <!-- Names will be loaded here by JavaScript -->
+          <p class="text-muted">Loading names...</p>
+        </div>
+      </div>
+
+      <!-- Memorize View -->
+      <div class="view hidden" id="memorizeView">
+
+        <!-- Session Start Screen -->
+        <div id="sessionStart" class="session-start">
+          <h2 class="mb-lg">Daily Practice</h2>
+          <p class="text-lg text-muted mb-lg">Continue your journey of memorizing Allah's Beautiful Names</p>
+
+          <div class="session-stats">
+            <div class="stat-card">
+              <span class="stat-number" id="reviewCount">0</span>
+              <span class="stat-label">To Review</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number" id="newCount">5</span>
+              <span class="stat-label">New Names</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" id="startSessionBtn">Start Session</button>
+        </div>
+
+        <!-- Flashcard Session -->
+        <div id="flashcardSession" class="hidden">
+          <!-- Progress -->
+          <div class="session-progress">
+            <p class="progress-text" id="progressText">1 / 10</p>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+            </div>
+          </div>
+
+          <!-- Flashcard -->
+          <div class="flashcard-container" id="flashcardContainer">
+            <div class="flashcard" id="flashcard">
+              <!-- Front -->
+              <div class="card-face card-front">
+                <div class="arabic-text" id="cardArabic">الله</div>
+                <div class="tap-prompt">
+                  <svg class="tap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"/>
+                  </svg>
+                  Tap to reveal
+                </div>
+              </div>
+
+              <!-- Back -->
+              <div class="card-face card-back">
+                <div class="transliteration" id="cardTransliteration">Allah</div>
+                <div class="meaning" id="cardMeaning">The One true God who alone deserves to be worshipped</div>
+                <div class="context" id="cardContext">This name comprises all the meanings of His beautiful names</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assessment Buttons (shown after flip) -->
+          <div class="assessment-buttons hidden" id="assessmentButtons">
+            <button class="assessment-btn forgot" data-difficulty="forgot">
+              <span class="emoji">😔</span>
+              <span class="label">Forgot</span>
+              <span class="interval">Review tomorrow</span>
+            </button>
+            <button class="assessment-btn hard" data-difficulty="hard">
+              <span class="emoji">😐</span>
+              <span class="label">Hard</span>
+              <span class="interval">1 day</span>
+            </button>
+            <button class="assessment-btn good" data-difficulty="good">
+              <span class="emoji">😊</span>
+              <span class="label">Good</span>
+              <span class="interval">3 days</span>
+            </button>
+            <button class="assessment-btn easy" data-difficulty="easy">
+              <span class="emoji">🎉</span>
+              <span class="label">Easy</span>
+              <span class="interval">7 days</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Session Summary -->
+        <div id="sessionSummary" class="session-summary hidden">
+          <div class="summary-icon">🎉</div>
+          <h2 class="summary-title">Session Complete!</h2>
+
+          <div class="summary-stats">
+            <div class="stat-card">
+              <span class="stat-number" id="summaryCorrect">0</span>
+              <span class="stat-label">Reviewed</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-number" id="summaryStreak">0</span>
+              <span class="stat-label">Day Streak</span>
+            </div>
+          </div>
+
+          <p class="summary-encouragement" id="summaryMessage">Keep up the great work!</p>
+
+          <div class="summary-actions">
+            <button class="btn btn-primary" id="reviewAgainBtn">Review Again</button>
+            <button class="btn btn-secondary" id="doneBtn">Done for Today</button>
+          </div>
+        </div>
+
+        <!-- Empty State (All Caught Up) -->
+        <div id="emptyState" class="empty-state hidden">
+          <div class="empty-state-icon">✨</div>
+          <h2 class="empty-state-title">All Caught Up!</h2>
+          <p class="empty-state-text">You've reviewed all your names for today. Check back tomorrow for more practice.</p>
+          <button class="btn btn-secondary" id="backToBrowseBtn">Browse Names</button>
+        </div>
+
+      </div>
+
+      <!-- Progress View -->
+      <div class="view hidden" id="progressView">
+        <div class="progress-view-inner">
+
+          <!-- Stats Row -->
+          <div class="progress-stats" role="list" aria-label="Learning statistics">
+            <div class="stat-card stat-mastered" role="listitem">
+              <span class="stat-value" id="statMastered">0</span>
+              <span class="stat-label">Mastered</span>
+            </div>
+            <div class="stat-card stat-learning" role="listitem">
+              <span class="stat-value" id="statLearning">0</span>
+              <span class="stat-label">Learning</span>
+            </div>
+            <div class="stat-card stat-new" role="listitem">
+              <span class="stat-value" id="statNew">99</span>
+              <span class="stat-label">New</span>
+            </div>
+            <div class="stat-card stat-streak" role="listitem">
+              <span class="stat-value" id="statStreak">0</span>
+              <span class="stat-label">Day Streak</span>
+            </div>
+            <div class="stat-card stat-completion" role="listitem">
+              <span class="stat-value" id="statCompletion">0%</span>
+              <span class="stat-label">Complete</span>
+            </div>
+          </div>
+
+          <!-- Journey / Progress Bar -->
+          <div class="journey-section">
+            <h2 class="journey-heading">Your Journey</h2>
+            <p class="journey-subtext" id="journeySubtext">Begin memorizing to track your progress</p>
+            <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressTrack">
+              <div class="progress-fill" id="progressFillBar"></div>
+            </div>
+            <p class="progress-percentage" id="progressPercentageLabel">0% of 99 names mastered</p>
+          </div>
+
+          <!-- 99-Dot Grid -->
+          <div class="dot-grid-section">
+            <h2 class="dot-grid-heading">The 99 Names</h2>
+            <div class="dot-legend" aria-hidden="true">
+              <span class="legend-item">
+                <span class="legend-dot dot-mastered"></span> Mastered
+              </span>
+              <span class="legend-item">
+                <span class="legend-dot dot-learning"></span> Learning
+              </span>
+              <span class="legend-item">
+                <span class="legend-dot dot-new"></span> New
+              </span>
+            </div>
+            <div class="dot-grid" id="dotGrid" role="list" aria-label="All 99 names progress grid">
+              <!-- Populated by dashboard.js -->
+            </div>
+          </div>
+
+          <!-- Review Queue -->
+          <div class="review-queue-section">
+            <h2 class="review-queue-heading">Review Queue</h2>
+            <p class="review-queue-subtext" id="reviewQueueSubtext">Names due for review today</p>
+            <div id="reviewQueueList" class="review-queue-list">
+              <!-- Populated by dashboard.js -->
+            </div>
+            <div id="reviewQueueActions"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Favorites View -->
+      <div class="view hidden" id="favoritesView">
+        <div class="favorites-header">
+          <h2>Favorites</h2>
+          <p class="text-secondary">Names you've marked for quick access</p>
+        </div>
+
+        <!-- Favorites grid (populated by JS) -->
+        <div id="favoritesList" class="names-grid">
+          <!-- Will be filled by renderFavorites() -->
+        </div>
+
+        <!-- Empty state -->
+        <div id="favoritesEmpty" class="empty-state hidden">
+          <div class="empty-state-icon">⭐</div>
+          <h3 class="empty-state-title">No Favorites Yet</h3>
+          <p class="empty-state-text">Tap the star icon on any name to add it to your favorites for quick access.</p>
+          <button class="btn btn-secondary" id="browseFromFavoritesBtn">Browse Names</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Install Prompt (shown on first visit) -->
+  <div class="install-prompt hidden" id="installPrompt">
+    <div class="install-content">
+      <p class="install-text">Install this app on your device for a better experience</p>
+      <button class="btn btn-sm" id="installBtn">Install</button>
+      <button class="btn-text btn-sm" id="dismissInstallBtn">Not now</button>
+    </div>
+  </div>
+
+  <!-- Offline Indicator -->
+  <div class="offline-banner hidden" id="offlineBanner">
+    <p>You're offline - using cached data</p>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js" type="module"></script>
+
+</body>
+</html>
