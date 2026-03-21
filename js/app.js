@@ -42,11 +42,15 @@ const elements = {
 // ==================== Navigation ====================
 function openNav() {
   elements.navDrawer.setAttribute('aria-hidden', 'false');
+  elements.menuToggle.setAttribute('aria-expanded', 'true');
+  elements.menuToggle.setAttribute('aria-label', 'Close menu');
   document.body.style.overflow = 'hidden';
 }
 
 function closeNav() {
   elements.navDrawer.setAttribute('aria-hidden', 'true');
+  elements.menuToggle.setAttribute('aria-expanded', 'false');
+  elements.menuToggle.setAttribute('aria-label', 'Open menu');
   document.body.style.overflow = '';
 }
 

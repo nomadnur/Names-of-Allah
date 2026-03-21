@@ -69,16 +69,23 @@ export class ProgressDashboard {
     if (!dotGrid) return;
 
     dotGrid.innerHTML = '';
+    dotGrid.setAttribute('role', 'list');
+    dotGrid.setAttribute('aria-label', '99 Names progress grid');
 
     for (let index = 1; index <= 99; index++) {
       const status = this.#getDotStatus(index);
       const name = allNames.find((item) => item.index === index);
 
+      const li = document.createElement('li');
+      li.style.listStyle = 'none';
+      li.style.padding = '0';
+      li.style.margin = '0';
+      li.style.display = 'contents';
+
       const dot = document.createElement('button');
       dot.type = 'button';
       dot.className = `name-dot dot-${status}`;
       dot.dataset.index = String(index);
-      dot.setAttribute('role', 'listitem');
       dot.setAttribute(
         'aria-label',
         name ? `${name.transliteration} - ${status}` : `Name ${index} - ${status}`
@@ -91,7 +98,8 @@ export class ProgressDashboard {
         this.uiRenderer.showNameDetail(index);
       });
 
-      dotGrid.appendChild(dot);
+      li.appendChild(dot);
+      dotGrid.appendChild(li);
     }
   }
 

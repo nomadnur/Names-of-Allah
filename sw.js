@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.7.0-pwa-icons';
+const CACHE_VERSION = 'v1.7.1-a11y';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install

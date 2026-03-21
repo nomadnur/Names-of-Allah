@@ -2,6 +2,24 @@
  * Base Styles - Complete Design System
  */
 
+/* Skip link (a11y) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background: var(--teal-600);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  border-radius: 0 0 var(--border-radius-md) 0;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 /* Reset */
 *, *::before, *::after {
   box-sizing: border-box;

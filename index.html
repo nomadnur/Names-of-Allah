@@ -13,7 +13,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="99 Names">
-  <link rel="apple-touch-icon" href="assets/icons/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
@@ -35,11 +35,14 @@
 </head>
 <body>
 
+  <!-- Skip to main content (a11y) -->
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
   <!-- Header -->
   <header class="header">
     <div class="container">
       <div class="header-content">
-        <button class="btn-icon btn-menu" aria-label="Open menu" id="menuToggle">
+        <button class="btn-icon btn-menu" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer" id="menuToggle">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -49,7 +52,7 @@
 
         <h1 class="header-title">
           <a href="#welcome" class="header-link" id="headerHomeLink">
-            <span class="arabic-small">أَسْمَاءُ ٱللَّٰهِ ٱلْحُسْنَىٰ</span>
+            <span class="arabic-small" lang="ar" dir="rtl">أَسْمَاءُ ٱللَّٰهِ ٱلْحُسْنَىٰ</span>
             <span class="header-subtitle">99 Names of Allah</span>
           </a>
         </h1>
@@ -134,7 +137,7 @@
       <!-- Welcome Screen (First Visit) -->
       <div class="view" id="welcomeView">
         <div class="welcome-card">
-          <h2 class="arabic-large mb-md">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
+          <h2 class="arabic-large mb-md" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
           <p class="text-lg mb-lg">Learn and memorize the 99 Beautiful Names of Allah with authentic sources from the Quran and Sunnah.</p>
 
           <div class="feature-grid">
