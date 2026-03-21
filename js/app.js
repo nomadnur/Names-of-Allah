@@ -8,6 +8,48 @@ import { UIRenderer } from './ui.js';
 import { SessionController } from './session.js';
 import { ProgressDashboard } from './dashboard.js';
 
+// ==================== Theme ====================
+function getSystemDark() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const moon = btn?.querySelector('.icon-moon');
+  const sun = btn?.querySelector('.icon-sun');
+
+  if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+    if (moon) moon.style.display = 'none';
+    if (sun) sun.style.display = '';
+    if (btn) btn.setAttribute('aria-label', 'Switch to light mode');
+  } else if (theme === 'light') {
+    root.setAttribute('data-theme', 'light');
+    if (moon) moon.style.display = '';
+    if (sun) sun.style.display = 'none';
+    if (btn) btn.setAttribute('aria-label', 'Switch to dark mode');
+  } else {
+    // auto — remove override, CSS media query takes over
+    root.removeAttribute('data-theme');
+    const isDark = getSystemDark();
+    if (moon) moon.style.display = isDark ? 'none' : '';
+    if (sun) sun.style.display = isDark ? '' : 'none';
+    if (btn) btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+}
+
+function toggleTheme() {
+  const current = localStorage.getItem('theme') || 'auto';
+  const isDark = current === 'dark' || (current === 'auto' && getSystemDark());
+  const next = isDark ? 'light' : 'dark';
+  localStorage.setItem('theme', next);
+  applyTheme(next);
+}
+
+// Apply saved theme immediately (before render)
+applyTheme(localStorage.getItem('theme') || 'auto');
+
 // ==================== State Management ====================
 const state = {
   currentView: 'welcome',
@@ -157,6 +199,15 @@ if ('serviceWorker' in navigator) {
 }
 
 // ==================== Event Listeners ====================
+document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+// Keep icon in sync if system preference changes while app is open
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (!localStorage.getItem('theme') || localStorage.getItem('theme') === 'auto') {
+    applyTheme('auto');
+  }
+});
+
 elements.menuToggle.addEventListener('click', openNav);
 elements.navOverlay.addEventListener('click', closeNav);
 elements.navClose.addEventListener('click', closeNav);

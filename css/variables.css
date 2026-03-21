@@ -278,8 +278,62 @@
   --teal-softest: var(--teal-100);
 }
 
-/* DARK MODE TEMPORARILY DISABLED - needs proper high-contrast design */
-/*
-@media (prefers-color-scheme: dark) { ... }
-[data-theme="dark"] { ... }
-*/
+/* ============================================================
+   DARK MODE
+   Applied when: system prefers dark, OR user toggled dark.
+   Override: data-theme="light" always forces light mode.
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-page:    #1A2E2C;
+    --bg-card:    #223330;
+    --bg-subtle:  #1C2B29;
+    --bg-hover:   #2A3F3C;
+
+    --text-primary:    #F0EDEA;
+    --text-secondary:  #C8C5C0;
+    --text-tertiary:   #908D88;
+    --text-quaternary: #605D58;
+
+    --border-subtle:  rgba(255,255,255,0.08);
+    --border-default: rgba(255,255,255,0.12);
+    --border-strong:  rgba(255,255,255,0.20);
+    --border-light:   rgba(255,255,255,0.06);
+
+    --shadow-color-sm: rgba(0,0,0,0.20);
+    --shadow-color-md: rgba(0,0,0,0.32);
+    --shadow-color-lg: rgba(0,0,0,0.44);
+    --shadow-color-xl: rgba(0,0,0,0.56);
+
+    --teal-500: #5BA39B;
+    --teal-600: #4A8A83;
+    --accent:   var(--teal-500);
+  }
+}
+
+[data-theme="dark"] {
+  --bg-page:    #1A2E2C;
+  --bg-card:    #223330;
+  --bg-subtle:  #1C2B29;
+  --bg-hover:   #2A3F3C;
+
+  --text-primary:    #F0EDEA;
+  --text-secondary:  #C8C5C0;
+  --text-tertiary:   #908D88;
+  --text-quaternary: #605D58;
+
+  --border-subtle:  rgba(255,255,255,0.08);
+  --border-default: rgba(255,255,255,0.12);
+  --border-strong:  rgba(255,255,255,0.20);
+  --border-light:   rgba(255,255,255,0.06);
+
+  --shadow-color-sm: rgba(0,0,0,0.20);
+  --shadow-color-md: rgba(0,0,0,0.32);
+  --shadow-color-lg: rgba(0,0,0,0.44);
+  --shadow-color-xl: rgba(0,0,0,0.56);
+
+  --teal-500: #5BA39B;
+  --teal-600: #4A8A83;
+  --accent:   var(--teal-500);
+}
