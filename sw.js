@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.6.8-qahhaar-tashkeel';
+const CACHE_VERSION = 'v1.7.0-pwa-icons';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install
@@ -24,6 +24,9 @@ const STATIC_ASSETS = [
   './js/session.js',
   './js/dashboard.js',
   './data/names.json',
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png',
+  './assets/icons/icon-512-maskable.png',
 ];
 
 // Install event - cache static assets
