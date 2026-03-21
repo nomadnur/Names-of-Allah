@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.8.0-dark-mode';
+const CACHE_VERSION = 'v1.8.1-search-haptics';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install

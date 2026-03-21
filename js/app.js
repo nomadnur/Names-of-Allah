@@ -162,7 +162,6 @@ async function installApp() {
   // Wait for user response
   const { outcome } = await deferredPrompt.userChoice;
 
-  console.log(`User response to install prompt: ${outcome}`);
 
   // Clear prompt
   deferredPrompt = null;
@@ -254,9 +253,26 @@ async function loadNamesData() {
     // Render names list
     uiRenderer.renderNamesList(names, namesList);
 
-    // Show stats
-    const stats = dataManager.getStats();
-    console.log('📊 Stats:', stats);
+    // Wire search with debounce
+    const searchInput = document.getElementById('searchInput');
+    const searchCount = document.getElementById('searchCount');
+    if (searchInput) {
+      let debounceTimer;
+      searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          const query = searchInput.value.trim();
+          const results = query ? dataManager.searchNames(query) : names;
+          uiRenderer.renderNamesList(results, namesList);
+          if (query && searchCount) {
+            searchCount.textContent = `${results.length} of 99 names`;
+            searchCount.classList.remove('hidden');
+          } else if (searchCount) {
+            searchCount.classList.add('hidden');
+          }
+        }, 280);
+      });
+    }
 
   } catch (error) {
     namesList.innerHTML = `
@@ -270,7 +286,6 @@ async function loadNamesData() {
 
 // ==================== Initialize App ====================
 async function init() {
-  console.log('Names of Allah PWA initialized');
 
   // Check online status
   updateOnlineStatus();

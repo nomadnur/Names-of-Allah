@@ -178,9 +178,25 @@
         </div>
       </div>
 
-      <!-- Browse View (placeholder) -->
+      <!-- Browse View -->
       <div class="view hidden" id="browseView">
-        <h2 class="mb-lg">All 99 Names</h2>
+        <div class="browse-header">
+          <h2>All 99 Names</h2>
+          <div class="search-wrapper">
+            <label for="searchInput" class="sr-only">Search names</label>
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search by name, meaning…"
+              autocomplete="off"
+              spellcheck="false"
+            >
+          </div>
+        </div>
+        <p id="searchCount" class="search-count hidden"></p>
         <div id="namesList">
           <!-- Names will be loaded here by JavaScript -->
           <p class="text-muted">Loading names...</p>

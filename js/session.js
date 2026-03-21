@@ -224,12 +224,16 @@ export class SessionController {
   handleAssessment(difficulty) {
     // Prevent double-clicks - exit if already processing
     if (this.processingAssessment) {
-      console.log('⚠️  Already processing assessment, ignoring click');
       return;
     }
 
     this.processingAssessment = true;
-    console.log(`⭐ Assessment: ${difficulty} on card ${this.currentSession.currentIndex + 1}/${this.currentSession.totalCards}`);
+
+    // Haptic feedback (mobile)
+    if (navigator.vibrate) {
+      const wasCorrect = ['good', 'easy'].includes(difficulty);
+      navigator.vibrate(wasCorrect ? [30] : [40, 30, 40]);
+    }
 
     const nameIndex = this.currentSession.queue[this.currentSession.currentIndex];
     const nameProgress = this.progress.getNameProgress(nameIndex);
