@@ -312,15 +312,20 @@
     --shadow-color-lg: rgba(0,0,0,0.40);
     --shadow-color-xl: rgba(0,0,0,0.52);
 
+    --teal-50:  rgba(107, 181, 173, 0.08);
+    --teal-100: rgba(107, 181, 173, 0.15);
     --teal-500: #6BB5AD;
     --teal-600: #56A09A;
     --teal-700: #3D8580;
     --accent:   var(--teal-500);
 
+    --gold-50:    rgba(212, 175, 55, 0.07);
+    --gold-light: rgba(212, 175, 55, 0.22);
+
     /* Semantic overrides for dark mode legibility */
-    --color-arabic-card:   var(--gold-400);       /* gold on dark card bg */
-    --color-section-title: var(--teal-500);       /* lighter teal for headings */
-    --bg-proof-block:      rgba(255,255,255,0.05); /* subtle dark blockquote bg */
+    --color-arabic-card:   var(--gold-400);
+    --color-section-title: var(--teal-500);
+    --bg-proof-block:      rgba(255,255,255,0.05);
   }
 }
 
@@ -346,13 +351,18 @@
   --shadow-color-lg: rgba(0,0,0,0.40);
   --shadow-color-xl: rgba(0,0,0,0.52);
 
+  --teal-50:  rgba(107, 181, 173, 0.08);
+  --teal-100: rgba(107, 181, 173, 0.15);
   --teal-500: #6BB5AD;
   --teal-600: #56A09A;
   --teal-700: #3D8580;
   --accent:   var(--teal-500);
 
+  --gold-50:    rgba(212, 175, 55, 0.07);
+  --gold-light: rgba(212, 175, 55, 0.22);
+
   /* Semantic overrides for dark mode legibility */
-  --color-arabic-card:   var(--gold-400);       /* gold on dark card bg */
-  --color-section-title: var(--teal-500);       /* lighter teal for headings */
-  --bg-proof-block:      rgba(255,255,255,0.05); /* subtle dark blockquote bg */
+  --color-arabic-card:   var(--gold-400);
+  --color-section-title: var(--teal-500);
+  --bg-proof-block:      rgba(255,255,255,0.05);
 }
