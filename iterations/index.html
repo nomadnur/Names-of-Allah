@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Homepage Design Iterations for Names of Allah PWA — Inspired by Quran.com & Usul.ai">
+  <meta name="theme-color" content="#2A5F5C">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/icon.svg?v=17">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Parent PWA Styles -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/names.css">
+  <link rel="stylesheet" href="../css/memorization.css">
+  <link rel="stylesheet" href="../css/progress.css">
+  <link rel="stylesheet" href="../css/situations.css">
+
+  <!-- Iterations Styles -->
+  <link rel="stylesheet" href="./iterations.css">
+
+  <title>99 Names of Allah — Homepage Design Iterations</title>
+
+  <!-- Rewrite ./data/* fetches to ../data/* so unmodified parent ES modules work from /iterations/ -->
+  <script>
+    const _origFetch = window.fetch.bind(window);
+    window.fetch = function(resource, init) {
+      if (typeof resource === 'string' && resource.startsWith('./data/')) {
+        resource = '../' + resource.slice(2);
+      }
+      return _origFetch(resource, init);
+    };
+  </script>
+</head>
+<body data-default-iter="v1">
+
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- Sticky Iteration Switcher Bar -->
+  <div class="iter-studio-bar" role="region" aria-label="Homepage iteration switcher">
+    <div class="iter-studio-inner">
+      <div class="iter-studio-brand">
+        <span class="iter-studio-badge">Homepage Studio</span>
+        <span>Compare 4 Compact Designs + Baseline</span>
+      </div>
+      <div class="iter-tabs" role="tablist">
+        <button type="button" class="iter-tab active" role="tab" aria-selected="true" data-iter="v1">
+          <span class="iter-tab-num">1</span> Quran.com Shelves
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v2">
+          <span class="iter-tab-num">2</span> Bento Sanctuary
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v3">
+          <span class="iter-tab-num">3</span> Situation Compass
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v4">
+          <span class="iter-tab-num">4</span> Daily Companion
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="baseline">
+          Baseline (Current)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Standard PWA Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <button class="btn-icon btn-menu" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer" id="menuToggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <h1 class="header-title">
+          <a href="#welcome" class="header-link" id="headerHomeLink">
+            <span class="arabic-small" lang="ar" dir="rtl">أَسْمَاءُ ٱللَّٰهِ ٱلْحُسْنَىٰ</span>
+            <span class="header-subtitle">99 Names of Allah</span>
+          </a>
+        </h1>
+
+        <button class="btn-icon btn-theme" id="themeToggle" aria-label="Switch to dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <p class="demo-banner" role="note">
+      <strong>Demo version.</strong> Content is not yet verified by scholars.
+    </p>
+  </header>
+
+  <!-- Navigation Drawer -->
+  <nav class="nav-drawer" id="navDrawer" aria-hidden="true">
+    <div class="nav-overlay" id="navOverlay"></div>
+    <div class="nav-content">
+      <div class="nav-header">
+        <h2 class="nav-title">Menu</h2>
+        <button class="btn-icon btn-close" aria-label="Close menu" id="navClose">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="nav-menu">
+        <li><a href="#welcome" class="nav-link active" data-view="welcome"><span>Home</span></a></li>
+        <li><a href="#browse" class="nav-link" data-view="browse"><span>Browse All</span></a></li>
+        <li><a href="#situations" class="nav-link" data-view="situations"><span>Find Your Situation</span></a></li>
+        <li><a href="#videos" class="nav-link" data-view="videos"><span>Videos</span></a></li>
+        <li><a href="#memorize" class="nav-link" data-view="memorize"><span>Memorize</span></a></li>
+        <li><a href="#progress" class="nav-link" data-view="progress"><span>My Progress</span></a></li>
+        <li><a href="#favorites" class="nav-link" data-view="favorites"><span>Favorites</span></a></li>
+      </ul>
+
+      <div class="nav-footer">
+        <p class="text-sm text-muted">Demo version · v1.16</p>
+        <p class="text-sm text-muted">Based on Shaykh Uthaymeen's list</p>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main" id="mainContent">
+    <div class="container">
+
+      <!-- ==================================================================
+           WELCOME VIEW (Contains all 4 Homepage Iterations + Baseline)
+           ================================================================== -->
+      <div class="view iter-welcome-view" id="welcomeView">
+
+        <!-- ================================================================
+             ITERATION 1: QURAN.COM INSPIRED (Hero Search + Continue + Shelves)
+             ================================================================ -->
+        <section class="iter-pane active" data-iter-pane="v1" aria-label="Iteration 1: Quran.com Inspired">
+
+          <!-- 1A. Compact Hero with Instant Search & Popular Pills -->
+          <div class="v1-hero">
+            <div class="v1-hero-top">
+              <div class="v1-hero-title-block">
+                <div class="v1-hero-eyebrow">Asma'ul Husna · Shaykh Uthaymeen's 99 Names</div>
+                <h2 class="v1-hero-heading">Know Allah through His Names in every moment of life</h2>
+              </div>
+              <div class="v1-hero-calligraphy" lang="ar" dir="rtl">وَلِلَّهِ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ فَٱدْعُوهُ بِهَا</div>
+            </div>
+
+            <!-- Instant Search Bar (Searches 99 Names + 17 Situations live) -->
+            <div class="v1-search-box">
+              <div class="v1-search-input-wrap">
+                <svg class="v1-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input
+                  id="v1QuickSearch"
+                  class="v1-search-input"
+                  type="search"
+                  placeholder="Search a Name, meaning, or life situation (try 'anxious', 'mercy', 'Razzaq')…"
+                  autocomplete="off"
+                  spellcheck="false"
+                >
+                <button type="button" class="v1-search-btn" data-switch-view="browse">Browse 99</button>
+              </div>
+              <div id="v1SearchDropdown" class="v1-search-dropdown hidden"></div>
+            </div>
+
+            <!-- Quran.com-style Quick Pills under search -->
+            <div class="v1-quick-pills">
+              <span class="v1-pill-label">Popular:</span>
+              <button type="button" class="v1-quick-pill" data-open-name="54">
+                <span class="v1-quick-pill-ar" lang="ar">القَرِيب</span> Al-Qareeb
+              </button>
+              <button type="button" class="v1-quick-pill" data-open-name="90">
+                <span class="v1-quick-pill-ar" lang="ar">الشَّافِي</span> Ash-Shaafee
+              </button>
+              <button type="button" class="v1-quick-pill" data-open-name="32">
+                <span class="v1-quick-pill-ar" lang="ar">الرزاقُ</span> Ar-Razzaaq
+              </button>
+              <button type="button" class="v1-quick-pill" data-open-name="79">
+                <span class="v1-quick-pill-ar" lang="ar">الْوَكِيلُ</span> Al-Wakeel
+              </button>
+              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="quran">
+                📖 Quranic (81)
+              </button>
+              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="sunnah">
+                📿 Sunnah (18)
+              </button>
+              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="videos">
+                🎬 With Videos (63)
+              </button>
+            </div>
+          </div>
+
+          <!-- 1B. Collapsible 1-Line Hadith Ribbon (Keeps authentic hadith without pushing page down) -->
+          <details class="compact-hadith-bar" data-hadith-widget>
+            <summary class="compact-hadith-summary">
+              <span class="compact-hadith-quote">
+                <strong>Prophetic Promise:</strong>
+                <span data-hadith-en>“Allah has ninety-nine Names, one-hundred less one; and he who <mark class="hadith-key">memorized them all by heart</mark> will enter Paradise.”</span>
+              </span>
+              <span class="compact-hadith-toggle">4 Narrations ▾</span>
+            </summary>
+            <div class="compact-hadith-expanded">
+              <div class="compact-hadith-ar-full" data-hadith-ar lang="ar" dir="rtl">
+                إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ <mark class="hadith-key">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ
+              </div>
+              <div class="compact-hadith-narrations">
+                <div class="compact-narration-pills">
+                  <button type="button" class="compact-narration-pill active" data-narration-idx="0">Bukhari 7392 (Memorized)</button>
+                  <button type="button" class="compact-narration-pill" data-narration-idx="1">Bukhari 2736 (Knows them)</button>
+                  <button type="button" class="compact-narration-pill" data-narration-idx="2">Muslim 2677b (Enumerates)</button>
+                  <button type="button" class="compact-narration-pill" data-narration-idx="3">Bukhari 6410 (Acts upon)</button>
+                </div>
+                <span class="text-xs text-muted" data-hadith-ref>
+                  <a href="https://sunnah.com/bukhari:7392" target="_blank" rel="noopener noreferrer">Sahih al-Bukhari 7392 ↗</a>
+                </span>
+              </div>
+            </div>
+          </details>
+
+          <!-- 1C. "Start / Continue" 3-Column Row (Quran.com Start Reading + My Quran + Goal) -->
+          <div class="v1-continue-grid">
+            <!-- Card 1: Name in Focus (Interactive Shuffle) -->
+            <div class="v1-spotlight-card primary-spotlight">
+              <div class="v1-card-kicker">
+                <span>✨ Name in Focus</span>
+                <button type="button" class="v1-shuffle-btn" id="v1ShuffleBtn" title="Show another Name">↻ Shuffle</button>
+              </div>
+              <div class="v1-spotlight-main">
+                <div>
+                  <h3 class="v1-spotlight-translit" id="v1SpotTranslit">#54 Al-Qareeb</h3>
+                  <p class="v1-spotlight-meaning" id="v1SpotMeaning">The One Who is near to the servants</p>
+                  <p class="v1-spotlight-invoke" id="v1SpotInvoke">When you feel distant from Allah or want to feel His closeness in du'a.</p>
+                </div>
+                <div class="v1-spotlight-arabic" id="v1SpotArabic" lang="ar" dir="rtl">القَرِيب</div>
+              </div>
+              <div class="v1-spotlight-footer">
+                <span class="v1-spotlight-ref" id="v1SpotRef">Surah Hud 11:61 · 2 videos</span>
+                <button type="button" class="v1-spotlight-cta" id="v1SpotExplore" data-open-name="54">
+                  Explore Name →
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2: Daily Practice (Memorize) -->
+            <div class="v1-spotlight-card">
+              <div class="v1-card-kicker">
+                <span>🧠 Daily Practice</span>
+                <span class="text-xs text-muted">Spaced Review</span>
+              </div>
+              <div>
+                <h3 class="v1-spotlight-translit">5 Names / Day</h3>
+                <p class="v1-spotlight-invoke">Flip flashcards for Arabic, meaning, and how each Name shapes your prayer.</p>
+              </div>
+              <div class="v1-spotlight-footer">
+                <span class="v1-spotlight-ref"><strong data-stat="learning-count">0</strong> learning · <strong data-stat="streak-count">0</strong>d streak</span>
+                <button type="button" class="v1-spotlight-cta" data-switch-view="memorize">
+                  Start Session →
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: My Progress & Favorites -->
+            <div class="v1-spotlight-card">
+              <div class="v1-card-kicker">
+                <span>📈 My Journey</span>
+                <button type="button" class="shelf-link" data-switch-view="favorites">⭐ <span data-stat="favorites-count">0</span> Saved</button>
+              </div>
+              <div>
+                <h3 class="v1-spotlight-translit"><span data-stat="mastered-count">0</span> / 99 Mastered</h3>
+                <p class="v1-spotlight-invoke">Track your 99-dot mastery grid and review queue.</p>
+              </div>
+              <div class="v1-spotlight-footer">
+                <span class="v1-spotlight-ref">Offline-ready progress</span>
+                <button type="button" class="v1-spotlight-cta" data-switch-view="progress">
+                  View 99 Grid →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1D. Horizontal Shelf: "What Are You Going Through?" (Quran.com Learning Plans pattern) -->
+          <div class="v1-shelf-section">
+            <div class="shelf-header">
+              <div class="shelf-title-group">
+                <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                <span class="shelf-subtitle">17 life moments across 11 categories, paired with the Names to call upon</span>
+              </div>
+              <button type="button" class="shelf-link" data-switch-view="situations">All 11 categories →</button>
+            </div>
+
+            <div class="v1-situation-scroller">
+              <article class="v1-sit-card" data-open-situation="S05">
+                <div>
+                  <span class="v1-sit-cat">Worry & Waiting</span>
+                  <h4 class="v1-sit-title">“I am anxious about the future”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="79" title="Al-Wakeel">الْوَكِيلُ</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="50" title="Al-Qaadir">القَادِر</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="7" title="Al-Aakhir">الآخِرُ</span>
+                  </div>
+                  <span class="v1-sit-count">4 Names →</span>
+                </div>
+              </article>
+
+              <article class="v1-sit-card" data-open-situation="S03">
+                <div>
+                  <span class="v1-sit-cat">Money & Provision</span>
+                  <h4 class="v1-sit-title">“I lost my job, or money is very tight”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="32" title="Ar-Razzaaq">الرزاقُ</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="48" title="Al-Ghaniyy">الْغَنِيُّ</span>
+                  </div>
+                  <span class="v1-sit-count">4 Names →</span>
+                </div>
+              </article>
+
+              <article class="v1-sit-card" data-open-situation="S06">
+                <div>
+                  <span class="v1-sit-cat">Worry & Waiting</span>
+                  <h4 class="v1-sit-title">“My dua seems unanswered or delayed”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="54" title="Al-Qareeb">القَرِيب</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="85" title="Al-Hayyiyu">الحَيِي</span>
+                  </div>
+                  <span class="v1-sit-count">4 Names →</span>
+                </div>
+              </article>
+
+              <article class="v1-sit-card" data-open-situation="S02">
+                <div>
+                  <span class="v1-sit-cat">Illness & Health</span>
+                  <h4 class="v1-sit-title">“I am ill and waiting for a cure”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="90" title="Ash-Shaafee">الشَّافِي</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="10" title="Al-Baari'">الْبَارِئُ</span>
+                  </div>
+                  <span class="v1-sit-count">2 Names →</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 1E. Bottom 2-Column Split: Featured Names (Left) + Featured Video Lessons (Right) -->
+          <div class="v1-bottom-split">
+            <!-- Left: Compact Quran.com Chapter-Card Style Featured Names -->
+            <div>
+              <div class="shelf-header">
+                <div class="shelf-title-group">
+                  <h3 class="shelf-title">📖 Featured Names</h3>
+                  <span class="shelf-subtitle">Tap any Name for Quran, Hadith, Salah & Du'a</span>
+                </div>
+                <button type="button" class="shelf-link" data-switch-view="browse">All 99 Names →</button>
+              </div>
+
+              <div class="v1-mini-names-grid">
+                <button type="button" class="v1-mini-name-card" data-open-name="1">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">1</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Allah</p>
+                      <p class="v1-mini-meaning">The One true God worthy of worship</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الله</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="30">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">30</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Ar-Rahmaan</p>
+                      <p class="v1-mini-meaning">The Extremely Merciful</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الرحْمَنُ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="24">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">24</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-Hayy</p>
+                      <p class="v1-mini-meaning">The Ever-Living</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْحَيُّ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="25">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">25</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-Qayyoom</p>
+                      <p class="v1-mini-meaning">The Self-Subsisting Sustainer</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْقَيُّومُ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="43">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">43</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-'Afuww</p>
+                      <p class="v1-mini-meaning">The One Who pardons again and again</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْعَفُوُ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="79">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">79</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-Wakeel</p>
+                      <p class="v1-mini-meaning">The Trustworthy Disposer of Affairs</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْوَكِيلُ</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Playable Video Lessons from the 4 Scholar Series -->
+            <div>
+              <div class="shelf-header">
+                <div class="shelf-title-group">
+                  <h3 class="shelf-title">🎬 Watch Video Lessons</h3>
+                  <span class="shelf-subtitle">154 videos · 4 series</span>
+                </div>
+                <button type="button" class="shelf-link" data-switch-view="videos">All 154 videos →</button>
+              </div>
+
+              <div class="v1-video-stack">
+                <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                  <div class="v1-video-thumb">
+                    <img src="https://i.ytimg.com/vi/D6IfMaJ143w/mqdefault.jpg" alt="" loading="lazy">
+                    <span class="v1-video-play-badge">▶</span>
+                  </div>
+                  <div class="v1-video-meta">
+                    <p class="v1-video-title">Ash-Shakoor (The Appreciative)</p>
+                    <p class="v1-video-sub">Sheikh Haitham Al-Haddad · 5:03 · Short Reflection</p>
+                  </div>
+                </button>
+
+                <button type="button" class="v1-video-card" data-open-video="m7tYVnMOUEQ" data-video-title="Al-Hayy Al-Qayyum — Ustadh Muhammad Tim Humble">
+                  <div class="v1-video-thumb">
+                    <img src="https://i.ytimg.com/vi/m7tYVnMOUEQ/mqdefault.jpg" alt="" loading="lazy">
+                    <span class="v1-video-play-badge">▶</span>
+                  </div>
+                  <div class="v1-video-meta">
+                    <p class="v1-video-title">Al-Hayy & Al-Qayyum (Part 4)</p>
+                    <p class="v1-video-sub">Muhammad Tim Humble · 56:00 · Deep Explanation</p>
+                  </div>
+                </button>
+
+                <button type="button" class="v1-video-card" data-open-video="OjQzhRf9SK4" data-video-title="Aayat Al-Kursi (Part 1) — Ustadh Abu Bakr Zoud">
+                  <div class="v1-video-thumb">
+                    <img src="https://i.ytimg.com/vi/OjQzhRf9SK4/mqdefault.jpg" alt="" loading="lazy">
+                    <span class="v1-video-play-badge">▶</span>
+                  </div>
+                  <div class="v1-video-meta">
+                    <p class="v1-video-title">SHIELD: Aayat Al-Kursi in Daily Dhikr</p>
+                    <p class="v1-video-sub">Abu Bakr Zoud · 1:13:36 · Morning & Evening Athkaar</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             ITERATION 2: COMPACT BENTO SANCTUARY (All 6 App Pillars in 1 Grid)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="v2" aria-label="Iteration 2: Bento Sanctuary">
+
+          <div class="v2-bento-grid">
+
+            <!-- Bento Cell 1 (7 Cols): Interactive Name Spotlight with Worship Lenses -->
+            <div class="bento-cell bento-hero-name">
+              <div>
+                <div class="bento-hero-top">
+                  <div>
+                    <span class="iter-studio-badge">Name in Focus · Interactive</span>
+                    <h2 style="color:#FFF; font-size:22px; margin:6px 0 2px" id="v2SpotTranslit">#90 Ash-Shaafee</h2>
+                    <p style="color:var(--gold-300); font-weight:600; font-size:14px; margin:0" id="v2SpotMeaning">The One Who Cures</p>
+                  </div>
+                  <div class="bento-hero-Arabic" id="v2SpotArabic" lang="ar" dir="rtl">الشَّافِي</div>
+                </div>
+
+                <!-- Interactive Lens Switcher -->
+                <div class="bento-worship-pills" role="tablist">
+                  <button type="button" class="bento-worship-pill active" data-v2-lens="when_to_invoke">When to Invoke</button>
+                  <button type="button" class="bento-worship-pill" data-v2-lens="in_salah">In Salah</button>
+                  <button type="button" class="bento-worship-pill" data-v2-lens="in_dua">In Du'a</button>
+                  <button type="button" class="bento-worship-pill" data-v2-lens="al_ghazali">Al-Ghazali</button>
+                </div>
+
+                <div class="bento-worship-box" id="v2SpotLensBox">
+                  When you or a loved one are sick, in pain, or seeking healing of the body and heart.
+                </div>
+              </div>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap">
+                <button type="button" class="v1-quick-pill" id="v2ShuffleBtn">↻ Try Another Name</button>
+                <button type="button" class="v1-search-btn" style="background:var(--gold-400); color:#162624" id="v2SpotExplore" data-open-name="90">
+                  Open Full Name Card →
+                </button>
+              </div>
+            </div>
+
+            <!-- Bento Cell 2 (5 Cols): Find Your Situation (6 Tappable Situation Chips) -->
+            <div class="bento-cell bento-situations">
+              <div>
+                <div class="shelf-header" style="margin-bottom:4px">
+                  <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                  <button type="button" class="shelf-link" data-switch-view="situations">All 17 →</button>
+                </div>
+                <p class="text-xs text-muted" style="margin:0">Tap what you are facing to see the Names that help:</p>
+
+                <div class="bento-sit-chips">
+                  <button type="button" class="bento-sit-chip" data-open-situation="S05">
+                    <span class="bento-sit-chip-title">Anxious about the future</span>
+                    <span class="bento-sit-chip-names">Al-Wakeel · Al-Qaadir →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S03">
+                    <span class="bento-sit-chip-title">Money or job is tight</span>
+                    <span class="bento-sit-chip-names">Ar-Razzaaq · Al-Ghaniyy →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S02">
+                    <span class="bento-sit-chip-title">Waiting for a cure</span>
+                    <span class="bento-sit-chip-names">Ash-Shaafee · Al-Baari' →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S06">
+                    <span class="bento-sit-chip-title">Du'a feels delayed</span>
+                    <span class="bento-sit-chip-names">Al-Qareeb · Al-Hayyiyu →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S07">
+                    <span class="bento-sit-chip-title">Repeating the same sin</span>
+                    <span class="bento-sit-chip-names">Al-'Afuww · Al-Ghafoor →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S09">
+                    <span class="bento-sit-chip-title">Feeling completely alone</span>
+                    <span class="bento-sit-chip-names">Al-Ahad · Al-Baatin →</span>
+                  </button>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Covers 11 life categories · Draft links from dataset</span>
+            </div>
+
+            <!-- Bento Cell 3 (6 Cols): Browse All 99 Names (6 Calligraphy Tiles + Filters) -->
+            <div class="bento-cell bento-browse">
+              <div>
+                <div class="shelf-header" style="margin-bottom:4px">
+                  <h3 class="shelf-title">📖 Browse All 99 Names</h3>
+                  <button type="button" class="shelf-link" data-switch-view="browse">Open Directory →</button>
+                </div>
+                <p class="text-xs text-muted" style="margin:0">Tap any Name to inspect Quranic proof, Hadith, and worship notes:</p>
+
+                <div class="bento-arabic-strip">
+                  <button type="button" class="bento-arabic-tile" data-open-name="1">
+                    <span class="bento-arabic-tile-ar" lang="ar">الله</span>
+                    <span class="bento-arabic-tile-en">#1 Allah</span>
+                    <span class="bento-arabic-tile-sub">The True God</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="30">
+                    <span class="bento-arabic-tile-ar" lang="ar">الرحْمَنُ</span>
+                    <span class="bento-arabic-tile-en">#30 Ar-Rahmaan</span>
+                    <span class="bento-arabic-tile-sub">Extremely Merciful</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="24">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْحَيُّ</span>
+                    <span class="bento-arabic-tile-en">#24 Al-Hayy</span>
+                    <span class="bento-arabic-tile-sub">The Ever-Living</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="25">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْقَيُّومُ</span>
+                    <span class="bento-arabic-tile-en">#25 Al-Qayyoom</span>
+                    <span class="bento-arabic-tile-sub">All-Sustaining</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="47">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْغَفُورُ</span>
+                    <span class="bento-arabic-tile-en">#47 Al-Ghafoor</span>
+                    <span class="bento-arabic-tile-sub">All-Forgiving</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="79">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْوَكِيلُ</span>
+                    <span class="bento-arabic-tile-en">#79 Al-Wakeel</span>
+                    <span class="bento-arabic-tile-sub">Trustworthy Disposer</span>
+                  </button>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:6px; flex-wrap:wrap">
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="quran">81 in Quran</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="sunnah">18 in Sunnah</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="videos">63 with Videos</button>
+              </div>
+            </div>
+
+            <!-- Bento Cell 4 (6 Cols): 154 Videos Across 4 Scholar Series -->
+            <div class="bento-cell bento-videos">
+              <div>
+                <div class="shelf-header" style="margin-bottom:4px">
+                  <h3 class="shelf-title">🎬 154 Scholar Videos</h3>
+                  <button type="button" class="shelf-link" data-switch-view="videos">Video Gallery →</button>
+                </div>
+                <p class="text-xs text-muted" style="margin:0">Tap a series below to play a featured lesson immediately:</p>
+
+                <div class="bento-series-grid">
+                  <button type="button" class="bento-series-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                    <span class="bento-series-count">▶ 76 Short Videos (~5m)</span>
+                    <p class="bento-series-name">Ramadan 99 Names Series</p>
+                    <span class="bento-series-speaker">Sheikh Haitham Al-Haddad</span>
+                  </button>
+
+                  <button type="button" class="bento-series-card" data-open-video="IHhadArDjRs" data-video-title="Part 1: ALLAH — Muhammad Tim Humble">
+                    <span class="bento-series-count">▶ 35 Deep Lessons</span>
+                    <p class="bento-series-name">Explanation of the Names</p>
+                    <span class="bento-series-speaker">Ustadh Muhammad Tim Humble</span>
+                  </button>
+
+                  <button type="button" class="bento-series-card" data-open-video="7LyoBs9SCYc" data-video-title="Introduction | Allah — Hisham Abu Yusuf">
+                    <span class="bento-series-count">▶ 28 Lessons</span>
+                    <p class="bento-series-name">Names & Attributes</p>
+                    <span class="bento-series-speaker">Ustadh Hisham Abu Yusuf</span>
+                  </button>
+
+                  <button type="button" class="bento-series-card" data-open-video="OjQzhRf9SK4" data-video-title="SHIELD: Aayat Al-Kursi — Abu Bakr Zoud">
+                    <span class="bento-series-count">▶ 15 Dhikr Lessons</span>
+                    <p class="bento-series-name">SHIELD: Morning & Evening</p>
+                    <span class="bento-series-speaker">Ustadh Abu Bakr Zoud</span>
+                  </button>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Sorted from 5-minute reflections to full 1-hour classes</span>
+            </div>
+
+            <!-- Bento Cell 5 (12 Cols): Practice, Mastery & Favorites Dock -->
+            <div class="bento-cell bento-practice-dock">
+              <div class="bento-dock-inner">
+                <div>
+                  <strong style="font-size:14px; color:var(--text-primary)">🧠 Memorization & Mastery</strong>
+                  <span class="text-sm text-secondary" style="margin-left:8px">
+                    <strong data-stat="mastered-count">0</strong>/99 Mastered ·
+                    <strong data-stat="learning-count">0</strong> Learning ·
+                    <strong data-stat="favorites-count">0</strong> Starred Favorites
+                  </span>
+                </div>
+                <div class="bento-dock-actions">
+                  <button type="button" class="btn btn-primary btn-sm" data-switch-view="memorize">🧠 Practice 5 Flashcards</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="progress">📈 99-Dot Mastery Grid</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="favorites">⭐ Saved Names</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             ITERATION 3: HEART & SITUATION COMPASS (Empathy First + Tab Deck)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="v3" aria-label="Iteration 3: Situation Compass">
+
+          <div class="v3-compass-header">
+            <div class="v3-compass-arabic" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+            <h2 class="v3-compass-title">What is your heart carrying today?</h2>
+            <p class="v3-compass-sub">Start from a real life moment to see the Names of Allah that speak to it, or use the compact deck below to browse, watch, and memorize.</p>
+          </div>
+
+          <!-- 6 Empathy Cards with Direct Name Remedies -->
+          <div class="v3-compass-grid">
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Worry & Waiting</span>
+                <h3 class="v3-compass-quote" data-open-situation="S05">“I am anxious about the future”</h3>
+                <p class="v3-compass-point">Place your affair with the Trustworthy Disposer Whose decree and power never fail.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="79">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْوَكِيلُ</span> Al-Wakeel
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="50">
+                  <span class="v3-remedy-pill-ar" lang="ar">القَادِر</span> Al-Qaadir
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S05">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Money & Provision</span>
+                <h3 class="v3-compass-quote" data-open-situation="S03">“I lost my job, or money is tight”</h3>
+                <p class="v3-compass-point">Your provision is written by the Great Provider Who is free of all need.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="32">
+                  <span class="v3-remedy-pill-ar" lang="ar">الرزاقُ</span> Ar-Razzaaq
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="48">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْغَنِيُّ</span> Al-Ghaniyy
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S03">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Worry & Waiting</span>
+                <h3 class="v3-compass-quote" data-open-situation="S06">“My du'a seems unanswered”</h3>
+                <p class="v3-compass-point">He is Near to everyone who calls, and shy to return raised hands empty.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="54">
+                  <span class="v3-remedy-pill-ar" lang="ar">القَرِيب</span> Al-Qareeb
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="85">
+                  <span class="v3-remedy-pill-ar" lang="ar">الحَيِي</span> Al-Hayyiyu
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S06">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Illness & Health</span>
+                <h3 class="v3-compass-quote" data-open-situation="S02">“I am ill and waiting for a cure”</h3>
+                <p class="v3-compass-point">Call upon the One Who cures every illness and originated your body.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="90">
+                  <span class="v3-remedy-pill-ar" lang="ar">الشَّافِي</span> Ash-Shaafee
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="10">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْبَارِئُ</span> Al-Baari'
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S02">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Sin & Returning to Allah</span>
+                <h3 class="v3-compass-quote" data-open-situation="S07">“I keep falling into the same sin”</h3>
+                <p class="v3-compass-point">Return to the One Who pardons again and again and covers faults extensively.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="43">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْعَفُوُ</span> Al-'Afuww
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="47">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْغَفُورُ</span> Al-Ghafoor
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S07">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Loss & Grief</span>
+                <h3 class="v3-compass-quote" data-open-situation="S01">“Someone I love has died”</h3>
+                <p class="v3-compass-point">Anchor your heart in the Ever-Living and the Last Who remains when all else passes.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="24">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْحَيُّ</span> Al-Hayy
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="7">
+                  <span class="v3-remedy-pill-ar" lang="ar">الآخِرُ</span> Al-Aakhir
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S01">Open →</button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Compact Tabbed Lower Deck (Browse / Videos / Memorize in 1 Box) -->
+          <div class="v3-deck">
+            <div class="v3-deck-tabs">
+              <div class="v3-deck-tab-group" role="tablist">
+                <button type="button" class="v3-deck-tab active" data-v3-tab="names">📖 Explore 99 Names</button>
+                <button type="button" class="v3-deck-tab" data-v3-tab="videos">🎬 154 Scholar Videos</button>
+                <button type="button" class="v3-deck-tab" data-v3-tab="practice">🧠 Memorize & Progress</button>
+              </div>
+              <button type="button" class="shelf-link" data-switch-view="situations">Browse all 11 situation categories →</button>
+            </div>
+
+            <!-- Panel 1: Names -->
+            <div class="v3-deck-panel active" data-v3-panel="names">
+              <div class="v1-mini-names-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))">
+                <button type="button" class="v1-mini-name-card" data-open-name="1">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">1</span><div class="v1-mini-info"><p class="v1-mini-translit">Allah</p><p class="v1-mini-meaning">The One true God</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">الله</span>
+                </button>
+                <button type="button" class="v1-mini-name-card" data-open-name="30">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">30</span><div class="v1-mini-info"><p class="v1-mini-translit">Ar-Rahmaan</p><p class="v1-mini-meaning">The Extremely Merciful</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">الرحْمَنُ</span>
+                </button>
+                <button type="button" class="v1-mini-name-card" data-open-name="31">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">31</span><div class="v1-mini-info"><p class="v1-mini-translit">Ar-Raheem</p><p class="v1-mini-meaning">The Bestower of Mercy</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">الرحِيمُ</span>
+                </button>
+                <button type="button" class="v1-mini-name-card" data-open-name="97">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">97</span><div class="v1-mini-info"><p class="v1-mini-translit">Al-Mu'tee</p><p class="v1-mini-meaning">The Giver</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">المُعْطِي</span>
+                </button>
+              </div>
+              <div style="margin-top:10px; text-align:right">
+                <button type="button" class="shelf-link" data-switch-view="browse">Open full 99 Names directory →</button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Videos -->
+            <div class="v3-deck-panel" data-v3-panel="videos">
+              <div class="v1-video-stack" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px">
+                <button type="button" class="v1-video-card" data-open-video="IHhadArDjRs" data-video-title="Part 1: ALLAH — Muhammad Tim Humble">
+                  <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/IHhadArDjRs/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                  <div class="v1-video-meta"><p class="v1-video-title">Part 1: ALLAH</p><p class="v1-video-sub">Muhammad Tim Humble · 52:22</p></div>
+                </button>
+                <button type="button" class="v1-video-card" data-open-video="Nskkha--h9A" data-video-title="Ar-Rahman & Ar-Raheem — Muhammad Tim Humble">
+                  <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/Nskkha--h9A/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                  <div class="v1-video-meta"><p class="v1-video-title">Ar-Rahman & Ar-Raheem</p><p class="v1-video-sub">Muhammad Tim Humble · 1:00:51</p></div>
+                </button>
+                <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                  <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/D6IfMaJ143w/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                  <div class="v1-video-meta"><p class="v1-video-title">Ash-Shakoor (Ramadan Series)</p><p class="v1-video-sub">Sheikh Haitham Al-Haddad · 5:03</p></div>
+                </button>
+              </div>
+              <div style="margin-top:10px; text-align:right">
+                <button type="button" class="shelf-link" data-switch-view="videos">Browse all 154 videos →</button>
+              </div>
+            </div>
+
+            <!-- Panel 3: Practice -->
+            <div class="v3-deck-panel" data-v3-panel="practice">
+              <div class="bento-dock-inner">
+                <div>
+                  <p style="margin:0; font-weight:600; color:var(--text-primary)">Spaced Repetition Flashcards & 99-Dot Mastery</p>
+                  <p class="text-xs text-muted" style="margin:2px 0 0">
+                    Mastered: <strong data-stat="mastered-count">0</strong>/99 ·
+                    Learning: <strong data-stat="learning-count">0</strong> ·
+                    Favorites: <strong data-stat="favorites-count">0</strong>
+                  </p>
+                </div>
+                <div class="bento-dock-actions">
+                  <button type="button" class="btn btn-primary btn-sm" data-switch-view="memorize">Start Flashcards</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="progress">My Progress</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="favorites">Favorites</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             ITERATION 4: DAILY COMPANION SPLIT-DECK (Worship Card + Stacks)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="v4" aria-label="Iteration 4: Daily Companion Split-Deck">
+
+          <div class="v4-split-layout">
+
+            <!-- Left Column: Interactive Daily Name & Worship Companion Card -->
+            <div class="v4-worship-card">
+              <div class="v4-worship-header">
+                <span class="v1-card-kicker">✨ Daily Worship Companion</span>
+                <button type="button" class="v1-shuffle-btn" id="v4ShuffleBtn">↻ Next Name</button>
+              </div>
+
+              <div class="v4-name-stage">
+                <div class="v4-name-arabic" id="v4SpotArabic" lang="ar" dir="rtl">القَرِيب</div>
+                <h2 class="v4-name-translit" id="v4SpotTranslit">#54 Al-Qareeb</h2>
+                <p class="v4-name-meaning" id="v4SpotMeaning">The One Who is near to the servants</p>
+              </div>
+
+              <!-- 4-Lens Switcher (Meaning / In Salah / In Du'a / Al-Ghazali) -->
+              <div class="v4-lens-tabs" role="tablist">
+                <button type="button" class="v4-lens-tab active" data-v4-lens="meaning">Aqeedah</button>
+                <button type="button" class="v4-lens-tab" data-v4-lens="salah">In Salah</button>
+                <button type="button" class="v4-lens-tab" data-v4-lens="dua">In Du'a</button>
+                <button type="button" class="v4-lens-tab" data-v4-lens="ghazali">Al-Ghazali</button>
+              </div>
+
+              <div class="v4-lens-body" id="v4SpotLensBody">
+                Allah is close to His servants by His knowledge, hearing, seeing, and mercy—especially when you bow, prostrate, and call upon Him sincerely.
+              </div>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px">
+                <span class="text-xs text-muted" id="v4SpotRef">Surah Hud 11:61</span>
+                <button type="button" class="btn btn-primary btn-sm" id="v4SpotExplore" data-open-name="54">
+                  Full Details & Proof →
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Column: Compact Stacked Shelves -->
+            <div class="v4-right-stack">
+
+              <!-- Stack 1: Situations -->
+              <div class="v4-stack-box">
+                <div class="shelf-header" style="margin-bottom:6px">
+                  <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                  <button type="button" class="shelf-link" data-switch-view="situations">All 11 Categories →</button>
+                </div>
+                <div class="bento-sit-chips" style="margin:0">
+                  <button type="button" class="bento-sit-chip" data-open-situation="S05">
+                    <span class="bento-sit-chip-title">Anxious about the future</span>
+                    <span class="bento-sit-chip-names">Al-Wakeel · Al-Qaadir</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S03">
+                    <span class="bento-sit-chip-title">Money or job is tight</span>
+                    <span class="bento-sit-chip-names">Ar-Razzaaq · Al-Ghaniyy</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S02">
+                    <span class="bento-sit-chip-title">Ill & waiting for a cure</span>
+                    <span class="bento-sit-chip-names">Ash-Shaafee · Al-Baari'</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S08">
+                    <span class="bento-sit-chip-title">Wronged by people</span>
+                    <span class="bento-sit-chip-names">An-Naseer · Al-A'laa</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stack 2: Videos -->
+              <div class="v4-stack-box">
+                <div class="shelf-header" style="margin-bottom:6px">
+                  <h3 class="shelf-title">🎬 Featured Video Lessons</h3>
+                  <button type="button" class="shelf-link" data-switch-view="videos">All 154 Videos →</button>
+                </div>
+                <div class="v1-video-stack">
+                  <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                    <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/D6IfMaJ143w/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                    <div class="v1-video-meta"><p class="v1-video-title">Ash-Shakoor — 5-Min Reflection</p><p class="v1-video-sub">Sheikh Haitham Al-Haddad · 5:03</p></div>
+                  </button>
+                  <button type="button" class="v1-video-card" data-open-video="m7tYVnMOUEQ" data-video-title="Al-Hayy Al-Qayyum — Muhammad Tim Humble">
+                    <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/m7tYVnMOUEQ/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                    <div class="v1-video-meta"><p class="v1-video-title">Al-Hayy & Al-Qayyum (Part 4)</p><p class="v1-video-sub">Muhammad Tim Humble · 56:00</p></div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stack 3: Quick Directory & Practice -->
+              <div class="v4-stack-box">
+                <div class="bento-dock-inner">
+                  <div>
+                    <strong style="font-size:13.5px; color:var(--text-primary)">Directory & Memorization</strong>
+                    <p class="text-xs text-muted" style="margin:2px 0 0">
+                      <strong data-stat="mastered-count">0</strong>/99 Mastered · <strong data-stat="favorites-count">0</strong> Favorites
+                    </p>
+                  </div>
+                  <div class="bento-dock-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" data-switch-view="browse">📖 All 99</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-switch-view="memorize">🧠 Memorize</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-switch-view="progress">📈 Progress</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             BASELINE: CURRENT HOMEPAGE (For Direct Side-by-Side Comparison)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="baseline" aria-label="Baseline Current Homepage">
+          <div class="welcome-card">
+            <h2 class="arabic-large mb-md" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
+            <figure class="home-hadith">
+              <div class="hadith-slide">
+                <p class="home-hadith-lead">The Prophet (ﷺ) said:</p>
+                <p class="home-hadith-arabic" lang="ar" dir="rtl">إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ <mark class="hadith-key">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ</p>
+                <blockquote class="home-hadith-english">
+                  <p>“Allah has ninety-nine Names, one-hundred less one; and he who <mark class="hadith-key">memorized them all by heart</mark> will enter Paradise.”</p>
+                </blockquote>
+                <figcaption class="home-hadith-ref">
+                  Narrated by Abu Huraira · <a href="https://sunnah.com/bukhari:7392" target="_blank" rel="noopener noreferrer">Sahih al-Bukhari 7392</a>
+                </figcaption>
+              </div>
+            </figure>
+
+            <p class="text-lg mb-lg">Get to know the 99 Beautiful Names of Allah, and see what they mean for your life.</p>
+
+            <nav class="home-options" aria-label="Main sections">
+              <a href="#situations" class="home-option home-option-featured" data-switch-view="situations">
+                <span class="home-option-icon" aria-hidden="true">🧭</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Find Your Situation</span>
+                  <span class="home-option-desc">What are you going through? See the Names that help.</span>
+                </span>
+              </a>
+              <a href="#browse" class="home-option" data-switch-view="browse">
+                <span class="home-option-icon" aria-hidden="true">📖</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Browse All Names</span>
+                  <span class="home-option-desc">Meanings, references and how to use each Name.</span>
+                </span>
+              </a>
+              <a href="#videos" class="home-option" data-switch-view="videos">
+                <span class="home-option-icon" aria-hidden="true">🎬</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Videos</span>
+                  <span class="home-option-desc">Video lessons from 4 series, grouped by Name.</span>
+                </span>
+              </a>
+              <a href="#memorize" class="home-option" data-switch-view="memorize">
+                <span class="home-option-icon" aria-hidden="true">🧠</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Memorize</span>
+                  <span class="home-option-desc">Flashcards with spaced review.</span>
+                </span>
+              </a>
+              <a href="#progress" class="home-option" data-switch-view="progress">
+                <span class="home-option-icon" aria-hidden="true">📈</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">My Progress</span>
+                  <span class="home-option-desc">See which Names you have learned.</span>
+                </span>
+              </a>
+              <a href="#favorites" class="home-option" data-switch-view="favorites">
+                <span class="home-option-icon" aria-hidden="true">⭐</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Favorites</span>
+                  <span class="home-option-desc">Names you have saved.</span>
+                </span>
+              </a>
+            </nav>
+
+            <p class="home-footnote text-sm">Based on Shaykh Uthaymeen's list · Names work offline · Videos need internet</p>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==================================================================
+           STANDARD APP VIEWS (Browse, Situations, Videos, Memorize, Progress, Favorites)
+           ================================================================== -->
+      <div class="view hidden" id="browseView">
+        <div class="browse-header">
+          <h2>All 99 Names</h2>
+          <div class="search-wrapper">
+            <label for="searchInput" class="sr-only">Search names</label>
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input id="searchInput" type="search" placeholder="Search by name, meaning…" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <p id="searchCount" class="search-count hidden"></p>
+        <div id="namesList"><p class="text-muted">Loading names...</p></div>
+      </div>
+
+      <div class="view hidden" id="situationsView">
+        <div id="situationsContent"><p class="text-muted">Loading situations...</p></div>
+      </div>
+
+      <div class="view hidden" id="videosView">
+        <div id="videosContent"></div>
+      </div>
+
+      <div class="view hidden" id="memorizeView">
+        <div id="sessionStart" class="session-start">
+          <h2 class="mb-lg">Daily Practice</h2>
+          <p class="text-lg text-muted mb-lg">Continue your journey of memorizing Allah's Beautiful Names</p>
+          <div class="session-stats">
+            <div class="stat-card"><span class="stat-number" id="reviewCount">0</span><span class="stat-label">To Review</span></div>
+            <div class="stat-card"><span class="stat-number" id="newCount">5</span><span class="stat-label">New Names</span></div>
+          </div>
+          <button class="btn btn-primary btn-lg" id="startSessionBtn">Start Session</button>
+        </div>
+
+        <div id="flashcardSession" class="hidden">
+          <div class="session-progress">
+            <p class="progress-text" id="progressText">1 / 10</p>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 10%"></div></div>
+          </div>
+          <div class="flashcard-container" id="flashcardContainer">
+            <div class="flashcard" id="flashcard">
+              <div class="card-face card-front">
+                <div class="arabic-text" id="cardArabic">الله</div>
+                <div class="tap-prompt">Tap to reveal</div>
+              </div>
+              <div class="card-face card-back">
+                <div class="transliteration" id="cardTransliteration">Allah</div>
+                <div class="meaning" id="cardMeaning">The One true God who alone deserves to be worshipped</div>
+                <div class="context" id="cardContext"></div>
+              </div>
+            </div>
+          </div>
+          <div class="assessment-buttons hidden" id="assessmentButtons">
+            <button class="assessment-btn forgot" data-difficulty="forgot"><span class="emoji">😔</span><span class="label">Forgot</span><span class="interval">Tomorrow</span></button>
+            <button class="assessment-btn hard" data-difficulty="hard"><span class="emoji">😐</span><span class="label">Hard</span><span class="interval">Tomorrow</span></button>
+            <button class="assessment-btn good" data-difficulty="good"><span class="emoji">😊</span><span class="label">Good</span><span class="interval">In 3 days</span></button>
+            <button class="assessment-btn easy" data-difficulty="easy"><span class="emoji">🎉</span><span class="label">Easy</span><span class="interval">In 7 days</span></button>
+          </div>
+        </div>
+
+        <div id="sessionSummary" class="session-summary hidden">
+          <div class="summary-icon">🎉</div>
+          <h2 class="summary-title">Session Complete!</h2>
+          <div class="summary-stats">
+            <div class="stat-card"><span class="stat-number" id="summaryCorrect">0</span><span class="stat-label">Reviewed</span></div>
+            <div class="stat-card"><span class="stat-number" id="summaryStreak">0</span><span class="stat-label">Day Streak</span></div>
+          </div>
+          <p class="summary-encouragement" id="summaryMessage">Keep up the great work!</p>
+          <div class="summary-actions">
+            <button class="btn btn-primary" id="reviewAgainBtn">Review Again</button>
+            <button class="btn btn-secondary" id="doneBtn">Done for Today</button>
+          </div>
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+          <div class="empty-state-icon">✨</div>
+          <h2 class="empty-state-title">All Caught Up!</h2>
+          <p class="empty-state-text">You've reviewed all your names for today.</p>
+          <button class="btn btn-secondary" id="backToBrowseBtn">Browse Names</button>
+        </div>
+      </div>
+
+      <div class="view hidden" id="progressView">
+        <div class="progress-view-inner">
+          <div class="progress-stats" role="list">
+            <div class="stat-card stat-mastered"><span class="stat-value" id="statMastered">0</span><span class="stat-label">Mastered</span></div>
+            <div class="stat-card stat-learning"><span class="stat-value" id="statLearning">0</span><span class="stat-label">Learning</span></div>
+            <div class="stat-card stat-new"><span class="stat-value" id="statNew">99</span><span class="stat-label">New</span></div>
+            <div class="stat-card stat-streak"><span class="stat-value" id="statStreak">0</span><span class="stat-label">Day Streak</span></div>
+            <div class="stat-card stat-completion"><span class="stat-value" id="statCompletion">0%</span><span class="stat-label">Complete</span></div>
+          </div>
+          <div class="journey-section">
+            <h2 class="journey-heading">Your Journey</h2>
+            <p class="journey-subtext" id="journeySubtext">Begin memorizing to track your progress</p>
+            <div class="progress-track" id="progressTrack"><div class="progress-fill" id="progressFillBar"></div></div>
+            <p class="progress-percentage" id="progressPercentageLabel">0% of 99 names mastered</p>
+          </div>
+          <div class="dot-grid-section">
+            <h2 class="dot-grid-heading">The 99 Names</h2>
+            <div class="dot-grid" id="dotGrid" role="list"></div>
+          </div>
+          <div class="review-queue-section">
+            <h2 class="review-queue-heading">Review Queue</h2>
+            <p class="review-queue-subtext" id="reviewQueueSubtext">Names due for review today</p>
+            <div id="reviewQueueList" class="review-queue-list"></div>
+            <div id="reviewQueueActions"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view hidden" id="favoritesView">
+        <div class="favorites-header">
+          <h2>Favorites</h2>
+          <p class="text-secondary">Names you've marked for quick access</p>
+        </div>
+        <div id="favoritesList" class="names-grid"></div>
+        <div id="favoritesEmpty" class="empty-state hidden">
+          <div class="empty-state-icon">⭐</div>
+          <h3 class="empty-state-title">No Favorites Yet</h3>
+          <p class="empty-state-text">Tap the star icon on any name to add it to your favorites.</p>
+          <button class="btn btn-secondary" data-switch-view="browse">Browse Names</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Self-contained Dark/Light Theme & Interactive Controller for file:// and http:// -->
+  <style>
+    :root, [data-theme="light"] {
+      --color-primary: #1a5f4a;
+      --color-primary-rgb: 26, 95, 74;
+      --color-accent: #c9a227;
+      --border-medium: #d0c8b8;
+      --text-muted: #7a7a7a;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --space-sm: 0.5rem;
+      --space-xl: 2rem;
+    }
+    [data-theme="dark"] {
+      --color-primary: #2d8a6e;
+      --color-primary-rgb: 45, 138, 110;
+      --color-accent: #d4b44a;
+      --border-medium: #3d3d54;
+      --text-muted: #9090a0;
+      --bg-primary: #0f111a;
+      --bg-secondary: #171a26;
+      --bg-card: #1d2130;
+      --text-primary: #f1ede4;
+      --text-secondary: #b4b8c8;
+      --border-light: #2a2f42;
+    }
+    [data-theme="dark"] body {
+      background: #0f111a;
+      color: #f1ede4;
+    }
+    [data-theme="dark"] .v1-hero,
+    [data-theme="dark"] .bento-hero-name {
+      background: linear-gradient(145deg, #0b2920 0%, #134636 60%, #1c5f4a 100%);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+    [data-theme="dark"] .v1-search-bar {
+      background: #171a26;
+      border-color: #2e3448;
+    }
+    [data-theme="dark"] .v1-search-bar input {
+      color: #f1ede4;
+    }
+    [data-theme="dark"] .v1-search-pill {
+      background: #23283b;
+      color: #d4b44a;
+      border-color: #343b52;
+    }
+    [data-theme="dark"] .v1-quick-chip {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f1ede4;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    [data-theme="dark"] .v1-hadith-ribbon,
+    [data-theme="dark"] .bento-hadith,
+    [data-theme="dark"] .v3-hadith-footer,
+    [data-theme="dark"] .v4-hadith-card {
+      background: linear-gradient(135deg, rgba(212, 180, 74, 0.12) 0%, rgba(45, 138, 110, 0.12) 100%);
+      border-color: rgba(212, 180, 74, 0.35);
+    }
+    [data-theme="dark"] .v1-shelf-card,
+    [data-theme="dark"] .v1-situation-pill,
+    [data-theme="dark"] .v1-video-card,
+    [data-theme="dark"] .bento-cell,
+    [data-theme="dark"] .bento-sit-btn,
+    [data-theme="dark"] .v3-compass-btn,
+    [data-theme="dark"] .v3-panel,
+    [data-theme="dark"] .v3-sit-rx-card,
+    [data-theme="dark"] .v3-rx-name-chip,
+    [data-theme="dark"] .v4-card,
+    [data-theme="dark"] .v4-sit-chip,
+    [data-theme="dark"] .v4-lens-box,
+    [data-theme="dark"] .v4-video-row,
+    [data-theme="dark"] .name-card,
+    [data-theme="dark"] .situation-card,
+    [data-theme="dark"] .video-card,
+    [data-theme="dark"] .modal-content {
+      background: #1d2130 !important;
+      border-color: #2e3448 !important;
+      color: #f1ede4 !important;
+    }
+    [data-theme="dark"] .v3-rx-dua,
+    [data-theme="dark"] .bento-lens-panel,
+    [data-theme="dark"] .v1-search-dropdown {
+      background: #141824 !important;
+      border-color: #2e3448 !important;
+      color: #f1ede4 !important;
+    }
+    [data-theme="dark"] .v1-search-result-item:hover {
+      background: #23283b !important;
+    }
+    .studio-theme-btn {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .studio-theme-btn:hover {
+      background: rgba(201, 162, 39, 0.28);
+      border-color: #c9a227;
+    }
+    .iter-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: #1a5f4a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .iter-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+  <script>
+    (function() {
+      var RAW_NAMES = [
+        [1,"الله","Allah","The true God who alone deserves to be worshipped","Surah Taa Haa 20:14"],
+        [2,"الأحدُ","Al-Ahad","The Unique","Surah Al-Ikhlas 112:1"],
+        [3,"الأعْلَى","Al-A'laa","The Most High","Surah Al-A'laa 87:1"],
+        [4,"الأكْرَم","Al-Akram","The Most Generous","Surah Al-Alaq 96:3"],
+        [5,"الإله","Al-Ilaah","The One Who alone deserves to be worshipped","Surah Al-Baqarah 2:163"],
+        [6,"الأوَّلُ","Al-Awwal","The First","Surah Al-Hadeed 57:3"],
+        [7,"الآخِرُ","Al-Aakhir","The Last","Surah Al-Hadeed 57:3"],
+        [8,"الظاهِر","Adh-Dhaahir","The Uppermost One","Surah Al-Hadeed 57:3"],
+        [9,"الْبَاطِنُ","Al-Baatin","The Innermost One","Surah Al-Hadeed 57:3"],
+        [10,"الْبَارِئُ","Al-Baari'","The Originator","Surah Al-Hashr 59:24"],
+        [11,"الْبَرُّ","Al-Barr","The Most Benign and Kind","Surah At-Tur 52:28"],
+        [12,"الْبَصِيرُ","Al-Baseer","The All-Seeing","Surah An-Nisaa' 4:79"],
+        [13,"التَّوَّابُ","At-Tawwaab","The One Who guides His servants to repent and accepts their repentance","Surah Al-Hujuraat 49:12"],
+        [14,"الْجَبارُ","Al-Jabbaar","The Exalted and Almighty Compeller","Surah Al-Hashr 59:23"],
+        [15,"الحافِظ","Al-Haafidh","The Protector","Surah Yusuf 12:64"],
+        [16,"الْحسِيبُ","Al-Haseeb","The Reckoner Who suffices","Surah An-Nisaa' 4:6"],
+        [17,"الحَفِيظ","Al-Hafeedh","The Guardian","Surah Hud 11:57"],
+        [18,"الحَفِي","Al-Hafiyy","The Benevolent","Surah Maryam 19:47"],
+        [19,"الْحَقُ","Al-Haqq","The True One","Surah Al-Mu'minoon 23:116"],
+        [20,"الُمِبين","Al-Mubeen","The Clear and Manifest One","Surah An-Noor 24:25"],
+        [21,"الْحَكِيمُ","Al-Hakeem","The One fully Wise","Surah Ibraaheem 14:4"],
+        [22,"الْحَلِيمُ","Al-Haleem","The Forbearing","Surah Al-Baqarah 2:225"],
+        [23,"الْحَمِيدُ","Al-Hameed","The One Who is deservedly praised","Surah Hud 11:73"],
+        [24,"الْحَيُّ","Al-Hayy","The Ever-Living","Surah Al-Baqarah 2:255"],
+        [25,"الْقَيُّومُ","Al-Qayyoom","The Self-Subsisting One Upon Whom everything depends","Surah Al-Baqarah 2:255"],
+        [26,"الْخَبِيرُ","Al-Khabeer","The Fully Aware","Surah At-Tahreem 66:3"],
+        [27,"الْخَالِقُ","Al-Khaaliq","The Creator and Maker of everything","Surah Al-Hashr 59:24"],
+        [28,"الَخالق","Al-Khallaaq","The Creator Who creates again and again","Surah Ya-Sin 36:81"],
+        [29,"الرَّؤُوفُ","Ar-Ra'oof","The Compassionate and Kind","Surah Al-Baqarah 2:143"],
+        [30,"الرحْمَنُ","Ar-Rahmaan","The Extremely Merciful","Surah Al-Fatihah 1:1"],
+        [31,"الرحِيمُ","Ar-Raheem","The Bestower of mercy","Surah Al-Fatihah 1:1"],
+        [32,"الرزاقُ","Ar-Razzaaq","The Great Provider","Surah Adh-Dhaariyyaat 51:58"],
+        [33,"الرقِيبُ","Ar-Raqeeb","The Ever Watchful Guardian","Surah An-Nisaa' 4:1"],
+        [34,"السلاَمُ","As-Salaam","The Impeccable and Flawless Source of Peace","Surah Al-Hashr 59:23"],
+        [35,"السمِيعُ","As-Samee'","The All-Hearing","Surah Ash-Shooraa 42:11"],
+        [36,"الشَاكِر","Ash-Shaakir","The Appreciative","Surah Al-Baqarah 2:158"],
+        [37,"الشكُورُ","Ash-Shakoor","The One most ready to appreciate and reward abundantly","Surah Faatir 35:30"],
+        [38,"الشهِيدُ","Ash-Shaheed","The Witness","Surah Al-Ahzaab 33:52"],
+        [39,"الصَّمَدُ","As-Samad","The Perfect Lord and Master upon Whom all creation depends","Surah Al-Ikhlas 112:2"],
+        [40,"العَالِم","Al-'Aalim","The All-Knower of the seen and unseen","Surah Al-An'aam 6:73"],
+        [41,"الْعَزِيزُ","Al-'Azeez","The Almighty and Invincible","Surah Al-Baqarah 2:260"],
+        [42,"الْعَظِيمُ","Al-'Adheem","The Tremendous and Magnificent","Surah Al-Baqarah 2:255"],
+        [43,"الْعَفُوُ","Al-'Afuww","The One Who pardons again and again","Surah An-Nisaa' 4:43"],
+        [44,"العَلِيم","Al-'Aleem","The All-Knowing","Surah Al-Baqarah 2:115"],
+        [45,"العَلِي","Al-'Aliyy","The Exalted","Surah Al-Baqarah 2:255"],
+        [46,"الْغَفارُ","Al-Ghaffaar","The Oft-Forgiving","Surah Az-Zumar 39:5"],
+        [47,"الْغَفُورُ","Al-Ghafoor","The One Who forgives extensively","Surah Az-Zumar 39:5"],
+        [48,"الْغَنِيُّ","Al-Ghaniyy","The Independent One free of all needs","Surah Muhammad 47:38"],
+        [49,"الْفَتاحُ","Al-Fattaah","The Judge and Opener of all doors of mercy","Surah Saba' 34:26"],
+        [50,"القَادِر","Al-Qaadir","The Fully Able One","Surah Al-An'aam 6:65"],
+        [51,"القَاهِر","Al-Qaahir","The Invincible Subduer","Surah Al-An'aam 6:18"],
+        [52,"الْقُدوسُ","Al-Quddoos","The Pure and Perfect","Surah Al-Jumu'ah 62:1"],
+        [53,"القَدِير","Al-Qadeer","The All-Powerful","Surah Al-Baqarah 2:20"],
+        [54,"القَرِيب","Al-Qareeb","The One Who is near to the servants","Surah Hud 11:61"],
+        [55,"الْقَوِيُّ","Al-Qawiyy","The One perfect in strength","Surah Ash-Shooraa 42:19"],
+        [56,"الْقَهَّارُ","Al-Qahhaar","The Overwhelming Subduer Who is never overcome","Surah Ar-Ra'd 13:16"],
+        [57,"الْكَبِيرُ","Al-Kabeer","The Incomparably Great","Surah Ar-Ra'd 13:9"],
+        [58,"الْكَرِيمُ","Al-Kareem","The Bountiful and Generous One","Surah Al-Infitaar 82:6"],
+        [59,"اللطِيفُ","Al-Lateef","The Subtle and Kind","Surah Al-An'aam 6:103"],
+        [60,"الْمُؤْمِنُ","Al-Mu'min","The Granter of security and faith","Surah Al-Hashr 59:23"],
+        [61,"المُتَعَالِي","Al-Muta'aalee","The Supreme and Exalted One","Surah Ar-Ra'd 13:9"],
+        [62,"الْمُتَكَبرُ","Al-Mutakabbir","The One Supreme in Glory","Surah Al-Hashr 59:23"],
+        [63,"الْمَتِينُ","Al-Mateen","The Firm and Strong","Surah Adh-Dhaariyyaat 51:58"],
+        [64,"الْمُجِيبُ","Al-Mujeeb","The Responsive One Who answers supplications","Surah Hud 11:61"],
+        [65,"الْمَجِيدُ","Al-Majeed","The One Perfect in Glory and Honour","Surah Hud 11:73"],
+        [66,"الُمِحيط","Al-Muheet","The All-Encompassing","Surah Fussilat 41:54"],
+        [67,"الْمُصَورُ","Al-Musawwir","The Bestower of forms","Surah Al-Hashr 59:24"],
+        [68,"الْمُقْتَدِرُ","Al-Muqtadir","The Omnipotent","Surah Al-Qamar 54:42"],
+        [69,"الْمُقِيتُ","Al-Muqeet","The All-Powerful Maintainer","Surah An-Nisaa' 4:85"],
+        [70,"الْمَلِكُ","Al-Malik","The Sovereign King","Surah Al-Hashr 59:23"],
+        [71,"المَلِيك","Al-Maleek","The Omnipotent Sovereign","Surah Al-Qamar 54:55"],
+        [72,"الَمولَى","Al-Mawlaa","The Patron Lord and Supporter","Surah Al-Anfaal 8:40"],
+        [73,"الْمُهَيْمِنُ","Al-Muhaymin","The Trustworthy and Ever Watchful Witness","Surah Al-Hashr 59:23"],
+        [74,"النَِّصير","An-Naseer","The Helper and Giver of Victory","Surah Al-Anfaal 8:40"],
+        [75,"الْوَاحِدُ","Al-Waahid","The One and Only","Surah Ar-Ra'd 13:16"],
+        [76,"الوَارِثُ","Al-Waarith","The Inheritor Who remains after all passes","Surah Al-Hijr 15:23"],
+        [77,"الْوَاسِعُ","Al-Waasi'","The Vast and All-Encompassing","Surah Al-Baqarah 2:115"],
+        [78,"الْوَدُودُ","Al-Wadood","The Loving One and the Beloved","Surah Hud 11:90"],
+        [79,"الْوَكِيلُ","Al-Wakeel","The Trustworthy Disposer of Affairs","Surah An-Nisaa' 4:81"],
+        [80,"الوَلِي","Al-Waliyy","The Guardian Lord and Protecting Friend","Surah Al-Anfaal 8:40"],
+        [81,"الْوَهابُ","Al-Wahhaab","The Bestower of Gifts","Surah Aal-'Imraan 3:8"],
+        [82,"الجَمِيل","Al-Jameel","The Beautiful One","Sahih Muslim 91"],
+        [83,"الجَوَاد","Al-Jawaad","The Munificent and Generous","Sunan al-Tirmidhi 2799"],
+        [84,"الْحَكَمُ","Al-Hakam","The Judge","Sunan Abi Dawud 4955"],
+        [85,"الحَيِي","Al-Hayyiyu","The Modest One Who disdains turning hands away empty","Sunan Abi Dawud 1488"],
+        [86,"الرب","Ar-Rabb","The Lord and Nurturer","Surah Al-Fatihah 1:2"],
+        [87,"الرَّفِيق","Ar-Rafeeq","The Gentle","Sahih Muslim 2593"],
+        [88,"السبوح","As-Subbooh","The Venerated and Perfect","Sahih Muslim 487"],
+        [89,"السَّيِد","As-Sayyid","The Lord and Master","Sunan Abi Dawud 4806"],
+        [90,"الشَّافِي","Ash-Shaafee","The One Who cures every illness","Sahih al-Bukhari 5675"],
+        [91,"الَّطيِب","At-Tayyib","The Pure One Who accepts what is pure","Sahih Muslim 1015"],
+        [92,"الْقَابِضُ","Al-Qaabid","The Withholder","Sunan Abi Dawud 3451"],
+        [93,"الْبَاسِطُ","Al-Baasit","The Granter of ample provision","Sunan Abi Dawud 3451"],
+        [94,"الْمُقَدِّمُ","Al-Muqaddim","The One Who gives precedence","Sahih Muslim 771"],
+        [95,"الْمُؤَخِّرُ","Al-Mu'akhkhir","The One Who puts back in His wisdom","Sahih Muslim 771"],
+        [96,"المُحْسِن","Al-Muhsin","The One Who acts in a good and fine manner","Sahih Muslim 1955"],
+        [97,"المُعْطِي","Al-Mu'tee","The Giver","Sahih al-Bukhari 71"],
+        [98,"المَنَّان","Al-Mannaan","The Beneficent Bestower of bounties","Sunan Abi Dawud 1495"],
+        [99,"الوِتْر","Al-Witr","The One Who has no partner nor equal","Sahih al-Bukhari 6410"]
+      ];
+
+      var RICH_INSIGHTS = {
+        1: {
+          belief: "Allah is the proper Name of the Creator to which all other Beautiful Names return. He alone possesses divinity and deserves all worship.",
+          invoke: "Invoke 'Ya Allah' at the beginning of every supplication, in moments of awe, and whenever your heart seeks direct refuge in its Lord.",
+          salah: "Reflect on 'Allahu Akbar' at every transition in prayer—knowing Allah is greater than every worldly concern.",
+          dua: "O Allah, I ask You by virtue of the fact that all praise is Yours, there is none worthy of worship but You alone.",
+          ghazali: "It is the greatest of the 99 Names because it refers to the Divine Essence uniting all perfect attributes."
+        },
+        14: {
+          belief: "Al-Jabbaar is both the Irresistible Compeller of the mighty and the Loving Restorer of the broken-hearted and weak.",
+          invoke: "Call upon Al-Jabbaar when your heart is shattered by grief, loss, or injustice, asking Him to mend what no human can repair.",
+          salah: "Between the two prostrations, say with presence of heart: 'Rabbi ighfir lee warhamnee wajburnee' (O my Lord, forgive me, have mercy on me, and mend me).",
+          dua: "Ya Jabbaar, mend my broken heart, restore my strength, and make me steadfast upon Your obedience.",
+          ghazali: "He is the One Who binds the brokenness of everyone who seeks refuge in Him."
+        },
+        30: {
+          belief: "Ar-Rahmaan possesses vast, all-encompassing mercy that embraces every living creature in this world and the believers in the Hereafter.",
+          invoke: "Invoke Ar-Rahmaan when you feel overwhelmed by shortcomings or need reassurance of Allah's vast care.",
+          salah: "Pause at 'Ar-Rahmaan Ar-Raheem' in Surah Al-Fatihah in every unit of prayer, letting hope fill your chest.",
+          dua: "Ya Rahmaan, have mercy on my weakness and encompass me and my family in Your vast compassion.",
+          ghazali: "Mercy is only complete when it answers the deepest needs of the one in need without being asked."
+        },
+        32: {
+          belief: "Ar-Razzaaq creates both the provision and the means of receiving it—providing sustenance for bodies (food, wealth) and hearts (knowledge, faith).",
+          invoke: "Call upon Ar-Razzaaq when facing financial tight spots, career uncertainty, or spiritual dryness.",
+          salah: "Between prostrations, ask 'Warzuqnee' (and grant me provision) knowing every atom of sustenance comes from His treasury.",
+          dua: "Ya Razzaaq, grant me lawful, abundant provision without hardship, and bless me in what You have given.",
+          ghazali: "He provides two kinds of sustenance: outward provision for the body, and inward provision of light and knowledge for the soul."
+        },
+        34: {
+          belief: "As-Salaam is free from every imperfection or defect, and He is the ultimate source of peace, safety, and tranquility for creation.",
+          invoke: "Invoke As-Salaam when anxiety, fear, or inner turbulence rob you of sleep or calm.",
+          salah: "Immediately after concluding prayer with Tasleem, say: 'Allahumma Antas-Salaam wa minkas-salaam, tabaarakta ya Dhal-Jalaali wal-Ikraam.'",
+          dua: "O Allah, You are As-Salaam and from You comes peace; fill my heart and home with Your tranquility.",
+          ghazali: "Every servant whose heart is free from deceit, envy, and ill-will comes to Allah with a sound heart (qalb saleem)."
+        },
+        59: {
+          belief: "Al-Lateef knows the most subtle, hidden details of all affairs and brings goodness to His servants through gentle, unforeseen pathways.",
+          invoke: "Call upon Al-Lateef when facing a complex hardship where you cannot see how relief could possibly arrive.",
+          salah: "In sujood, entrust your hidden worries to the One Who sees the smallest seed inside a dark rock.",
+          dua: "Ya Lateef, treat me with Your subtle kindness in all that You decree, and bring ease from where I do not expect.",
+          ghazali: "Gentleness (lutf) combines complete knowledge of subtle causes with benevolent kindness in unfolding them."
+        },
+        79: {
+          belief: "Al-Wakeel is the Supreme Trustee Who manages the affairs of those who rely on Him far better than they could manage for themselves.",
+          invoke: "Invoke Al-Wakeel after taking practical means and when facing overwhelming odds or uncertainty.",
+          salah: "When reciting 'Iyyaaka na'budu wa iyyaaka nasta'een', renew your reliance on Al-Wakeel.",
+          dua: "Hasbunallahu wa ni'mal-Wakeel (Allah is sufficient for us, and He is the best Disposer of affairs).",
+          ghazali: "True reliance (tawakkul) is the heart's unwavering trust in the Trustee while limbs fulfill their duty."
+        },
+        90: {
+          belief: "Ash-Shaafee alone holds the power of healing for bodies and hearts; medicine is only a means that works by His permission.",
+          invoke: "Call upon Ash-Shaafee when you or a loved one are ill, in pain, or recovering.",
+          salah: "Ask for healing in prostration and after obligatory prayers while placing your hand over the area of pain.",
+          dua: "Allahumma Rabban-naas, adh-hibil-ba's, ishfi Antash-Shaafee, laa shifaa'a illaa shifaa'uka, shifaa'an laa yughaadiru saqamaa.",
+          ghazali: "He cures hearts from the diseases of doubt and hypocrisy just as He cures bodies from physical illness."
+        }
+      };
+
+      var NAMES = RAW_NAMES.map(function(row) {
+        var idx = row[0];
+        var rich = RICH_INSIGHTS[idx] || {};
+        var isQuran = idx <= 81;
+        return {
+          index: idx,
+          arabic: row[1],
+          transliteration: row[2],
+          english_meaning: row[3],
+          source_type: isQuran ? 'quran' : 'sunnah',
+          proof_ref: row[4],
+          aqeedah_belief: rich.belief || ("To believe with certainty that Allah is " + row[2] + " (" + row[3] + "), perfect in this attribute without any resemblance to creation."),
+          when_to_invoke: rich.invoke || ("Call upon " + row[2] + " (" + row[3] + ") in times of need, reflection, and daily remembrance, seeking the effects of this noble attribute in your life."),
+          salah_usage: rich.salah || ("Bring " + row[2] + " to mind during your standing, bowing, and prostration so your prayer deepens in humility and presence."),
+          dua_usage: rich.dua || ("Ya " + row[2].replace(/^Al-|^Ar-|^As-|^Ash-|^At-|^Adh-|^An-/, '') + " (" + row[2] + "), bless me through Your Name—for You are " + row[3] + "."),
+          ghazali_insight: rich.ghazali || ("Reflecting on " + row[2] + " inspires the believer to witness Allah's majesty and embody humility, gratitude, and sincerity.")
+        };
+      });
+
+      var SITUATIONS = [
+        { id: "S05", cat: "Worry & Waiting", title: "I am anxious about the future", icon: "🌊", description: "Place your affair with the Trustworthy Disposer Whose decree and power never fail.", names: [79, 50, 7, 34], dua: "Hasbunallahu wa ni'mal-Wakeel — Allah is sufficient for us, and He is the best Disposer of affairs." },
+        { id: "S03", cat: "Money & Provision", title: "I lost my job, or money is very tight", icon: "🌾", description: "Your provision is written by the Great Provider Who is free of all need.", names: [32, 48, 49, 81], dua: "Ya Razzaaq, Ya Fattaah — open for us the doors of Your lawful, blessed provision." },
+        { id: "S06", cat: "Worry & Waiting", title: "My du'a seems unanswered or delayed", icon: "🤲", description: "He is Near to everyone who calls, and shy to return raised hands empty.", names: [54, 85, 64, 21], dua: "Ya Qareeb, Ya Mujeeb — You hear my whisper and know my need; answer me in Your mercy." },
+        { id: "S02", cat: "Illness & Health", title: "I am ill and waiting for a cure", icon: "🌿", description: "Call upon the One Who cures every illness and originated your body.", names: [90, 10, 29, 59], dua: "Ishfi Antash-Shaafee, laa shifaa'a illaa shifaa'uka — Cure, for You are the Healer; there is no cure but Yours." },
+        { id: "S07", cat: "Sin & Returning to Allah", title: "I keep falling into the same sin", icon: "🕊️", description: "Return to the One Who pardons again and again and covers faults extensively.", names: [43, 47, 46, 13], dua: "Allahumma innaka 'Afuwwun tuhibbul-'afwa fa'fu 'annee — O Allah, You are Pardoning and love pardon, so pardon me." },
+        { id: "S09", cat: "Loneliness & Alienation", title: "Feeling completely alone", icon: "🌙", description: "Even when people are distant, the Innermost One and Protecting Friend is with you.", names: [2, 9, 80, 78], dua: "Ya Waliyy, Ya Wadood — be my Protecting Friend and fill my heart with Your nearness." },
+        { id: "S01", cat: "Loss & Grief", title: "Someone I love has died", icon: "💔", description: "Anchor your heart in the Ever-Living and the Last Who remains when all else passes.", names: [24, 7, 14, 76], dua: "Ya Hayy, Ya Jabbaar — mend our hearts and have mercy on those who have returned to You." },
+        { id: "S08", cat: "Injustice & Harm", title: "Wronged by people", icon: "🛡️", description: "Seek help from the Helper and Giver of Victory Who sees all and judges justly.", names: [74, 3, 84, 16], dua: "Ya Naseer, Ya Hakam — grant me relief and justice by Your might." }
+      ];
+
+      var VIDEOS = [
+        { id: "D6IfMaJ143w", youtubeId: "D6IfMaJ143w", title: "Ash-Shakoor (The Appreciative)", duration: "5:03", speaker: "Sheikh Haitham Al-Haddad · Ramadan Series", namesCovered: [37, 36] },
+        { id: "m7tYVnMOUEQ", youtubeId: "m7tYVnMOUEQ", title: "Al-Hayy & Al-Qayyum (Part 4)", duration: "56:00", speaker: "Ustadh Muhammad Tim Humble · Deep Explanation", namesCovered: [24, 25] },
+        { id: "OjQzhRf9SK4", youtubeId: "OjQzhRf9SK4", title: "SHIELD: Aayat Al-Kursi in Daily Dhikr", duration: "1:13:36", speaker: "Ustadh Abu Bakr Zoud · Morning & Evening", namesCovered: [1, 24, 25, 45, 42] },
+        { id: "IHhadArDjRs", youtubeId: "IHhadArDjRs", title: "Part 1: ALLAH — Explanation of the Names", duration: "52:22", speaker: "Ustadh Muhammad Tim Humble", namesCovered: [1, 5, 86] },
+        { id: "Nskkha--h9A", youtubeId: "Nskkha--h9A", title: "Ar-Rahmaan & Ar-Raheem", duration: "1:00:51", speaker: "Ustadh Muhammad Tim Humble", namesCovered: [30, 31] },
+        { id: "7LyoBs9SCYc", youtubeId: "7LyoBs9SCYc", title: "Introduction | Allah — Names & Attributes", duration: "44:18", speaker: "Ustadh Hisham Abu Yusuf", namesCovered: [1, 30, 31] }
+      ];
+
+      var NARRATIONS = [
+        {
+          source: "Sahih al-Bukhari 7392",
+          url: "https://sunnah.com/bukhari:7392",
+          arabic: "إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلَّا وَاحِدًا، مَنْ <mark class=\"hadith-key\">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ",
+          english: "“Allah has ninety-nine Names, one-hundred less one; and he who <mark class=\"hadith-key\">memorized them all by heart</mark> will enter Paradise.”"
+        },
+        {
+          source: "Sahih al-Bukhari 2736",
+          url: "https://sunnah.com/bukhari:2736",
+          arabic: "إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلَّا وَاحِدًا، مَنْ <mark class=\"hadith-key\">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ",
+          english: "“Allah has ninety-nine names, i.e. one-hundred minus one, and whoever <mark class=\"hadith-key\">knows them</mark> will go to Paradise.”"
+        },
+        {
+          source: "Sahih Muslim 2677b",
+          url: "https://sunnah.com/muslim:2677b",
+          arabic: "إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً غَيْرَ وَاحِدٍ، مَنْ <mark class=\"hadith-key\">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ",
+          english: "“Verily, there are ninety-nine names for Allah, i.e. hundred excepting one. He who <mark class=\"hadith-key\">enumerates them</mark> would get into Paradise.”"
+        },
+        {
+          source: "Sahih al-Bukhari 6410",
+          url: "https://sunnah.com/bukhari:6410",
+          arabic: "لِلَّهِ تِسْعَةٌ وَتِسْعُونَ اسْمًا، مِائَةٌ إِلَّا وَاحِدًا، لَا <mark class=\"hadith-key\">يَحْفَظُهَا</mark> أَحَدٌ إِلَّا دَخَلَ الْجَنَّةَ، وَهُوَ وِتْرٌ يُحِبُّ الْوِتْرَ",
+          english: "“Allah has ninety-nine Names, one hundred minus one, and whoever <mark class=\"hadith-key\">believes in their meanings and acts accordingly</mark>, will enter Paradise.”"
+        }
+      ];
+
+      function getName(index) {
+        var idx = parseInt(index, 10);
+        return NAMES[idx - 1] || NAMES[0];
+      }
+
+      function showToast(msg) {
+        var t = document.getElementById('iterToast');
+        if (!t) {
+          t = document.createElement('div');
+          t.id = 'iterToast';
+          t.className = 'iter-toast';
+          document.body.appendChild(t);
+        }
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(t._timer);
+        t._timer = setTimeout(function() { t.classList.remove('show'); }, 2200);
+      }
+
+      // 1. THEME SWITCHER (Header #themeToggle + Studio Bar #studioThemeToggle)
+      function applyTheme(theme, announce) {
+        var next = theme === 'dark' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        document.body.setAttribute('data-theme', next);
+        try { localStorage.setItem('asma_theme', next); } catch (e) {}
+
+        var moon = document.querySelector('#themeToggle .icon-moon');
+        var sun = document.querySelector('#themeToggle .icon-sun');
+        if (moon && sun) {
+          moon.style.display = next === 'dark' ? 'none' : '';
+          sun.style.display = next === 'dark' ? '' : 'none';
+        }
+        var studioBtn = document.getElementById('studioThemeToggle');
+        if (studioBtn) {
+          studioBtn.innerHTML = next === 'dark' ? '☀️ Light Theme' : '🌙 Dark Theme';
+        }
+        if (announce) {
+          showToast(next === 'dark' ? '🌙 Switched to Dark Sanctuary Theme' : '☀️ Switched to Light Parchment Theme');
+        }
+      }
+
+      function toggleTheme() {
+        var cur = document.documentElement.getAttribute('data-theme') || 'light';
+        applyTheme(cur === 'dark' ? 'light' : 'dark', true);
+      }
+
+      var studioInner = document.querySelector('.iter-studio-inner');
+      if (studioInner && !document.getElementById('studioThemeToggle')) {
+        var sBtn = document.createElement('button');
+        sBtn.id = 'studioThemeToggle';
+        sBtn.type = 'button';
+        sBtn.className = 'studio-theme-btn';
+        sBtn.title = 'Toggle Light / Dark Theme';
+        sBtn.addEventListener('click', toggleTheme);
+        studioInner.appendChild(sBtn);
+      }
+
+      var headerThemeBtn = document.getElementById('themeToggle');
+      if (headerThemeBtn) {
+        headerThemeBtn.addEventListener('click', toggleTheme);
+      }
+
+      var savedTheme = 'light';
+      try { savedTheme = localStorage.getItem('asma_theme') || 'light'; } catch (e) {}
+      applyTheme(savedTheme, false);
+
+      // 2. FAVORITES & LEARNED STATE
+      var favorites = [1, 14, 30, 32, 54, 79, 90];
+      var learned = [1, 2, 3, 14, 24, 25, 30, 31, 32, 34, 54, 59, 79, 90];
+      try {
+        var fSaved = JSON.parse(localStorage.getItem('asma_favorites') || 'null');
+        if (Array.isArray(fSaved)) favorites = fSaved;
+        var lSaved = JSON.parse(localStorage.getItem('asma_learned') || 'null');
+        if (Array.isArray(lSaved)) learned = lSaved;
+      } catch (e) {}
+
+      function saveState() {
+        try {
+          localStorage.setItem('asma_favorites', JSON.stringify(favorites));
+          localStorage.setItem('asma_learned', JSON.stringify(learned));
+        } catch (e) {}
+        updateCounters();
+      }
+
+      function updateCounters() {
+        document.querySelectorAll('[data-stat="favorites-count"]').forEach(function(el) {
+          el.textContent = String(favorites.length);
+        });
+        document.querySelectorAll('[data-stat="mastered-count"]').forEach(function(el) {
+          el.textContent = String(learned.length);
+        });
+        document.querySelectorAll('[data-stat="learning-count"]').forEach(function(el) {
+          el.textContent = '5';
+        });
+        document.querySelectorAll('[data-stat="streak-count"]').forEach(function(el) {
+          el.textContent = '3';
+        });
+      }
+      updateCounters();
+
+      // 3. VIEW NAVIGATION & ITERATION TABS (Matching .view.hidden in index.html)
+      var browseFilter = 'all';
+      var browseQuery = '';
+      var activeSituationId = null;
+
+      function closeNavDrawer() {
+        var drawer = document.getElementById('navDrawer');
+        var toggle = document.getElementById('menuToggle');
+        if (drawer) drawer.setAttribute('aria-hidden', 'true');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      function openNavDrawer() {
+        var drawer = document.getElementById('navDrawer');
+        var toggle = document.getElementById('menuToggle');
+        if (drawer) drawer.setAttribute('aria-hidden', 'false');
+        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function injectBackToHomeBanner(containerEl, titleText) {
+        if (!containerEl) return '';
+        return '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding:10px 14px;border-radius:10px;background:var(--bg-secondary);border:1px solid var(--border-light);">' +
+          '<button type="button" data-switch-view="welcome" style="padding:6px 12px;border-radius:999px;border:1px solid var(--color-primary);background:var(--color-primary);color:#fff;font-size:0.8rem;font-weight:600;cursor:pointer;">← Back to Homepage Studio</button>' +
+          '<span style="font-size:0.85rem;font-weight:700;color:var(--text-secondary);">' + titleText + '</span>' +
+        '</div>';
+      }
+
+      function switchView(viewName) {
+        var map = {
+          welcome: 'welcomeView',
+          browse: 'browseView',
+          situations: 'situationsView',
+          memorize: 'memorizeView',
+          videos: 'videosView',
+          progress: 'progressView',
+          favorites: 'favoritesView'
+        };
+        var targetId = map[viewName] || 'welcomeView';
+        document.querySelectorAll('.view').forEach(function(sec) {
+          var isTarget = sec.id === targetId;
+          sec.classList.toggle('hidden', !isTarget);
+          sec.classList.toggle('active', isTarget);
+        });
+        document.querySelectorAll('.nav-link[data-view]').forEach(function(btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-view') === viewName);
+        });
+        closeNavDrawer();
+
+        if (viewName === 'browse') renderBrowseGrid();
+        if (viewName === 'situations') renderSituationsView();
+        if (viewName === 'videos') renderVideosView();
+        if (viewName === 'memorize') renderFlashcardView();
+        if (viewName === 'progress') renderProgressView();
+        if (viewName === 'favorites') renderFavoritesView();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.querySelectorAll('.iter-tab[data-iter]').forEach(function(tab) {
+        tab.addEventListener('click', function(e) {
+          e.preventDefault();
+          var key = tab.getAttribute('data-iter');
+          switchView('welcome');
+          document.querySelectorAll('.iter-pane').forEach(function(p) {
+            p.classList.toggle('active', p.getAttribute('data-iter-pane') === key);
+          });
+          document.querySelectorAll('.iter-tab[data-iter]').forEach(function(t) {
+            var isAct = t === tab;
+            t.classList.toggle('active', isAct);
+            t.setAttribute('aria-selected', String(isAct));
+          });
+          showToast('Viewing: ' + tab.textContent.trim());
+        });
+      });
+
+      // 4. SPOTLIGHT SHUFFLERS & LENS TABS (Exact IDs in index.html)
+      var SPOTLIGHT_POOL = [54, 90, 32, 79, 24, 43, 30, 1, 14, 59, 47, 85];
+      var v1SpotIdx = 54;
+      var v2SpotIdx = 90;
+      var v4SpotIdx = 54;
+      var v2ActiveLens = 'when_to_invoke';
+      var v4ActiveLens = 'meaning';
+
+      function getLensText(nameObj, lens) {
+        if (lens === 'meaning' || lens === 'believe' || lens === 'aqeedah') return nameObj.aqeedah_belief;
+        if (lens === 'when_to_invoke' || lens === 'invoke') return nameObj.when_to_invoke;
+        if (lens === 'in_salah' || lens === 'salah') return nameObj.salah_usage;
+        if (lens === 'in_dua' || lens === 'dua') return nameObj.dua_usage;
+        if (lens === 'al_ghazali' || lens === 'ghazali') return nameObj.ghazali_insight;
+        return nameObj.when_to_invoke;
+      }
+
+      function renderV1Spotlight(idx) {
+        v1SpotIdx = idx;
+        var n = getName(idx);
+        var tr = document.getElementById('v1SpotTranslit');
+        var mn = document.getElementById('v1SpotMeaning');
+        var iv = document.getElementById('v1SpotInvoke');
+        var ar = document.getElementById('v1SpotArabic');
+        var rf = document.getElementById('v1SpotRef');
+        var bt = document.getElementById('v1SpotExplore');
+        if (tr) tr.textContent = '#' + n.index + ' ' + n.transliteration;
+        if (mn) mn.textContent = n.english_meaning;
+        if (iv) iv.textContent = n.when_to_invoke;
+        if (ar) ar.textContent = n.arabic;
+        if (rf) rf.textContent = n.proof_ref + ' · ' + (n.source_type === 'quran' ? "Qur'an" : 'Sunnah');
+        if (bt) bt.setAttribute('data-open-name', String(n.index));
+      }
+
+      function renderV2Spotlight(idx) {
+        v2SpotIdx = idx;
+        var n = getName(idx);
+        var tr = document.getElementById('v2SpotTranslit');
+        var mn = document.getElementById('v2SpotMeaning');
+        var ar = document.getElementById('v2SpotArabic');
+        var lb = document.getElementById('v2SpotLensBox');
+        var bt = document.getElementById('v2SpotExplore');
+        if (tr) tr.textContent = '#' + n.index + ' ' + n.transliteration;
+        if (mn) mn.textContent = n.english_meaning;
+        if (ar) ar.textContent = n.arabic;
+        if (lb) lb.textContent = getLensText(n, v2ActiveLens);
+        if (bt) bt.setAttribute('data-open-name', String(n.index));
+      }
+
+      function renderV4Spotlight(idx) {
+        v4SpotIdx = idx;
+        var n = getName(idx);
+        var ar = document.getElementById('v4SpotArabic');
+        var tr = document.getElementById('v4SpotTranslit');
+        var mn = document.getElementById('v4SpotMeaning');
+        var lb = document.getElementById('v4SpotLensBody');
+        var rf = document.getElementById('v4SpotRef');
+        var bt = document.getElementById('v4SpotExplore');
+        if (ar) ar.textContent = n.arabic;
+        if (tr) tr.textContent = '#' + n.index + ' ' + n.transliteration;
+        if (mn) mn.textContent = n.english_meaning;
+        if (lb) lb.textContent = getLensText(n, v4ActiveLens);
+        if (rf) rf.textContent = n.proof_ref;
+        if (bt) bt.setAttribute('data-open-name', String(n.index));
+      }
+
+      function nextFromPool(currentIdx) {
+        var pos = SPOTLIGHT_POOL.indexOf(currentIdx);
+        if (pos === -1) return SPOTLIGHT_POOL[0];
+        return SPOTLIGHT_POOL[(pos + 1) % SPOTLIGHT_POOL.length];
+      }
+
+      var v1Shuf = document.getElementById('v1ShuffleBtn');
+      if (v1Shuf) v1Shuf.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var next = nextFromPool(v1SpotIdx);
+        renderV1Spotlight(next);
+        showToast('✨ Spotlight: #' + next + ' ' + getName(next).transliteration);
+      });
+
+      var v2Shuf = document.getElementById('v2ShuffleBtn');
+      if (v2Shuf) v2Shuf.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var next = nextFromPool(v2SpotIdx);
+        renderV2Spotlight(next);
+        showToast('✨ Spotlight: #' + next + ' ' + getName(next).transliteration);
+      });
+
+      var v4Shuf = document.getElementById('v4ShuffleBtn');
+      if (v4Shuf) v4Shuf.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var next = nextFromPool(v4SpotIdx);
+        renderV4Spotlight(next);
+        showToast('✨ Spotlight: #' + next + ' ' + getName(next).transliteration);
+      });
+
+      document.querySelectorAll('[data-v2-lens]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          v2ActiveLens = btn.getAttribute('data-v2-lens');
+          document.querySelectorAll('[data-v2-lens]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+          var lb = document.getElementById('v2SpotLensBox');
+          if (lb) lb.textContent = getLensText(getName(v2SpotIdx), v2ActiveLens);
+        });
+      });
+
+      document.querySelectorAll('[data-v4-lens]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          v4ActiveLens = btn.getAttribute('data-v4-lens');
+          document.querySelectorAll('[data-v4-lens]').forEach(function(b) { b.classList.toggle('active', b === btn); });
+          var lb = document.getElementById('v4SpotLensBody');
+          if (lb) lb.textContent = getLensText(getName(v4SpotIdx), v4ActiveLens);
+        });
+      });
+
+      document.querySelectorAll('[data-v3-tab]').forEach(function(tab) {
+        tab.addEventListener('click', function(e) {
+          e.preventDefault();
+          var key = tab.getAttribute('data-v3-tab');
+          document.querySelectorAll('[data-v3-tab]').forEach(function(t) { t.classList.toggle('active', t === tab); });
+          document.querySelectorAll('[data-v3-panel]').forEach(function(p) {
+            p.classList.toggle('active', p.getAttribute('data-v3-panel') === key);
+          });
+        });
+      });
+
+      // 5. HADITH NARRATION SWITCHER ([data-hadith-en], [data-hadith-ar], [data-hadith-ref])
+      document.querySelectorAll('[data-narration-idx]').forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var idx = parseInt(pill.getAttribute('data-narration-idx'), 10) || 0;
+          var nar = NARRATIONS[idx] || NARRATIONS[0];
+          var widget = pill.closest('[data-hadith-widget]') || document;
+          widget.querySelectorAll('[data-narration-idx]').forEach(function(p) { p.classList.toggle('active', p === pill); });
+          var ar = widget.querySelector('[data-hadith-ar]');
+          var en = widget.querySelector('[data-hadith-en]');
+          var rf = widget.querySelector('[data-hadith-ref]');
+          if (ar) ar.innerHTML = nar.arabic;
+          if (en) en.innerHTML = nar.english;
+          if (rf) rf.innerHTML = '<a href="' + nar.url + '" target="_blank" rel="noopener noreferrer">' + nar.source + ' ↗</a>';
+          showToast('📖 Narration: ' + nar.source);
+        });
+      });
+
+      // 6. HERO LIVE SEARCH (#v1QuickSearch + #v1SearchDropdown.hidden)
+      var searchInput = document.getElementById('v1QuickSearch');
+      var searchDropdown = document.getElementById('v1SearchDropdown');
+      if (searchInput && searchDropdown) {
+        searchInput.addEventListener('input', function() {
+          var q = searchInput.value.trim().toLowerCase();
+          if (!q) {
+            searchDropdown.classList.add('hidden');
+            searchDropdown.innerHTML = '';
+            return;
+          }
+          var matchedNames = NAMES.filter(function(n) {
+            return String(n.index) === q ||
+              n.transliteration.toLowerCase().indexOf(q) !== -1 ||
+              n.english_meaning.toLowerCase().indexOf(q) !== -1 ||
+              n.arabic.indexOf(q) !== -1;
+          }).slice(0, 5);
+
+          var matchedSits = SITUATIONS.filter(function(s) {
+            return s.title.toLowerCase().indexOf(q) !== -1 ||
+              s.cat.toLowerCase().indexOf(q) !== -1 ||
+              s.description.toLowerCase().indexOf(q) !== -1;
+          }).slice(0, 3);
+
+          var html = '';
+          matchedSits.forEach(function(s) {
+            html += '<button type="button" class="v1-search-result-item" data-open-situation="' + s.id + '" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:none;background:transparent;color:var(--text-primary);cursor:pointer;border-bottom:1px solid var(--border-light);text-align:left;">' +
+              '<span>🧭 <strong>' + s.title + '</strong> <span style="font-size:0.76rem;color:var(--text-muted);">(' + s.cat + ')</span></span>' +
+              '<span style="font-size:0.75rem;color:var(--color-primary);font-weight:600;">' + s.names.length + ' Names →</span>' +
+            '</button>';
+          });
+          matchedNames.forEach(function(n) {
+            html += '<button type="button" class="v1-search-result-item" data-open-name="' + n.index + '" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:none;background:transparent;color:var(--text-primary);cursor:pointer;border-bottom:1px solid var(--border-light);text-align:left;">' +
+              '<span><strong>#' + n.index + ' ' + n.transliteration + '</strong> <span style="font-size:0.8rem;color:var(--text-muted);">— ' + n.english_meaning + '</span></span>' +
+              '<span style="font-family:var(--font-arabic);font-size:1.3rem;color:var(--color-primary);" lang="ar">' + n.arabic + '</span>' +
+            '</button>';
+          });
+          if (!html) {
+            html = '<div style="padding:10px 12px;font-size:0.85rem;color:var(--text-muted);">No match for "' + q + '". Try "anxious", "mercy", "cure", or "Razzaq".</div>';
+          }
+          searchDropdown.innerHTML = html;
+          searchDropdown.classList.remove('hidden');
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+            searchDropdown.classList.add('hidden');
+          }
+        });
+      }
+
+      // 7. DYNAMICALLY CREATED NAME DETAIL MODAL & VIDEO PLAYER MODAL
+      function ensureNameModal() {
+        var modal = document.getElementById('nameModal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'nameModal';
+          modal.style.cssText = 'position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.68);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto;';
+          modal.innerHTML =
+            '<div class="modal-content" style="background:var(--bg-card, #fff);color:var(--text-primary, #1e2422);max-width:640px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px;padding:22px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.4);border:1px solid var(--border-light, #e2dcd0);">' +
+              '<button type="button" id="modalClose" aria-label="Close modal" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>' +
+              '<div id="modalBody"></div>' +
+            '</div>';
+          document.body.appendChild(modal);
+          modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeNameModal();
+          });
+          document.getElementById('modalClose').addEventListener('click', closeNameModal);
+        }
+        return modal;
+      }
+
+      function openNameModal(index) {
+        var n = getName(index);
+        var modal = ensureNameModal();
+        var body = document.getElementById('modalBody');
+        if (!body) return;
+
+        var isFav = favorites.indexOf(n.index) !== -1;
+        var isLearned = learned.indexOf(n.index) !== -1;
+        var relatedVids = VIDEOS.filter(function(v) { return v.namesCovered.indexOf(n.index) !== -1; });
+        if (!relatedVids.length) relatedVids = [VIDEOS[n.index % VIDEOS.length]];
+
+        body.innerHTML =
+          '<div style="text-align:center;padding:6px 0 16px;border-bottom:1px solid var(--border-light);">' +
+            '<div style="display:inline-flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;justify-content:center;">' +
+              '<span style="background:rgba(26,95,74,0.14);color:var(--color-primary);padding:3px 10px;border-radius:999px;font-size:0.75rem;font-weight:700;">Name #' + n.index + ' of 99</span>' +
+              '<span style="background:rgba(201,162,39,0.18);color:#b08915;padding:3px 10px;border-radius:999px;font-size:0.75rem;font-weight:700;">' + (n.source_type === 'quran' ? "📖 Qur'an · " + n.proof_ref : '☀️ Sunnah · ' + n.proof_ref) + '</span>' +
+            '</div>' +
+            '<div style="font-family:var(--font-arabic);font-size:3rem;line-height:1.25;color:var(--color-primary);margin:4px 0;" lang="ar" dir="rtl">' + n.arabic + '</div>' +
+            '<h2 style="font-size:1.45rem;margin:4px 0;">' + n.transliteration + '</h2>' +
+            '<p style="color:var(--text-secondary);font-size:0.98rem;margin:0;">' + n.english_meaning + '</p>' +
+            '<div style="display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap;">' +
+              '<button type="button" id="modalFavBtn" style="padding:7px 14px;border-radius:999px;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-weight:600;font-size:0.8rem;">' + (isFav ? '⭐ Saved in Favorites' : '☆ Save to Favorites') + '</button>' +
+              '<button type="button" id="modalLearnBtn" style="padding:7px 14px;border-radius:999px;border:1px solid var(--color-primary);background:' + (isLearned ? 'var(--color-primary)' : 'transparent') + ';color:' + (isLearned ? '#fff' : 'var(--color-primary)') + ';cursor:pointer;font-weight:600;font-size:0.8rem;">' + (isLearned ? '✓ Mastered' : '○ Mark Mastered') + '</button>' +
+              '<button type="button" id="modalShareBtn" style="padding:7px 14px;border-radius:999px;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-weight:600;font-size:0.8rem;">🔗 Copy Reflection</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:grid;gap:10px;margin-top:14px;">' +
+            '<div style="padding:11px 14px;border-radius:10px;background:var(--bg-secondary);border-left:4px solid var(--color-primary);">' +
+              '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--color-primary);margin-bottom:3px;">What to Believe (Aqeedah)</div>' +
+              '<div style="font-size:0.88rem;line-height:1.5;">' + n.aqeedah_belief + '</div>' +
+            '</div>' +
+            '<div style="padding:11px 14px;border-radius:10px;background:var(--bg-secondary);border-left:4px solid var(--color-accent);">' +
+              '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#b08915;margin-bottom:3px;">When to Invoke</div>' +
+              '<div style="font-size:0.88rem;line-height:1.5;">' + n.when_to_invoke + '</div>' +
+            '</div>' +
+            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;">' +
+              '<div style="padding:11px 14px;border-radius:10px;background:var(--bg-secondary);">' +
+                '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--color-primary);margin-bottom:3px;">🕌 In Salah</div>' +
+                '<div style="font-size:0.84rem;line-height:1.45;">' + n.salah_usage + '</div>' +
+              '</div>' +
+              '<div style="padding:11px 14px;border-radius:10px;background:var(--bg-secondary);">' +
+                '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:#b08915;margin-bottom:3px;">🤲 In Du\'a</div>' +
+                '<div style="font-size:0.84rem;line-height:1.45;font-style:italic;">"' + n.dua_usage + '"</div>' +
+              '</div>' +
+            '</div>' +
+            '<div style="padding:11px 14px;border-radius:10px;background:var(--bg-secondary);">' +
+              '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;">📚 Imam Al-Ghazali\'s Insight</div>' +
+              '<div style="font-size:0.84rem;line-height:1.45;">' + n.ghazali_insight + '</div>' +
+            '</div>' +
+            '<div style="padding:11px 14px;border-radius:10px;background:var(--bg-secondary);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">' +
+              '<div><div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);">Video Lesson</div><div style="font-size:0.86rem;font-weight:600;">▶ ' + relatedVids[0].title + '</div></div>' +
+              '<button type="button" data-open-video="' + relatedVids[0].youtubeId + '" data-video-title="' + relatedVids[0].title + '" style="padding:6px 12px;border-radius:8px;border:none;background:var(--color-primary);color:#fff;cursor:pointer;font-size:0.78rem;font-weight:600;">Watch Video</button>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--border-light);">' +
+            '<button type="button" id="modalPrevName" style="padding:7px 14px;border-radius:8px;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-weight:600;">← #' + (n.index > 1 ? n.index - 1 : 99) + '</button>' +
+            '<span style="font-size:0.8rem;color:var(--text-muted);">Name ' + n.index + ' of 99</span>' +
+            '<button type="button" id="modalNextName" style="padding:7px 14px;border-radius:8px;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-weight:600;">#' + (n.index < 99 ? n.index + 1 : 1) + ' →</button>' +
+          '</div>';
+
+        modal.style.display = 'flex';
+
+        document.getElementById('modalFavBtn').onclick = function() {
+          var pos = favorites.indexOf(n.index);
+          if (pos === -1) { favorites.push(n.index); showToast('⭐ Saved ' + n.transliteration + ' to Favorites'); }
+          else { favorites.splice(pos, 1); showToast('Removed ' + n.transliteration + ' from Favorites'); }
+          saveState();
+          openNameModal(n.index);
+        };
+        document.getElementById('modalLearnBtn').onclick = function() {
+          var pos = learned.indexOf(n.index);
+          if (pos === -1) { learned.push(n.index); showToast('✓ Marked ' + n.transliteration + ' Mastered'); }
+          else { learned.splice(pos, 1); showToast('Unmarked ' + n.transliteration); }
+          saveState();
+          openNameModal(n.index);
+        };
+        document.getElementById('modalShareBtn').onclick = function() {
+          var shareText = n.arabic + ' — ' + n.transliteration + ' (' + n.english_meaning + '): ' + n.when_to_invoke;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(shareText);
+          }
+          showToast('📋 Copied ' + n.transliteration + ' to clipboard');
+        };
+        document.getElementById('modalPrevName').onclick = function() {
+          openNameModal(n.index > 1 ? n.index - 1 : 99);
+        };
+        document.getElementById('modalNextName').onclick = function() {
+          openNameModal(n.index < 99 ? n.index + 1 : 1);
+        };
+      }
+
+      function closeNameModal() {
+        var modal = document.getElementById('nameModal');
+        if (modal) modal.style.display = 'none';
+      }
+
+      function openVideoModal(videoId, customTitle) {
+        var vid = VIDEOS.find(function(v) { return v.id === videoId || v.youtubeId === videoId; }) || {
+          id: videoId,
+          youtubeId: videoId || 'D6IfMaJ143w',
+          title: customTitle || 'Scholar Video Lesson',
+          duration: 'Lesson',
+          speaker: '99 Names of Allah Series',
+          namesCovered: [1, 30, 31]
+        };
+        var vModal = document.getElementById('videoPlayerModal');
+        if (!vModal) {
+          vModal = document.createElement('div');
+          vModal.id = 'videoPlayerModal';
+          vModal.style.cssText = 'position:fixed;inset:0;z-index:9600;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;padding:16px;';
+          vModal.innerHTML =
+            '<div class="modal-content" style="background:var(--bg-card, #fff);color:var(--text-primary, #1e2422);max-width:680px;width:100%;border-radius:16px;padding:20px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.45);border:1px solid var(--border-light);">' +
+              '<button type="button" id="videoModalClose" aria-label="Close" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);font-size:1.2rem;cursor:pointer;">×</button>' +
+              '<div id="videoModalBody"></div>' +
+            '</div>';
+          document.body.appendChild(vModal);
+          vModal.addEventListener('click', function(e) { if (e.target === vModal) closeVideoModal(); });
+          document.getElementById('videoModalClose').addEventListener('click', closeVideoModal);
+        }
+        var body = document.getElementById('videoModalBody');
+        var pills = (vid.namesCovered || [1]).map(function(idx) {
+          var nm = getName(idx);
+          return '<button type="button" data-open-name="' + nm.index + '" style="padding:4px 10px;border-radius:999px;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:0.78rem;font-weight:600;">#' + nm.index + ' ' + nm.transliteration + '</button>';
+        }).join(' ');
+        body.innerHTML =
+          '<h3 style="margin:0 36px 4px 0;font-size:1.15rem;">' + (customTitle || vid.title) + '</h3>' +
+          '<p style="margin:0 0 12px;font-size:0.82rem;color:var(--text-muted);">' + vid.speaker + ' · ' + vid.duration + '</p>' +
+          '<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;">' +
+            '<iframe src="https://www.youtube-nocookie.com/embed/' + vid.youtubeId + '?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen title="' + vid.title + '"></iframe>' +
+          '</div>' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;flex-wrap:wrap;gap:8px;">' +
+            '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;"><span style="font-size:0.75rem;color:var(--text-muted);">Names Covered:</span> ' + pills + '</div>' +
+            '<a href="https://www.youtube.com/watch?v=' + vid.youtubeId + '" target="_blank" rel="noopener" style="font-size:0.82rem;font-weight:700;color:var(--color-primary);">Open on YouTube ↗</a>' +
+          '</div>';
+        vModal.style.display = 'flex';
+      }
+
+      function closeVideoModal() {
+        var vModal = document.getElementById('videoPlayerModal');
+        if (vModal) {
+          vModal.style.display = 'none';
+          var b = document.getElementById('videoModalBody');
+          if (b) b.innerHTML = '';
+        }
+      }
+
+      // 8. SUB-VIEW RENDERERS (Exact IDs: #namesList, #situationsContent, #videosContent, #memorizeView, #progressView, #favoritesList)
+      function renderBrowseGrid() {
+        var grid = document.getElementById('namesList');
+        if (!grid) return;
+        var list = NAMES.filter(function(n) {
+          if (browseFilter === 'quran' && n.source_type !== 'quran') return false;
+          if (browseFilter === 'sunnah' && n.source_type !== 'sunnah') return false;
+          if (browseQuery) {
+            var q = browseQuery.toLowerCase();
+            return String(n.index) === q ||
+              n.transliteration.toLowerCase().indexOf(q) !== -1 ||
+              n.english_meaning.toLowerCase().indexOf(q) !== -1 ||
+              n.arabic.indexOf(q) !== -1;
+          }
+          return true;
+        });
+        var countEl = document.getElementById('searchCount');
+        if (countEl) {
+          countEl.textContent = 'Showing ' + list.length + ' of 99 Names (' + (browseFilter === 'all' ? 'All Sources' : browseFilter.toUpperCase()) + ')';
+          countEl.classList.remove('hidden');
+        }
+        var filterChipsHtml =
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">' +
+            '<button type="button" data-browse-chip="all" style="padding:6px 14px;border-radius:999px;border:1px solid var(--border-medium);background:' + (browseFilter === 'all' ? 'var(--color-primary)' : 'var(--bg-card)') + ';color:' + (browseFilter === 'all' ? '#fff' : 'var(--text-primary)') + ';cursor:pointer;font-size:0.8rem;font-weight:600;">All 99 Names</button>' +
+            '<button type="button" data-browse-chip="quran" style="padding:6px 14px;border-radius:999px;border:1px solid var(--border-medium);background:' + (browseFilter === 'quran' ? 'var(--color-primary)' : 'var(--bg-card)') + ';color:' + (browseFilter === 'quran' ? '#fff' : 'var(--text-primary)') + ';cursor:pointer;font-size:0.8rem;font-weight:600;">📖 In Qur\'an (81)</button>' +
+            '<button type="button" data-browse-chip="sunnah" style="padding:6px 14px;border-radius:999px;border:1px solid var(--border-medium);background:' + (browseFilter === 'sunnah' ? 'var(--color-primary)' : 'var(--bg-card)') + ';color:' + (browseFilter === 'sunnah' ? '#fff' : 'var(--text-primary)') + ';cursor:pointer;font-size:0.8rem;font-weight:600;">☀️ In Sunnah (18)</button>' +
+          '</div>';
+        grid.innerHTML =
+          injectBackToHomeBanner(grid, 'Directory of 99 Names') +
+          filterChipsHtml +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">' +
+          list.map(function(n) {
+            return '<div class="name-card" data-open-name="' + n.index + '" style="cursor:pointer;padding:14px;border-radius:12px;border:1px solid var(--border-light);background:var(--bg-card);">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">' +
+                '<span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);">#' + n.index + '</span>' +
+                '<span style="font-size:0.7rem;padding:2px 8px;border-radius:999px;background:rgba(26,95,74,0.12);color:var(--color-primary);">' + (n.source_type === 'quran' ? "Qur'an" : 'Sunnah') + '</span>' +
+              '</div>' +
+              '<div style="font-family:var(--font-arabic);font-size:2rem;text-align:center;color:var(--color-primary);margin:4px 0;" lang="ar">' + n.arabic + '</div>' +
+              '<div style="font-weight:700;font-size:0.98rem;text-align:center;">' + n.transliteration + '</div>' +
+              '<div style="font-size:0.8rem;color:var(--text-secondary);text-align:center;margin-top:3px;">' + n.english_meaning + '</div>' +
+            '</div>';
+          }).join('') +
+          '</div>';
+      }
+
+      var bSearch = document.getElementById('searchInput');
+      if (bSearch) {
+        bSearch.addEventListener('input', function() {
+          browseQuery = bSearch.value.trim();
+          renderBrowseGrid();
+        });
+      }
+
+      function renderSituationsView() {
+        var container = document.getElementById('situationsContent');
+        if (!container) return;
+        container.innerHTML =
+          injectBackToHomeBanner(container, 'Find Your Situation · Life Prescriptions') +
+          '<h2 style="margin:0 0 6px;">What are you going through today?</h2>' +
+          '<p style="margin:0 0 16px;color:var(--text-secondary);font-size:0.92rem;">Tap any Name chip below to read how to call upon Allah through that attribute.</p>' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;">' +
+          SITUATIONS.map(function(s) {
+            var isSel = s.id === activeSituationId;
+            var pills = s.names.map(function(idx) {
+              var nm = getName(idx);
+              return '<button type="button" data-open-name="' + nm.index + '" style="padding:5px 10px;border-radius:999px;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:0.78rem;font-weight:600;">' + nm.arabic + ' · ' + nm.transliteration + '</button>';
+            }).join(' ');
+            return '<div class="situation-card" id="sit-' + s.id + '" style="padding:18px;border-radius:14px;border:2px solid ' + (isSel ? 'var(--color-accent)' : 'var(--border-light)') + ';background:var(--bg-card);">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+                '<span style="font-size:0.72rem;font-weight:700;text-transform:uppercase;color:var(--color-primary);">' + s.cat + '</span>' +
+                '<span style="font-size:1.3rem;">' + s.icon + '</span>' +
+              '</div>' +
+              '<h3 style="margin:0 0 6px;font-size:1.08rem;">“' + s.title + '”</h3>' +
+              '<p style="margin:0 0 12px;font-size:0.85rem;color:var(--text-secondary);">' + s.description + '</p>' +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">' + pills + '</div>' +
+              '<div style="padding:10px 12px;border-radius:8px;background:var(--bg-secondary);font-size:0.8rem;font-style:italic;">🤲 ' + s.dua + '</div>' +
+            '</div>';
+          }).join('') +
+          '</div>';
+      }
+
+      function renderVideosView() {
+        var container = document.getElementById('videosContent');
+        if (!container) return;
+        container.innerHTML =
+          injectBackToHomeBanner(container, 'Scholar Video Library') +
+          '<h2 style="margin:0 0 6px;">Watch Video Explanations</h2>' +
+          '<p style="margin:0 0 16px;color:var(--text-secondary);font-size:0.92rem;">Click any lesson below to open the embedded video player.</p>' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;">' +
+          VIDEOS.map(function(v) {
+            return '<div class="video-card" data-open-video="' + v.youtubeId + '" data-video-title="' + v.title + '" style="cursor:pointer;padding:14px;border-radius:12px;border:1px solid var(--border-light);background:var(--bg-card);">' +
+              '<div style="position:relative;border-radius:8px;overflow:hidden;margin-bottom:10px;background:#000;">' +
+                '<img src="https://i.ytimg.com/vi/' + v.youtubeId + '/mqdefault.jpg" alt="" style="width:100%;height:150px;object-fit:cover;display:block;">' +
+                '<span style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.78);color:#fff;padding:3px 8px;border-radius:6px;font-size:0.75rem;font-weight:700;">▶ ' + v.duration + '</span>' +
+              '</div>' +
+              '<h3 style="margin:0 0 4px;font-size:0.98rem;">' + v.title + '</h3>' +
+              '<p style="margin:0;font-size:0.8rem;color:var(--text-secondary);">' + v.speaker + '</p>' +
+            '</div>';
+          }).join('') +
+          '</div>';
+      }
+
+      var flashIdx = 1;
+      function renderFlashcardView() {
+        var sessionStart = document.getElementById('sessionStart');
+        var flashSession = document.getElementById('flashcardSession');
+        if (sessionStart) sessionStart.classList.add('hidden');
+        if (flashSession) flashSession.classList.remove('hidden');
+        var assessmentBtns = document.getElementById('assessmentButtons');
+        if (assessmentBtns) assessmentBtns.classList.remove('hidden');
+        updateFlashcardDOM();
+      }
+
+      function updateFlashcardDOM() {
+        var n = getName(flashIdx);
+        var ar = document.getElementById('cardArabic');
+        var tr = document.getElementById('cardTransliteration');
+        var mn = document.getElementById('cardMeaning');
+        var cx = document.getElementById('cardContext');
+        var pt = document.getElementById('progressText');
+        var pf = document.getElementById('progressFill');
+        var fc = document.getElementById('flashcard');
+        if (fc) fc.classList.remove('flipped');
+        if (ar) ar.textContent = n.arabic;
+        if (tr) tr.textContent = '#' + n.index + ' · ' + n.transliteration;
+        if (mn) mn.textContent = n.english_meaning;
+        if (cx) cx.textContent = n.when_to_invoke;
+        if (pt) pt.textContent = 'Name #' + n.index + ' of 99';
+        if (pf) pf.style.width = Math.round((n.index / 99) * 100) + '%';
+      }
+
+      var startSessBtn = document.getElementById('startSessionBtn');
+      if (startSessBtn) startSessBtn.addEventListener('click', renderFlashcardView);
+      var fcEl = document.getElementById('flashcard');
+      if (fcEl) fcEl.addEventListener('click', function() { fcEl.classList.toggle('flipped'); });
+      document.querySelectorAll('#assessmentButtons .assessment-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var diff = btn.getAttribute('data-difficulty');
+          if ((diff === 'good' || diff === 'easy') && learned.indexOf(flashIdx) === -1) {
+            learned.push(flashIdx);
+            saveState();
+          }
+          showToast('Rated "' + diff.toUpperCase() + '" — Next Card →');
+          flashIdx = flashIdx < 99 ? flashIdx + 1 : 1;
+          updateFlashcardDOM();
+        });
+      });
+
+      function renderProgressView() {
+        var pct = Math.round((learned.length / 99) * 100);
+        var sm = document.getElementById('statMastered');
+        var sl = document.getElementById('statLearning');
+        var sn = document.getElementById('statNew');
+        var ss = document.getElementById('statStreak');
+        var sc = document.getElementById('statCompletion');
+        var pfb = document.getElementById('progressFillBar');
+        var ppl = document.getElementById('progressPercentageLabel');
+        var grid = document.getElementById('dotGrid');
+        if (sm) sm.textContent = String(learned.length);
+        if (sl) sl.textContent = '5';
+        if (sn) sn.textContent = String(Math.max(0, 99 - learned.length));
+        if (ss) ss.textContent = '3';
+        if (sc) sc.textContent = pct + '%';
+        if (pfb) pfb.style.width = pct + '%';
+        if (ppl) ppl.textContent = pct + '% of 99 Names mastered (' + learned.length + '/99)';
+        if (grid) {
+          grid.innerHTML = NAMES.map(function(n) {
+            var isL = learned.indexOf(n.index) !== -1;
+            return '<button type="button" data-open-name="' + n.index + '" title="#' + n.index + ' ' + n.transliteration + '" style="padding:8px 4px;border-radius:8px;border:1px solid var(--border-light);background:' + (isL ? 'var(--color-primary)' : 'var(--bg-card)') + ';color:' + (isL ? '#fff' : 'var(--text-primary)') + ';cursor:pointer;font-size:0.75rem;font-weight:700;">' + n.index + '</button>';
+          }).join('');
+        }
+      }
+
+      function renderFavoritesView() {
+        var grid = document.getElementById('favoritesList');
+        var empty = document.getElementById('favoritesEmpty');
+        if (!grid) return;
+        if (!favorites.length) {
+          grid.innerHTML = injectBackToHomeBanner(grid, 'Saved Favorites');
+          if (empty) empty.classList.remove('hidden');
+          return;
+        }
+        if (empty) empty.classList.add('hidden');
+        grid.innerHTML =
+          injectBackToHomeBanner(grid, 'Saved Favorites (' + favorites.length + ')') +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">' +
+          favorites.map(function(idx) {
+            var n = getName(idx);
+            return '<div class="name-card" data-open-name="' + n.index + '" style="cursor:pointer;padding:16px;border-radius:12px;border:1px solid var(--border-light);background:var(--bg-card);text-align:center;">' +
+              '<div style="font-family:var(--font-arabic);font-size:2rem;color:var(--color-primary);" lang="ar">' + n.arabic + '</div>' +
+              '<div style="font-weight:700;margin-top:4px;">#' + n.index + ' ' + n.transliteration + '</div>' +
+              '<div style="font-size:0.82rem;color:var(--text-secondary);">' + n.english_meaning + '</div>' +
+            '</div>';
+          }).join('') +
+          '</div>';
+      }
+
+      // 9. GLOBAL DELEGATED CLICK HANDLER FOR ALL CARDS, CHIPS, MODALS & VIEWS
+      var menuToggle = document.getElementById('menuToggle');
+      var navClose = document.getElementById('navClose');
+      var navOverlay = document.getElementById('navOverlay');
+      var headerHomeLink = document.getElementById('headerHomeLink');
+      if (menuToggle) menuToggle.addEventListener('click', openNavDrawer);
+      if (navClose) navClose.addEventListener('click', closeNavDrawer);
+      if (navOverlay) navOverlay.addEventListener('click', closeNavDrawer);
+      if (headerHomeLink) {
+        headerHomeLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          switchView('welcome');
+        });
+      }
+
+      document.addEventListener('click', function(e) {
+        var browseChipEl = e.target.closest('[data-browse-chip]');
+        if (browseChipEl) {
+          e.preventDefault();
+          browseFilter = browseChipEl.getAttribute('data-browse-chip') || 'all';
+          renderBrowseGrid();
+          return;
+        }
+        var openNameEl = e.target.closest('[data-open-name]');
+        if (openNameEl) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (searchDropdown) searchDropdown.classList.add('hidden');
+          openNameModal(parseInt(openNameEl.getAttribute('data-open-name'), 10) || 1);
+          return;
+        }
+        var openVideoEl = e.target.closest('[data-open-video]');
+        if (openVideoEl) {
+          e.preventDefault();
+          e.stopPropagation();
+          openVideoModal(openVideoEl.getAttribute('data-open-video'), openVideoEl.getAttribute('data-video-title'));
+          return;
+        }
+        var openSitEl = e.target.closest('[data-open-situation]');
+        if (openSitEl) {
+          e.preventDefault();
+          activeSituationId = openSitEl.getAttribute('data-open-situation');
+          if (searchDropdown) searchDropdown.classList.add('hidden');
+          switchView('situations');
+          setTimeout(function() {
+            var card = document.getElementById('sit-' + activeSituationId);
+            if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 80);
+          return;
+        }
+        var filterTypeEl = e.target.closest('[data-filter-type]');
+        if (filterTypeEl) {
+          e.preventDefault();
+          var ft = filterTypeEl.getAttribute('data-filter-type');
+          if (ft === 'videos') {
+            switchView('videos');
+          } else {
+            browseFilter = (ft === 'quran' || ft === 'sunnah') ? ft : 'all';
+            switchView('browse');
+          }
+          return;
+        }
+        var switchViewEl = e.target.closest('[data-switch-view], [data-view]');
+        if (switchViewEl) {
+          e.preventDefault();
+          var v = switchViewEl.getAttribute('data-switch-view') || switchViewEl.getAttribute('data-view');
+          if (v) switchView(v);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

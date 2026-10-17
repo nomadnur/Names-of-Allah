@@ -195,6 +195,12 @@ export class UIRenderer {
     return `
       <article class="name-card" data-index="${name.index}">
         <span class="name-number">#${name.index}</span>
+        ${this.dataManager.getVideosForName(name.index).length ? `
+          <span class="video-badge" title="Has video lessons">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <span>Video</span>
+          </span>
+        ` : ''}
         <span class="source-badge ${name.source_type}">${name.source_type === 'quran' ? 'Quran' : 'Sunnah'}</span>
         ${isFavorite ? '<span class="favorite-badge" title="Favorited">⭐</span>' : ''}
 
@@ -233,6 +239,113 @@ export class UIRenderer {
     const quranRefInfo = this.parseQuranReference(name.proof_quran);
     const sunnahRefUrl = this.buildSunnahUrl(name);
 
+    // Parse references to find specific locators if present
+    const refParts = name.source_reference ? name.source_reference.split(';').map(p => p.trim()) : [];
+    // Keep only the page part ("p. 68-72"); the author and book are written out below
+    const pageOf = (ref) => (ref.match(/p{1,2}\.\s*[\d\s,–-]+\d/i) || [''])[0].trim();
+    const ghazaliRef = pageOf(refParts.find(p => p.toLowerCase().includes('ghazali') || p.toLowerCase().includes('maqsad')) || '');
+    const jalilRef = pageOf(refParts.find(p => p.toLowerCase().includes('jalil') || p.toLowerCase().includes('جليل')) || '');
+
+    // Rigorous academic verification auditing: only cite if an exact excerpt exists in the data
+    let verificationHTML = '';
+    const hasGhazaliQuote = name.ghazali_insight && 
+                            !name.ghazali_insight.toLowerCase().includes('insufficient') && 
+                            !name.ghazali_insight.toLowerCase().includes('none');
+
+    const hasJalilQuote = name.al_jalil_commentary && 
+                          !name.al_jalil_commentary.toLowerCase().includes('insufficient') && 
+                          !name.al_jalil_commentary.toLowerCase().includes('none');
+
+    const usedSources = [];
+    if (name.proof_text) {
+      usedSources.push(name.source_type === 'quran' ? `The Quran (${name.proof_quran})` : `Hadith (${name.proof_hadith})`);
+    }
+    if (hasGhazaliQuote) {
+      usedSources.push(`Al-Ghazali, Al-Maqsad al-Asna${ghazaliRef ? `, ${ghazaliRef}` : ''}`);
+    }
+    if (hasJalilQuote) {
+      usedSources.push(`Abdul Aziz Al-Jalil, ولله الأسماء الحسنى فادعوه بها${jalilRef ? `, ${jalilRef}` : ''}`);
+    }
+
+    if (name.proof_text || hasGhazaliQuote || hasJalilQuote) {
+      verificationHTML = `
+        <section class="detail-section verification-section">
+          <details class="verification-details">
+            <summary class="verification-summary">
+              <span class="verification-title">📚 Sources Used</span>
+              <span class="expander-arrow">▼</span>
+            </summary>
+            <div class="verification-content">
+              <p class="verification-intro">The texts this entry draws on. <strong>Not yet checked by scholars.</strong></p>
+              
+              ${name.proof_text ? `
+                <div class="verification-block">
+                  <h4 class="cite-header">📜 Quran or Hadith (English translation):</h4>
+                  <blockquote class="verification-quote scriptural-quote">
+                    "${name.proof_text}"
+                  </blockquote>
+                  <p class="verification-quote-ref">— ${name.proof_quran || name.proof_hadith || ''}</p>
+                </div>
+              ` : ''}
+
+              ${hasGhazaliQuote ? `
+                <div class="verification-block">
+                  <h4 class="cite-header">✨ Imam Al-Ghazali:</h4>
+                  <blockquote class="verification-quote classical-quote">
+                    "${name.ghazali_insight}"
+                  </blockquote>
+                  <p class="verification-quote-ref">— Abu Hamid al-Ghazali, <em>Al-Maqsad al-Asna</em> ${ghazaliRef ? `(${ghazaliRef})` : ''}</p>
+                </div>
+              ` : ''}
+
+              ${hasJalilQuote ? `
+                <div class="verification-block">
+                  <h4 class="cite-header">💡 Shaykh Al-Jalil:</h4>
+                  <blockquote class="verification-quote classical-quote">
+                    "${name.al_jalil_commentary}"
+                  </blockquote>
+                  <p class="verification-quote-ref">— Abdul Aziz Al-Jalil, <em>ولله الأسماء الحسنى فادعوه بها</em> ${jalilRef ? `(${jalilRef})` : ''}</p>
+                </div>
+              ` : ''}
+
+              <div class="scholarly-cite-block">
+                <h4 class="cite-header">Source list:</h4>
+                <ul class="cite-list">
+                  ${name.proof_text ? `
+                    <li><strong>${name.source_type === 'quran' ? 'The Quran' : 'Hadith'}:</strong> <em>${name.proof_quran || name.proof_hadith || ''}</em></li>
+                  ` : ''}
+                  ${hasGhazaliQuote ? `
+                    <li><strong>Al-Ghazali:</strong> <em>Al-Maqsad al-Asna fi Sharh Ma'ani Asma' Allah al-Husna</em> (${ghazaliRef || 'page not recorded'})</li>
+                  ` : ''}
+                  ${hasJalilQuote ? `
+                    <li><strong>Al-Jalil:</strong> <em>ولله الأسماء الحسنى فادعوه بها</em> (${jalilRef || 'page not recorded'})</li>
+                  ` : ''}
+                </ul>
+              </div>
+            </div>
+          </details>
+        </section>
+      `;
+    }
+
+    // Video explanations (thumbnail first; the player loads only on tap)
+    const videos = this.dataManager.getVideosForName(name.index);
+    const explanations = videos.filter(video => video.kind === 'explanation');
+    const dhikrVideos = videos.filter(video => video.kind === 'dhikr' && video.names.includes(name.index));
+    const videosHTML = videos.length ? `
+      <section class="detail-section video-section">
+        ${explanations.length ? `
+          <h3 class="section-title">▶️ Watch an Explanation</h3>
+          ${this.renderVideoList(explanations, name.index, { sortByLength: true })}
+        ` : ''}
+        ${dhikrVideos.length ? `
+          <h3 class="section-title video-group-title">📿 Use this Name in Dhikr</h3>
+          <p class="video-group-intro">These lessons explain a morning and evening dhikr whose words contain this Name.</p>
+          ${this.renderVideoList(dhikrVideos, name.index)}
+        ` : ''}
+      </section>
+    ` : '';
+
     // Create modal
     const modal = document.createElement('div');
     modal.className = 'modal';
@@ -265,6 +378,8 @@ export class UIRenderer {
           </div>
 
           <div class="section-divider"></div>
+
+          ${videosHTML}
 
           ${name.proof_quran || name.proof_hadith ? `
             <section class="detail-section">
@@ -344,10 +459,17 @@ export class UIRenderer {
             </section>
           ` : ''}
 
-          ${name.ghazali_insight ? `
+          ${hasGhazaliQuote ? `
             <section class="detail-section ghazali-section">
               <h3 class="section-title">✨ Imam Al-Ghazali's Insight</h3>
               <p class="section-content ghazali-text">${name.ghazali_insight}</p>
+            </section>
+          ` : ''}
+
+          ${hasJalilQuote ? `
+            <section class="detail-section jalil-section">
+              <h3 class="section-title">💡 Shaykh Al-Jalil's Lesson</h3>
+              <p class="section-content jalil-text">${name.al_jalil_commentary}</p>
             </section>
           ` : ''}
 
@@ -358,9 +480,11 @@ export class UIRenderer {
             </section>
           ` : ''}
 
+          ${verificationHTML}
+
           <footer class="detail-footer">
             <p class="source-attribution">
-              <strong>Sources:</strong> ${name.source_reference}
+              <strong>Sources:</strong> ${usedSources.join('; ') || 'The Holy Quran'}
             </p>
           </footer>
         </div>
@@ -395,6 +519,9 @@ export class UIRenderer {
 
     // Populate Arabic ayah text for Quran evidence blocks.
     this.hydrateQuranEvidence(modal);
+
+    // Open a video in a player on top of the modal
+    this.bindVideoRows(modal);
 
     // Set initial favorite button state
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -436,6 +563,146 @@ export class UIRenderer {
     modal.addEventListener('remove', () => {
       document.removeEventListener('keydown', handleKeyboard);
     });
+  }
+
+  // One compact video row. `currentIndex` hides the current Name from "Also covers".
+  renderVideoRow(video, currentIndex = null) {
+    // List every Name in the video, in title order, with the current Name in bold
+    const namesList = video.names
+      .map(i => {
+        const translit = this.dataManager.getNameByIndex(i)?.transliteration;
+        if (!translit) return null;
+        return i === currentIndex ? `<strong>${translit}</strong>` : translit;
+      })
+      .filter(Boolean);
+    const namesLabel = video.kind === 'dhikr' ? 'Names in this dhikr' : `One video, ${namesList.length} Names`;
+    return `
+      <button class="video-row" data-video-id="${video.id}" data-video-title="${video.title.replace(/"/g, '&quot;')}">
+        <span class="video-row-thumb">
+          <img src="https://i.ytimg.com/vi/${video.id}/mqdefault.jpg" alt="" loading="lazy">
+          <span class="video-row-play" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </span>
+        </span>
+        <span class="video-row-text">
+          ${video.topic ? `<span class="video-row-topic">${video.topic}</span>` : ''}
+          <span class="video-row-speaker">${video.speaker}</span>
+          <span class="video-row-detail">${video.kind === 'dhikr' ? 'SHIELD series' : (video.episode || `Part ${video.part}`)}${video.duration ? ` · ${video.duration}` : ''}</span>
+          ${namesList.length > 1 ? `<span class="video-row-also">${namesLabel}: ${namesList.join(', ')}</span>` : ''}
+          ${video.note ? `<span class="video-row-also video-note">${video.note}</span>` : ''}
+        </span>
+      </button>
+    `;
+  }
+
+  // "1:05:30" -> 3930 seconds; unknown lengths sort last
+  videoSeconds(video) {
+    if (!video.duration) return Infinity;
+    return video.duration.split(':').reduce((total, part) => total * 60 + Number(part), 0);
+  }
+
+  // Multi-part lessons share a topic once the part marker is removed:
+  // "Aayat Al-Kursi (Part 2)", "Aayat Al-Kursi (4)", "Allah Is Enough For You (1/2)"
+  videoPartKey(video) {
+    if (!video.topic) return null;
+    return video.topic.replace(/\s*\((?:part\s*)?\d+(?:\s*\/\s*\d+)?\)\s*$/i, '').trim().toLowerCase();
+  }
+
+  // Video rows with multi-part lessons collapsed behind a "Show all N parts" button.
+  // sortByLength puts short videos first (used for explanations).
+  renderVideoList(videos, currentIndex = null, { sortByLength = false } = {}) {
+    const list = sortByLength
+      ? [...videos].sort((a, b) => this.videoSeconds(a) - this.videoSeconds(b))
+      : videos;
+
+    const groups = [];
+    const byKey = new Map();
+    list.forEach(video => {
+      const key = this.videoPartKey(video);
+      if (key && byKey.has(key)) {
+        byKey.get(key).push(video);
+      } else {
+        const group = [video];
+        groups.push(group);
+        if (key) byKey.set(key, group);
+      }
+    });
+
+    return groups.map(group => {
+      if (group.length === 1) return this.renderVideoRow(group[0], currentIndex);
+      const [first, ...rest] = group;
+      const label = group.length === 2 ? 'Show both parts' : `Show all ${group.length} parts`;
+      return `
+        <div class="video-parts">
+          ${this.renderVideoRow(first, currentIndex)}
+          <div class="video-parts-rest" hidden>
+            ${rest.map(video => this.renderVideoRow(video, currentIndex)).join('')}
+          </div>
+          <button class="video-parts-toggle" aria-expanded="false" data-label="${label}">${label}</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  bindVideoRows(container) {
+    container.querySelectorAll('.video-row').forEach(row => {
+      row.addEventListener('click', () => this.openVideoPlayer(row.dataset.videoId, row.dataset.videoTitle, row));
+    });
+    container.querySelectorAll('.video-parts-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const rest = btn.parentElement.querySelector('.video-parts-rest');
+        const open = rest.hidden;
+        rest.hidden = !open;
+        btn.setAttribute('aria-expanded', String(open));
+        btn.textContent = open ? 'Show fewer parts' : btn.dataset.label;
+      });
+    });
+  }
+
+  openVideoPlayer(videoId, title, returnFocusTo) {
+    const player = document.createElement('div');
+    player.className = 'video-player';
+    player.setAttribute('role', 'dialog');
+    player.setAttribute('aria-modal', 'true');
+    player.setAttribute('aria-label', title);
+    player.innerHTML = `
+      <div class="video-player-backdrop"></div>
+      <div class="video-player-box">
+        <div class="video-player-bar">
+          <p class="video-player-title">${title}</p>
+          <button class="btn-icon video-player-close" aria-label="Close video">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <iframe class="video-player-frame"
+          src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0"
+          title="${title}"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen></iframe>
+      </div>
+    `;
+    document.body.appendChild(player);
+    requestAnimationFrame(() => player.classList.add('active'));
+
+    // Capture Escape first so it closes only the video, not the Name modal too
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        e.stopImmediatePropagation();
+        close();
+      }
+    };
+    const close = () => {
+      window.removeEventListener('keydown', onKey, true);
+      player.remove();
+      returnFocusTo?.focus();
+    };
+    window.addEventListener('keydown', onKey, true);
+    player.querySelector('.video-player-close').addEventListener('click', close);
+    player.querySelector('.video-player-backdrop').addEventListener('click', close);
+    player.querySelector('.video-player-close').focus();
   }
 
   toggleFavorite(index) {

@@ -130,6 +130,19 @@ export class SessionController {
   }
 
   /**
+   * Set the interval text under each assessment button for one Name
+   * @param {number} nameIndex
+   */
+  updateIntervalLabels(nameIndex) {
+    const level = this.progress.getNameProgress(nameIndex)?.masteryLevel || 0;
+    this.elements.assessmentButtons.querySelectorAll('.assessment-btn').forEach(btn => {
+      const { intervalDays } = this.engine.calculateNextReview(level, btn.dataset.difficulty);
+      const when = intervalDays === 1 ? 'Tomorrow' : `In ${intervalDays} days`;
+      btn.querySelector('.interval').textContent = btn.dataset.difficulty === 'forgot' ? `${when}, start over` : when;
+    });
+  }
+
+  /**
    * Start a new session
    */
   startSession() {
@@ -190,6 +203,9 @@ export class SessionController {
     this.elements.cardTransliteration.textContent = name.transliteration;
     this.elements.cardMeaning.textContent = name.english_meaning;
     this.elements.cardContext.textContent = name.when_to_invoke || name.aqeedah_belief?.substring(0, 150) + '...';
+
+    // Show each button's real next review for this Name's current level
+    this.updateIntervalLabels(nameIndex);
 
     // Reset card state
     this.elements.flashcard.classList.remove('flipped');

@@ -1,0 +1,617 @@
+{
+  "categories": [
+    {
+      "id": "C01",
+      "title": "Loss and grief",
+      "covers": "A death, or the end of something you loved.",
+      "on_hold": false
+    },
+    {
+      "id": "C02",
+      "title": "Illness and health",
+      "covers": "Your own illness, or caring for someone who is ill.",
+      "on_hold": false
+    },
+    {
+      "id": "C03",
+      "title": "Money and provision",
+      "covers": "Job loss, debt, or worry about income.",
+      "on_hold": false
+    },
+    {
+      "id": "C04",
+      "title": "Worry and waiting",
+      "covers": "Fear of the future. Duas that seem unanswered.",
+      "on_hold": false
+    },
+    {
+      "id": "C05",
+      "title": "Sin and returning to Allah",
+      "covers": "Guilt, repeated sins, fear of not being forgiven.",
+      "on_hold": false
+    },
+    {
+      "id": "C06",
+      "title": "Injustice from people",
+      "covers": "Being wronged, oppressed or falsely accused.",
+      "on_hold": false
+    },
+    {
+      "id": "C07",
+      "title": "Loneliness and private pain",
+      "covers": "Feeling alone. Struggles you cannot tell anyone.",
+      "on_hold": false
+    },
+    {
+      "id": "C08",
+      "title": "Protecting your faith",
+      "covers": "Pressure to compromise. Showing off in worship.",
+      "on_hold": false
+    },
+    {
+      "id": "C09",
+      "title": "Responsibility and decisions",
+      "covers": "Decisions that affect others. Speaking the truth.",
+      "on_hold": false
+    },
+    {
+      "id": "C10",
+      "title": "Blessings and new beginnings",
+      "covers": "Good news, gratitude, starting something new.",
+      "on_hold": false
+    },
+    {
+      "id": "C11",
+      "title": "World events and the Ummah",
+      "covers": "News of Muslim suffering, and what our responsibility is.",
+      "on_hold": true
+    }
+  ],
+  "situations": [
+    {
+      "id": "S01",
+      "category_id": "C01",
+      "title": "Someone I love has died",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 7,
+          "link_type": "specific",
+          "dataset_basis": "When dealing with anxiety about the future, when experiencing the death of loved ones, or at the end of a project or life stage.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 24,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you navigate seasons of birth, loss, and renewal.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 25,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you navigate seasons of birth, loss, and renewal.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 76,
+          "link_type": "template",
+          "dataset_basis": "Use it whenever you reflect on beginnings and endings Allah controls.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "category_id": "C02",
+      "title": "I am ill and waiting for a cure",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 10,
+          "link_type": "specific",
+          "dataset_basis": "When seeking healing from physical illnesses, when experiencing disruption in your life's harmony, or when initiating a creative or builder's task.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 90,
+          "link_type": "specific",
+          "dataset_basis": "Seek medical treatment but believe the cure comes only from Him",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "category_id": "C03",
+      "title": "I lost my job, or money is very tight",
+      "status": "draft",
+      "notes": "Same sentence is used for 6 names in the dataset. Weak signal.",
+      "names": [
+        {
+          "index": 32,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you feel uncertain about rizq and resources.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 48,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you feel uncertain about rizq and resources.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 77,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you feel uncertain about rizq and resources.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 93,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you feel uncertain about rizq and resources.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "category_id": "C03",
+      "title": "I am tempted by income that may be haram",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 91,
+          "link_type": "specific",
+          "dataset_basis": "Ensure your income and food are Halal (pure).",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "category_id": "C04",
+      "title": "I am anxious about the future",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 7,
+          "link_type": "specific",
+          "dataset_basis": "When dealing with anxiety about the future, when experiencing the death of loved ones, or at the end of a project or life stage.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 50,
+          "link_type": "specific",
+          "dataset_basis": "Trust in His ability to change your situation.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 34,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever your heart longs for sakinah amidst worry.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 79,
+          "link_type": "template",
+          "dataset_basis": "Use it whenever you place full trust in Allah's decree.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "category_id": "C04",
+      "title": "My dua seems unanswered, or things keep being delayed",
+      "status": "draft",
+      "notes": "Al-Mujeeb is an obvious fit but its dataset text is generic. Add only after review.",
+      "names": [
+        {
+          "index": 54,
+          "link_type": "specific",
+          "dataset_basis": "Call upon Him with the certainty that He is close.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 85,
+          "link_type": "specific",
+          "dataset_basis": "Be shy to sin against Him. Have high hopes when making Dua.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 94,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you accept Allah's timing for every affair.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 95,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you accept Allah's timing for every affair.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "category_id": "C05",
+      "title": "I keep falling into the same sin",
+      "status": "draft",
+      "notes": "Al-Akram link is about despair of forgiveness.",
+      "names": [
+        {
+          "index": 4,
+          "link_type": "specific",
+          "dataset_basis": "When seeking knowledge, when initiating a new project (like writing or reading), or when feeling unworthy or despairing of Allah's forgiveness.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 13,
+          "link_type": "template",
+          "dataset_basis": "Use it whenever you return to Allah seeking pardon.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 43,
+          "link_type": "template",
+          "dataset_basis": "Use it whenever you return to Allah seeking pardon.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 46,
+          "link_type": "template",
+          "dataset_basis": "Use it whenever you return to Allah seeking pardon.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 47,
+          "link_type": "template",
+          "dataset_basis": "Use it whenever you return to Allah seeking pardon.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S08",
+      "category_id": "C06",
+      "title": "Someone has wronged me or accused me falsely",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 8,
+          "link_type": "specific",
+          "dataset_basis": "When seeking clarity and truth, when defending against false accusations, or when feeling defeated by worldly powers.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 3,
+          "link_type": "specific",
+          "dataset_basis": "When feeling small or oppressed, when facing situations of arrogance in others, or during prostration to humble oneself.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 74,
+          "link_type": "specific",
+          "dataset_basis": "Seek His help against enemies and your own lower self.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S09",
+      "category_id": "C07",
+      "title": "I feel completely alone",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 2,
+          "link_type": "specific",
+          "dataset_basis": "When feeling lonely, when facing peer pressure to compromise one's faith, or when purifying one's heart from hidden shirk (polytheism).",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 9,
+          "link_type": "specific",
+          "dataset_basis": "When purifying one's heart from bad intentions, when dealing with private struggles, or when needing comfort that Allah knows your silent pain.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S10",
+      "category_id": "C07",
+      "title": "I am struggling with something I cannot tell anyone",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 9,
+          "link_type": "specific",
+          "dataset_basis": "When purifying one's heart from bad intentions, when dealing with private struggles, or when needing comfort that Allah knows your silent pain.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 18,
+          "link_type": "specific",
+          "dataset_basis": "Seek His specific kindness in your affairs.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S11",
+      "category_id": "C08",
+      "title": "People pressure me to compromise my religion",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 2,
+          "link_type": "specific",
+          "dataset_basis": "When feeling lonely, when facing peer pressure to compromise one's faith, or when purifying one's heart from hidden shirk (polytheism).",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 60,
+          "link_type": "specific",
+          "dataset_basis": "Call upon it whenever you fear for your iman or safety.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 72,
+          "link_type": "specific",
+          "dataset_basis": "Take Him as your ally.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S12",
+      "category_id": "C08",
+      "title": "I worry I do good deeds to be seen",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 5,
+          "link_type": "specific",
+          "dataset_basis": "When refining your intention (Niyyah), when protecting your heart from showing off (Riya'), or when renewing the declaration of faith (Shahadah).",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 40,
+          "link_type": "specific",
+          "dataset_basis": "Guard your thoughts and intentions.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 52,
+          "link_type": "template",
+          "dataset_basis": "Call it whenever you wish to cleanse your intentions and worship.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S13",
+      "category_id": "C09",
+      "title": "I must make a decision that affects other people",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 16,
+          "link_type": "template",
+          "dataset_basis": "Lean on it whenever you decide matters that affect others' rights.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 84,
+          "link_type": "template",
+          "dataset_basis": "Lean on it whenever you decide matters that affect others' rights.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S14",
+      "category_id": "C09",
+      "title": "I need courage to speak the truth",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 19,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you need courage to speak and uphold haqq.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 38,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you need courage to speak and uphold haqq.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S15",
+      "category_id": "C10",
+      "title": "I am starting a new job, project or stage of life",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 6,
+          "link_type": "specific",
+          "dataset_basis": "At the beginning of any major project, when starting a new day, or when reflecting on the origin of creation and destiny.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 4,
+          "link_type": "specific",
+          "dataset_basis": "When seeking knowledge, when initiating a new project (like writing or reading), or when feeling unworthy or despairing of Allah's forgiveness.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S16",
+      "category_id": "C10",
+      "title": "Something good has happened to me",
+      "status": "draft",
+      "notes": "",
+      "names": [
+        {
+          "index": 97,
+          "link_type": "specific",
+          "dataset_basis": "Acknowledge that all you have is a gift from Him.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 23,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you give thanks for blessings entrusted to you.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 37,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you give thanks for blessings entrusted to you.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    },
+    {
+      "id": "S17",
+      "category_id": "C11",
+      "title": "Muslims are suffering and the world does nothing",
+      "status": "hold",
+      "notes": "Adel's angle: our own responsibility, not only blaming rulers. Needs the current-events review process before publishing.",
+      "names": [
+        {
+          "index": 8,
+          "link_type": "specific",
+          "dataset_basis": "When seeking clarity and truth, when defending against false accusations, or when feeling defeated by worldly powers.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 70,
+          "link_type": "template",
+          "dataset_basis": "Invoke it whenever you need to remember all dominion belongs to Allah.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        },
+        {
+          "index": 74,
+          "link_type": "specific",
+          "dataset_basis": "Seek His help against enemies and your own lower self.",
+          "the_point": null,
+          "source": null,
+          "original_text": null
+        }
+      ]
+    }
+  ]
+}

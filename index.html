@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learn and memorize the 99 Beautiful Names of Allah (Asma'ul Husna) with authentic sources from Quran and Sunnah">
+  <meta name="description" content="Learn the 99 Beautiful Names of Allah: meanings, Quran and hadith references, video lessons, and help for life situations. Demo version, not yet verified by scholars.">
   <meta name="theme-color" content="#2A5F5C">
 
   <!-- PWA Manifest -->
@@ -13,10 +13,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="99 Names">
-  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png?v=17">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/icon.svg?v=17">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="css/names.css">
   <link rel="stylesheet" href="css/memorization.css">
   <link rel="stylesheet" href="css/progress.css">
+  <link rel="stylesheet" href="css/situations.css">
 
   <title>Names of Allah - Asma'ul Husna</title>
 </head>
@@ -72,6 +73,9 @@
         </button>
       </div>
     </div>
+    <p class="demo-banner" role="note">
+      <strong>Demo version.</strong> Content is not yet verified by scholars.
+    </p>
   </header>
 
   <!-- Navigation Drawer -->
@@ -108,6 +112,24 @@
           </a>
         </li>
         <li>
+          <a href="#situations" class="nav-link" data-view="situations">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+            </svg>
+            <span>Find Your Situation</span>
+          </a>
+        </li>
+        <li>
+          <a href="#videos" class="nav-link" data-view="videos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+              <polygon points="10 9 15 12 10 15 10 9"></polygon>
+            </svg>
+            <span>Videos</span>
+          </a>
+        </li>
+        <li>
           <a href="#memorize" class="nav-link" data-view="memorize">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -135,7 +157,7 @@
       </ul>
 
       <div class="nav-footer">
-        <p class="text-sm text-muted">Version 1.0</p>
+        <p class="text-sm text-muted">Demo version · v1.16</p>
         <p class="text-sm text-muted">Based on Shaykh Uthaymeen's list</p>
       </div>
     </div>
@@ -149,32 +171,73 @@
       <div class="view" id="welcomeView">
         <div class="welcome-card">
           <h2 class="arabic-large mb-md" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
-          <p class="text-lg mb-lg">Learn and memorize the 99 Beautiful Names of Allah with authentic sources from the Quran and Sunnah.</p>
+          <figure class="home-hadith" aria-roledescription="carousel" aria-label="The hadith of the 99 Names in 4 narrations">
+            <div class="hadith-slide" id="hadithSlide">
+              <p class="home-hadith-lead">The Prophet (ﷺ) said:</p>
+              <p class="home-hadith-arabic" id="hadithArabic" lang="ar" dir="rtl">إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ <mark class="hadith-key">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ</p>
+              <blockquote class="home-hadith-english">
+                <p id="hadithEnglish">“Allah has ninety-nine Names, one-hundred less one; and he who <mark class="hadith-key">memorized them all by heart</mark> will enter Paradise.”</p>
+              </blockquote>
+              <figcaption class="home-hadith-ref" id="hadithRef">
+                Narrated by Abu Huraira · <a href="https://sunnah.com/bukhari:7392" target="_blank" rel="noopener noreferrer">Sahih al-Bukhari 7392</a>
+              </figcaption>
+            </div>
+            <div class="hadith-phrase-dots" role="group" aria-label="Choose a narration">
+                <button class="hadith-dot active" aria-pressed="true" aria-label="Narration 1 of 4: Sahih al-Bukhari 7392"></button>
+                <button class="hadith-dot" aria-pressed="false" aria-label="Narration 2 of 4: Sahih al-Bukhari 2736"></button>
+                <button class="hadith-dot" aria-pressed="false" aria-label="Narration 3 of 4: Sahih Muslim 2677b"></button>
+                <button class="hadith-dot" aria-pressed="false" aria-label="Narration 4 of 4: Sahih al-Bukhari 6410"></button>
+            </div>
+          </figure>
 
-          <div class="feature-grid">
-            <div class="feature-item">
-              <span class="feature-icon">📖</span>
-              <h3>Authentic Sources</h3>
-              <p class="text-sm">Based on Shaykh Uthaymeen's classification</p>
-            </div>
-            <div class="feature-item">
-              <span class="feature-icon">🧠</span>
-              <h3>Spaced Repetition</h3>
-              <p class="text-sm">Scientifically proven memorization technique</p>
-            </div>
-            <div class="feature-item">
-              <span class="feature-icon">🌙</span>
-              <h3>Bilingual</h3>
-              <p class="text-sm">English and Bahasa Melayu support</p>
-            </div>
-            <div class="feature-item">
-              <span class="feature-icon">📱</span>
-              <h3>Works Offline</h3>
-              <p class="text-sm">Install and use without internet</p>
-            </div>
-          </div>
+          <p class="text-lg mb-lg">Get to know the 99 Beautiful Names of Allah, and see what they mean for your life.</p>
 
-          <button class="btn btn-primary btn-lg" id="getStartedBtn">Get Started</button>
+          <nav class="home-options" aria-label="Main sections">
+            <a href="#situations" class="home-option home-option-featured" data-view="situations">
+              <span class="home-option-icon" aria-hidden="true">🧭</span>
+              <span class="home-option-text">
+                <span class="home-option-title">Find Your Situation</span>
+                <span class="home-option-desc">What are you going through? See the Names that help.</span>
+              </span>
+            </a>
+            <a href="#browse" class="home-option" data-view="browse">
+              <span class="home-option-icon" aria-hidden="true">📖</span>
+              <span class="home-option-text">
+                <span class="home-option-title">Browse All Names</span>
+                <span class="home-option-desc">Meanings, references and how to use each Name.</span>
+              </span>
+            </a>
+            <a href="#videos" class="home-option" data-view="videos">
+              <span class="home-option-icon" aria-hidden="true">🎬</span>
+              <span class="home-option-text">
+                <span class="home-option-title">Videos</span>
+                <span class="home-option-desc">Video lessons from 4 series, grouped by Name.</span>
+              </span>
+            </a>
+            <a href="#memorize" class="home-option" data-view="memorize">
+              <span class="home-option-icon" aria-hidden="true">🧠</span>
+              <span class="home-option-text">
+                <span class="home-option-title">Memorize</span>
+                <span class="home-option-desc">Flashcards with spaced review.</span>
+              </span>
+            </a>
+            <a href="#progress" class="home-option" data-view="progress">
+              <span class="home-option-icon" aria-hidden="true">📈</span>
+              <span class="home-option-text">
+                <span class="home-option-title">My Progress</span>
+                <span class="home-option-desc">See which Names you have learned.</span>
+              </span>
+            </a>
+            <a href="#favorites" class="home-option" data-view="favorites">
+              <span class="home-option-icon" aria-hidden="true">⭐</span>
+              <span class="home-option-text">
+                <span class="home-option-title">Favorites</span>
+                <span class="home-option-desc">Names you have saved.</span>
+              </span>
+            </a>
+          </nav>
+
+          <p class="home-footnote text-sm">Based on Shaykh Uthaymeen's list · Names work offline · Videos need internet</p>
         </div>
       </div>
 
@@ -201,6 +264,18 @@
           <!-- Names will be loaded here by JavaScript -->
           <p class="text-muted">Loading names...</p>
         </div>
+      </div>
+
+      <!-- Situations View (demo) -->
+      <div class="view hidden" id="situationsView">
+        <div id="situationsContent">
+          <p class="text-muted">Loading situations...</p>
+        </div>
+      </div>
+
+      <!-- Videos View -->
+      <div class="view hidden" id="videosView">
+        <div id="videosContent"></div>
       </div>
 
       <!-- Memorize View -->
@@ -263,22 +338,22 @@
             <button class="assessment-btn forgot" data-difficulty="forgot">
               <span class="emoji">😔</span>
               <span class="label">Forgot</span>
-              <span class="interval">Review tomorrow</span>
+              <span class="interval">Tomorrow, start over</span>
             </button>
             <button class="assessment-btn hard" data-difficulty="hard">
               <span class="emoji">😐</span>
               <span class="label">Hard</span>
-              <span class="interval">1 day</span>
+              <span class="interval">Tomorrow</span>
             </button>
             <button class="assessment-btn good" data-difficulty="good">
               <span class="emoji">😊</span>
               <span class="label">Good</span>
-              <span class="interval">3 days</span>
+              <span class="interval">In 3 days</span>
             </button>
             <button class="assessment-btn easy" data-difficulty="easy">
               <span class="emoji">🎉</span>
               <span class="label">Easy</span>
-              <span class="interval">7 days</span>
+              <span class="interval">In 7 days</span>
             </button>
           </div>
         </div>

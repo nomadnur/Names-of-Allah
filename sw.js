@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.9.2-sunnah-proofs-complete';
+const CACHE_VERSION = 'v1.19.1-hadith-narrations';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install
@@ -16,6 +16,7 @@ const STATIC_ASSETS = [
   './css/names.css',
   './css/memorization.css',
   './css/progress.css',
+  './css/situations.css',
   './js/app.js',
   './js/data.js',
   './js/ui.js',
@@ -23,10 +24,14 @@ const STATIC_ASSETS = [
   './js/progress.js',
   './js/session.js',
   './js/dashboard.js',
+  './js/situations.js',
+  './js/gallery.js',
   './data/names.json',
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png',
-  './assets/icons/icon-512-maskable.png',
+  './data/situations.json',
+  './data/videos.json',
+  './assets/icons/icon-192.png?v=17',
+  './assets/icons/icon-512.png?v=17',
+  './assets/icons/icon-512-maskable.png?v=17',
 ];
 
 // Install event - cache static assets
@@ -36,7 +41,10 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[Service Worker] Caching static assets');
-      return cache.addAll(STATIC_ASSETS).catch((error) => {
+      // cache: 'reload' skips the browser's HTTP cache, so a new version
+      // never stores a stale copy of a file next to fresh ones
+      const requests = STATIC_ASSETS.map((url) => new Request(url, { cache: 'reload' }));
+      return cache.addAll(requests).catch((error) => {
         console.error('[Service Worker] Failed to cache:', error);
         // Continue even if some files fail
         return Promise.resolve();

@@ -6,6 +6,7 @@
 export class DataManager {
   constructor() {
     this.names = [];
+    this.videos = [];
     this.loaded = false;
   }
 
@@ -27,6 +28,28 @@ export class DataManager {
       console.error('❌ Failed to load names:', error);
       throw error;
     }
+  }
+
+  // Videos are optional: the app works without them
+  async loadVideos() {
+    try {
+      const response = await fetch('./data/videos.json');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      this.videos = (await response.json()).videos;
+    } catch (error) {
+      console.warn('Videos not loaded:', error);
+      this.videos = [];
+    }
+    return this.videos;
+  }
+
+  getVideosForName(index) {
+    const indexNum = parseInt(index);
+    return this.videos.filter(video => video.names.includes(indexNum));
+  }
+
+  getVideosForSituation(situationId) {
+    return this.videos.filter(video => video.situations.includes(situationId));
   }
 
   getAllNames() {

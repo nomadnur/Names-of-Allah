@@ -200,10 +200,10 @@ export class MemorizationEngine {
    */
   getIntervalLabel(difficulty) {
     switch (difficulty) {
-      case 'forgot': return 'Review tomorrow';
-      case 'hard': return '1 day';
-      case 'good': return '3 days';
-      case 'easy': return '7 days';
+      case 'forgot': return 'Tomorrow, start over';
+      case 'hard': return 'Tomorrow';
+      case 'good': return 'In 3 days';
+      case 'easy': return 'In 7 days';
       default: return '';
     }
   }

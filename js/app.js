@@ -7,6 +7,8 @@ import { DataManager } from './data.js';
 import { UIRenderer } from './ui.js';
 import { SessionController } from './session.js';
 import { ProgressDashboard } from './dashboard.js';
+import { SituationsView } from './situations.js';
+import { VideoGallery } from './gallery.js';
 
 // ==================== Theme ====================
 function getSystemDark() {
@@ -64,6 +66,8 @@ const dataManager = new DataManager();
 const uiRenderer = new UIRenderer(dataManager);
 let sessionController = null; // Initialized after data loads
 let progressDashboard = null; // Initialized after data + session controller
+const situationsView = new SituationsView(dataManager, uiRenderer, document.getElementById('situationsContent'));
+const videoGallery = new VideoGallery(dataManager, uiRenderer, document.getElementById('videosContent'));
 
 // ==================== DOM Elements ====================
 const elements = {
@@ -73,7 +77,7 @@ const elements = {
   navClose: document.getElementById('navClose'),
   navLinks: document.querySelectorAll('.nav-link'),
   views: document.querySelectorAll('.view'),
-  getStartedBtn: document.getElementById('getStartedBtn'),
+  homeOptions: document.querySelectorAll('.home-option'),
   headerHomeLink: document.getElementById('headerHomeLink'),
   installPrompt: document.getElementById('installPrompt'),
   installBtn: document.getElementById('installBtn'),
@@ -124,6 +128,16 @@ function switchView(viewName) {
   // Render favorites if switching to favorites view
   if (viewName === 'favorites') {
     uiRenderer.renderFavorites();
+  }
+
+  // Render situations from the category list on every switch
+  if (viewName === 'situations') {
+    situationsView.render();
+  }
+
+  // Render the video gallery on every switch
+  if (viewName === 'videos') {
+    videoGallery.render();
   }
 
   // Render progress dashboard on every progress view switch
@@ -219,8 +233,11 @@ elements.navLinks.forEach(link => {
   });
 });
 
-elements.getStartedBtn.addEventListener('click', () => {
-  switchView('browse');
+elements.homeOptions.forEach(option => {
+  option.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchView(option.dataset.view);
+  });
 });
 
 // Browse from favorites empty state
@@ -246,7 +263,7 @@ async function loadNamesData() {
   try {
     namesList.innerHTML = '<p class="loading-text">Loading names...</p>';
 
-    await dataManager.loadNames();
+    await Promise.all([dataManager.loadNames(), dataManager.loadVideos()]);
     const names = dataManager.getAllNames();
     state.names = names;
 
@@ -284,6 +301,112 @@ async function loadNamesData() {
   }
 }
 
+// ==================== Home Hadith Narrations ====================
+// Four narrations of the 99 Names hadith. Each slide keeps one narration's own
+// Arabic and its own English together, verbatim from that hadith (fawazahmed0
+// hadith-api, which follows sunnah.com numbering). arWord/enKey are highlighted.
+const HADITH_NARRATIONS = [
+  {
+    "ref": "Sahih al-Bukhari 7392",
+    "url": "https://sunnah.com/bukhari:7392",
+    "ar": "إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ أَحْصَاهَا دَخَلَ الْجَنَّةَ",
+    "arWord": "أَحْصَاهَا",
+    "en": "Allah has ninety-nine Names, one-hundred less one; and he who memorized them all by heart will enter Paradise.",
+    "enKey": "memorized them all by heart"
+  },
+  {
+    "ref": "Sahih al-Bukhari 2736",
+    "url": "https://sunnah.com/bukhari:2736",
+    "ar": "إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمَا مِائَةً إِلاَّ وَاحِدًا مَنْ أَحْصَاهَا دَخَلَ الْجَنَّةَ",
+    "arWord": "أَحْصَاهَا",
+    "en": "Allah has ninety-nine names, i.e. one-hundred minus one, and whoever knows them will go to Paradise.",
+    "enKey": "knows them"
+  },
+  {
+    "ref": "Sahih Muslim 2677b",
+    "url": "https://sunnah.com/muslim:2677b",
+    "ar": "إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا مَنْ أَحْصَاهَا دَخَلَ الْجَنَّةَ",
+    "arWord": "أَحْصَاهَا",
+    "en": "Verily, there are ninety-nine names for Allah, i. e. hundred excepting one. He who enumerates them would get into Paradise.",
+    "enKey": "enumerates them"
+  },
+  {
+    "ref": "Sahih al-Bukhari 6410",
+    "url": "https://sunnah.com/bukhari:6410",
+    "ar": "لِلَّهِ تِسْعَةٌ وَتِسْعُونَ اسْمًا، مِائَةٌ إِلاَّ وَاحِدًا، لاَ يَحْفَظُهَا أَحَدٌ إِلاَّ دَخَلَ الْجَنَّةَ، وَهْوَ وَتْرٌ يُحِبُّ الْوَتْرَ",
+    "arWord": "يَحْفَظُهَا",
+    "en": "Allah has ninety-nine Names, i.e., one hundred minus one, and whoever believes in their meanings and acts accordingly, will enter Paradise; and Allah is witr (one) and loves 'the witr' (i.e., odd numbers)",
+    "enKey": "believes in their meanings and acts accordingly"
+  }
+];
+
+function initHadithNarrations() {
+  const slide = document.getElementById('hadithSlide');
+  const arabic = document.getElementById('hadithArabic');
+  const english = document.getElementById('hadithEnglish');
+  const ref = document.getElementById('hadithRef');
+  const dots = document.querySelectorAll('.hadith-dot');
+  if (!slide || !arabic || !english || !ref || !dots.length) return;
+
+  const mark = (text, key) => text.replace(key, `<mark class="hadith-key">${key}</mark>`);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let current = 0;
+  let timer = null;
+  let chosen = false;
+
+  const show = (i) => {
+    current = i;
+    const n = HADITH_NARRATIONS[i];
+    slide.classList.add('changing');
+    setTimeout(() => {
+      arabic.innerHTML = mark(n.ar, n.arWord);
+      english.innerHTML = `“${mark(n.en, n.enKey)}”`;
+      ref.innerHTML = `Narrated by Abu Huraira · <a href="${n.url}" target="_blank" rel="noopener noreferrer">${n.ref}</a>`;
+      slide.classList.remove('changing');
+    }, reduceMotion ? 0 : 300);
+    dots.forEach((dot, k) => {
+      dot.classList.toggle('active', k === i);
+      dot.setAttribute('aria-pressed', String(k === i));
+    });
+  };
+
+  // Reserve the tallest slide's height so the page below does not jump
+  const fitHeight = () => {
+    slide.style.minHeight = '';
+    const probe = slide.cloneNode(true);
+    probe.removeAttribute('id');
+    probe.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+    probe.style.cssText = `position:absolute;visibility:hidden;left:0;right:0;width:${slide.offsetWidth}px`;
+    slide.parentElement.appendChild(probe);
+    let tallest = 0;
+    HADITH_NARRATIONS.forEach(n => {
+      probe.querySelector('.home-hadith-arabic').innerHTML = mark(n.ar, n.arWord);
+      probe.querySelector('.home-hadith-english p').innerHTML = `“${mark(n.en, n.enKey)}”`;
+      tallest = Math.max(tallest, probe.offsetHeight);
+    });
+    probe.remove();
+    slide.style.minHeight = `${tallest}px`;
+  };
+  fitHeight();
+  document.fonts?.ready.then(fitHeight);
+  let resizeTimer;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(fitHeight, 200); });
+
+  const stop = () => { clearInterval(timer); timer = null; };
+  const start = () => {
+    if (reduceMotion || timer || chosen) return;
+    timer = setInterval(() => show((current + 1) % HADITH_NARRATIONS.length), 7000);
+  };
+
+  // Choosing a narration stops the cycling, so the reader can stay on it
+  dots.forEach((dot, k) => dot.addEventListener('click', () => { chosen = true; stop(); show(k); }));
+  const figure = slide.closest('.home-hadith');
+  figure.addEventListener('mouseenter', stop);
+  figure.addEventListener('mouseleave', start);
+  figure.addEventListener('focusin', stop);
+  start();
+}
+
 // ==================== Initialize App ====================
 async function init() {
 
@@ -297,16 +420,10 @@ async function init() {
   sessionController = new SessionController(dataManager);
   progressDashboard = new ProgressDashboard(sessionController.progress, dataManager, uiRenderer);
 
-  // Check if first visit
-  const hasVisited = localStorage.getItem('hasVisited');
-  if (hasVisited) {
-    // Returning user - show browse view
-    switchView('browse');
-  } else {
-    // First visit - show welcome
-    localStorage.setItem('hasVisited', 'true');
-    switchView('welcome');
-  }
+  initHadithNarrations();
+
+  // Home screen is the main menu, so every visit starts there
+  switchView('welcome');
 }
 
 // Start app
