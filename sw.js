@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.19.1-hadith-narrations';
+const CACHE_VERSION = 'v1.20.0-homepage-studio';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install
@@ -17,6 +17,7 @@ const STATIC_ASSETS = [
   './css/memorization.css',
   './css/progress.css',
   './css/situations.css',
+  './iterations/iterations.css',
   './js/app.js',
   './js/data.js',
   './js/ui.js',

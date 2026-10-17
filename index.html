@@ -31,13 +31,114 @@
   <link rel="stylesheet" href="css/memorization.css">
   <link rel="stylesheet" href="css/progress.css">
   <link rel="stylesheet" href="css/situations.css">
+  <link rel="stylesheet" href="iterations/iterations.css">
+  <style>
+    .studio-theme-btn {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .studio-theme-btn:hover {
+      background: rgba(201, 162, 39, 0.28);
+      border-color: #c9a227;
+    }
+    .subview-back-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+    }
+    .subview-back-bar.hidden {
+      display: none !important;
+    }
+    .subview-back-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-600);
+      background: var(--primary-600);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .subview-back-btn:hover {
+      background: var(--primary-700);
+    }
+    .iter-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: #1a5f4a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .iter-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 
   <title>Names of Allah - Asma'ul Husna</title>
 </head>
-<body>
+<body data-default-iter="v1">
 
   <!-- Skip to main content (a11y) -->
   <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- Sticky Iteration Switcher Bar -->
+  <div class="iter-studio-bar" role="region" aria-label="Homepage iteration switcher">
+    <div class="iter-studio-inner">
+      <div class="iter-studio-brand">
+        <span class="iter-studio-badge">Homepage Studio</span>
+        <span>Compare 4 Compact Designs + Baseline</span>
+      </div>
+      <div class="iter-tabs" role="tablist">
+        <button type="button" class="iter-tab active" role="tab" aria-selected="true" data-iter="v1">
+          <span class="iter-tab-num">1</span> Quran.com Shelves
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v2">
+          <span class="iter-tab-num">2</span> Bento Sanctuary
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v3">
+          <span class="iter-tab-num">3</span> Situation Compass
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v4">
+          <span class="iter-tab-num">4</span> Daily Companion
+        </button>
+        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="baseline">
+          Baseline (Current)
+        </button>
+      </div>
+      <button type="button" class="studio-theme-btn" id="studioThemeBtn" aria-label="Toggle dark or light theme">
+        <span id="studioThemeIcon">🌙</span> <span id="studioThemeLabel">Dark Mode</span>
+      </button>
+    </div>
+  </div>
 
   <!-- Header -->
   <header class="header">
@@ -167,78 +268,937 @@
   <main class="main" id="mainContent">
     <div class="container">
 
-      <!-- Welcome Screen (First Visit) -->
-      <div class="view" id="welcomeView">
-        <div class="welcome-card">
-          <h2 class="arabic-large mb-md" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
-          <figure class="home-hadith" aria-roledescription="carousel" aria-label="The hadith of the 99 Names in 4 narrations">
-            <div class="hadith-slide" id="hadithSlide">
-              <p class="home-hadith-lead">The Prophet (ﷺ) said:</p>
-              <p class="home-hadith-arabic" id="hadithArabic" lang="ar" dir="rtl">إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ <mark class="hadith-key">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ</p>
-              <blockquote class="home-hadith-english">
-                <p id="hadithEnglish">“Allah has ninety-nine Names, one-hundred less one; and he who <mark class="hadith-key">memorized them all by heart</mark> will enter Paradise.”</p>
-              </blockquote>
-              <figcaption class="home-hadith-ref" id="hadithRef">
-                Narrated by Abu Huraira · <a href="https://sunnah.com/bukhari:7392" target="_blank" rel="noopener noreferrer">Sahih al-Bukhari 7392</a>
-              </figcaption>
+      <!-- ==================================================================
+           WELCOME VIEW (Contains all 4 Homepage Iterations + Baseline)
+           ================================================================== -->
+      <div class="view iter-welcome-view" id="welcomeView">
+
+        <!-- ================================================================
+             ITERATION 1: QURAN.COM INSPIRED (Hero Search + Continue + Shelves)
+             ================================================================ -->
+        <section class="iter-pane active" data-iter-pane="v1" aria-label="Iteration 1: Quran.com Inspired">
+
+          <!-- 1A. Compact Hero with Instant Search & Popular Pills -->
+          <div class="v1-hero">
+            <div class="v1-hero-top">
+              <div class="v1-hero-title-block">
+                <div class="v1-hero-eyebrow">Asma'ul Husna · Shaykh Uthaymeen's 99 Names</div>
+                <h2 class="v1-hero-heading">Know Allah through His Names in every moment of life</h2>
+              </div>
+              <div class="v1-hero-calligraphy" lang="ar" dir="rtl">وَلِلَّهِ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ فَٱدْعُوهُ بِهَا</div>
             </div>
-            <div class="hadith-phrase-dots" role="group" aria-label="Choose a narration">
-                <button class="hadith-dot active" aria-pressed="true" aria-label="Narration 1 of 4: Sahih al-Bukhari 7392"></button>
-                <button class="hadith-dot" aria-pressed="false" aria-label="Narration 2 of 4: Sahih al-Bukhari 2736"></button>
-                <button class="hadith-dot" aria-pressed="false" aria-label="Narration 3 of 4: Sahih Muslim 2677b"></button>
-                <button class="hadith-dot" aria-pressed="false" aria-label="Narration 4 of 4: Sahih al-Bukhari 6410"></button>
+
+            <!-- Instant Search Bar (Searches 99 Names + 27 Situations live) -->
+            <div class="v1-search-box">
+              <div class="v1-search-input-wrap">
+                <svg class="v1-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input
+                  id="v1QuickSearch"
+                  class="v1-search-input"
+                  type="search"
+                  placeholder="Search a Name, meaning, or life situation (try 'anxious', 'mercy', 'Razzaq')…"
+                  autocomplete="off"
+                  spellcheck="false"
+                >
+                <button type="button" class="v1-search-btn" data-switch-view="browse">Browse 99</button>
+              </div>
+              <div id="v1SearchDropdown" class="v1-search-dropdown hidden"></div>
             </div>
-          </figure>
 
-          <p class="text-lg mb-lg">Get to know the 99 Beautiful Names of Allah, and see what they mean for your life.</p>
+            <!-- Quran.com-style Quick Pills under search -->
+            <div class="v1-quick-pills">
+              <span class="v1-pill-label">Popular:</span>
+              <button type="button" class="v1-quick-pill" data-open-name="54">
+                <span class="v1-quick-pill-ar" lang="ar">القَرِيب</span> Al-Qareeb
+              </button>
+              <button type="button" class="v1-quick-pill" data-open-name="90">
+                <span class="v1-quick-pill-ar" lang="ar">الشَّافِي</span> Ash-Shaafee
+              </button>
+              <button type="button" class="v1-quick-pill" data-open-name="32">
+                <span class="v1-quick-pill-ar" lang="ar">الرزاقُ</span> Ar-Razzaaq
+              </button>
+              <button type="button" class="v1-quick-pill" data-open-name="79">
+                <span class="v1-quick-pill-ar" lang="ar">الْوَكِيلُ</span> Al-Wakeel
+              </button>
+              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="quran">
+                📖 Quranic (81)
+              </button>
+              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="sunnah">
+                📿 Sunnah (18)
+              </button>
+              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="videos">
+                🎬 With Videos (63)
+              </button>
+            </div>
+          </div>
 
-          <nav class="home-options" aria-label="Main sections">
-            <a href="#situations" class="home-option home-option-featured" data-view="situations">
-              <span class="home-option-icon" aria-hidden="true">🧭</span>
-              <span class="home-option-text">
-                <span class="home-option-title">Find Your Situation</span>
-                <span class="home-option-desc">What are you going through? See the Names that help.</span>
+          <!-- 1B. Collapsible 1-Line Hadith Ribbon (Keeps authentic hadith without pushing page down) -->
+          <details class="compact-hadith-bar" data-hadith-widget>
+            <summary class="compact-hadith-summary">
+              <span class="compact-hadith-quote">
+                <strong>Prophetic Promise:</strong>
+                <span data-hadith-en>“Allah has ninety-nine Names, one-hundred less one; and he who <mark class="hadith-key">memorized them all by heart</mark> will enter Paradise.”</span>
               </span>
-            </a>
-            <a href="#browse" class="home-option" data-view="browse">
-              <span class="home-option-icon" aria-hidden="true">📖</span>
-              <span class="home-option-text">
-                <span class="home-option-title">Browse All Names</span>
-                <span class="home-option-desc">Meanings, references and how to use each Name.</span>
-              </span>
-            </a>
-            <a href="#videos" class="home-option" data-view="videos">
-              <span class="home-option-icon" aria-hidden="true">🎬</span>
-              <span class="home-option-text">
-                <span class="home-option-title">Videos</span>
-                <span class="home-option-desc">Video lessons from 4 series, grouped by Name.</span>
-              </span>
-            </a>
-            <a href="#memorize" class="home-option" data-view="memorize">
-              <span class="home-option-icon" aria-hidden="true">🧠</span>
-              <span class="home-option-text">
-                <span class="home-option-title">Memorize</span>
-                <span class="home-option-desc">Flashcards with spaced review.</span>
-              </span>
-            </a>
-            <a href="#progress" class="home-option" data-view="progress">
-              <span class="home-option-icon" aria-hidden="true">📈</span>
-              <span class="home-option-text">
-                <span class="home-option-title">My Progress</span>
-                <span class="home-option-desc">See which Names you have learned.</span>
-              </span>
-            </a>
-            <a href="#favorites" class="home-option" data-view="favorites">
-              <span class="home-option-icon" aria-hidden="true">⭐</span>
-              <span class="home-option-text">
-                <span class="home-option-title">Favorites</span>
-                <span class="home-option-desc">Names you have saved.</span>
-              </span>
-            </a>
-          </nav>
+              <span class="compact-hadith-toggle">4 Narrations ▾</span>
+            </summary>
+            <div class="compact-hadith-expanded">
+              <div class="compact-hadith-ar-full" data-hadith-ar lang="ar" dir="rtl">
+                إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ <mark class="hadith-key">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ
+              </div>
+              <div class="compact-hadith-narrations">
+                <div class="compact-narration-pills">
+                  <button type="button" class="compact-narration-pill active" data-narration-idx="0">Bukhari 7392 (Memorized)</button>
+                  <button type="button" class="compact-narration-pill" data-narration-idx="1">Bukhari 2736 (Knows them)</button>
+                  <button type="button" class="compact-narration-pill" data-narration-idx="2">Muslim 2677b (Enumerates)</button>
+                  <button type="button" class="compact-narration-pill" data-narration-idx="3">Bukhari 6410 (Acts upon)</button>
+                </div>
+                <span class="text-xs text-muted" data-hadith-ref>
+                  <a href="https://sunnah.com/bukhari:7392" target="_blank" rel="noopener noreferrer">Sahih al-Bukhari 7392 ↗</a>
+                </span>
+              </div>
+            </div>
+          </details>
 
-          <p class="home-footnote text-sm">Based on Shaykh Uthaymeen's list · Names work offline · Videos need internet</p>
-        </div>
+          <!-- 1C. "Start / Continue" 3-Column Row (Quran.com Start Reading + My Quran + Goal) -->
+          <div class="v1-continue-grid">
+            <!-- Card 1: Name in Focus (Interactive Shuffle) -->
+            <div class="v1-spotlight-card primary-spotlight">
+              <div class="v1-card-kicker">
+                <span>✨ Name in Focus</span>
+                <button type="button" class="v1-shuffle-btn" id="v1ShuffleBtn" title="Show another Name">↻ Shuffle</button>
+              </div>
+              <div class="v1-spotlight-main">
+                <div>
+                  <h3 class="v1-spotlight-translit" id="v1SpotTranslit">#54 Al-Qareeb</h3>
+                  <p class="v1-spotlight-meaning" id="v1SpotMeaning">The One Who is near to the servants</p>
+                  <p class="v1-spotlight-invoke" id="v1SpotInvoke">When you feel distant from Allah or want to feel His closeness in du'a.</p>
+                </div>
+                <div class="v1-spotlight-arabic" id="v1SpotArabic" lang="ar" dir="rtl">القَرِيب</div>
+              </div>
+              <div class="v1-spotlight-footer">
+                <span class="v1-spotlight-ref" id="v1SpotRef">Surah Hud 11:61 · 2 videos</span>
+                <button type="button" class="v1-spotlight-cta" id="v1SpotExplore" data-open-name="54">
+                  Explore Name →
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 2: Daily Practice (Memorize) -->
+            <div class="v1-spotlight-card">
+              <div class="v1-card-kicker">
+                <span>🧠 Daily Practice</span>
+                <span class="text-xs text-muted">Spaced Review</span>
+              </div>
+              <div>
+                <h3 class="v1-spotlight-translit">5 Names / Day</h3>
+                <p class="v1-spotlight-invoke">Flip flashcards for Arabic, meaning, and how each Name shapes your prayer.</p>
+              </div>
+              <div class="v1-spotlight-footer">
+                <span class="v1-spotlight-ref"><strong data-stat="learning-count">0</strong> learning · <strong data-stat="streak-count">0</strong>d streak</span>
+                <button type="button" class="v1-spotlight-cta" data-switch-view="memorize">
+                  Start Session →
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: My Progress & Favorites -->
+            <div class="v1-spotlight-card">
+              <div class="v1-card-kicker">
+                <span>📈 My Journey</span>
+                <button type="button" class="shelf-link" data-switch-view="favorites">⭐ <span data-stat="favorites-count">0</span> Saved</button>
+              </div>
+              <div>
+                <h3 class="v1-spotlight-translit"><span data-stat="mastered-count">0</span> / 99 Mastered</h3>
+                <p class="v1-spotlight-invoke">Track your 99-dot mastery grid and review queue.</p>
+              </div>
+              <div class="v1-spotlight-footer">
+                <span class="v1-spotlight-ref">Offline-ready progress</span>
+                <button type="button" class="v1-spotlight-cta" data-switch-view="progress">
+                  View 99 Grid →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1D. Horizontal Shelf: "What Are You Going Through?" (Quran.com Learning Plans pattern) -->
+          <div class="v1-shelf-section">
+            <div class="shelf-header">
+              <div class="shelf-title-group">
+                <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                <span class="shelf-subtitle">27 life moments across 11 categories, paired with the Names to call upon</span>
+              </div>
+              <button type="button" class="shelf-link" data-switch-view="situations">All 11 categories →</button>
+            </div>
+
+            <div class="v1-situation-scroller">
+              <article class="v1-sit-card" data-open-situation="S05">
+                <div>
+                  <span class="v1-sit-cat">Worry & Waiting</span>
+                  <h4 class="v1-sit-title">“I am anxious about the future”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="79" title="Al-Wakeel">الْوَكِيلُ</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="50" title="Al-Qaadir">القَادِر</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="7" title="Al-Aakhir">الآخِرُ</span>
+                  </div>
+                  <span class="v1-sit-count">4 Names →</span>
+                </div>
+              </article>
+
+              <article class="v1-sit-card" data-open-situation="S03">
+                <div>
+                  <span class="v1-sit-cat">Money & Provision</span>
+                  <h4 class="v1-sit-title">“I lost my job, or money is very tight”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="32" title="Ar-Razzaaq">الرزاقُ</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="48" title="Al-Ghaniyy">الْغَنِيُّ</span>
+                  </div>
+                  <span class="v1-sit-count">4 Names →</span>
+                </div>
+              </article>
+
+              <article class="v1-sit-card" data-open-situation="S06">
+                <div>
+                  <span class="v1-sit-cat">Worry & Waiting</span>
+                  <h4 class="v1-sit-title">“My dua seems unanswered or delayed”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="54" title="Al-Qareeb">القَرِيب</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="85" title="Al-Hayyiyu">الحَيِي</span>
+                  </div>
+                  <span class="v1-sit-count">4 Names →</span>
+                </div>
+              </article>
+
+              <article class="v1-sit-card" data-open-situation="S02">
+                <div>
+                  <span class="v1-sit-cat">Illness & Health</span>
+                  <h4 class="v1-sit-title">“I am ill and waiting for a cure”</h4>
+                </div>
+                <div class="v1-sit-names-preview">
+                  <div class="v1-sit-ar-chips">
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="90" title="Ash-Shaafee">الشَّافِي</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="10" title="Al-Baari'">الْبَارِئُ</span>
+                  </div>
+                  <span class="v1-sit-count">2 Names →</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- 1E. Bottom 2-Column Split: Featured Names (Left) + Featured Video Lessons (Right) -->
+          <div class="v1-bottom-split">
+            <!-- Left: Compact Quran.com Chapter-Card Style Featured Names -->
+            <div>
+              <div class="shelf-header">
+                <div class="shelf-title-group">
+                  <h3 class="shelf-title">📖 Featured Names</h3>
+                  <span class="shelf-subtitle">Tap any Name for Quran, Hadith, Salah & Du'a</span>
+                </div>
+                <button type="button" class="shelf-link" data-switch-view="browse">All 99 Names →</button>
+              </div>
+
+              <div class="v1-mini-names-grid">
+                <button type="button" class="v1-mini-name-card" data-open-name="1">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">1</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Allah</p>
+                      <p class="v1-mini-meaning">The One true God worthy of worship</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الله</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="30">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">30</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Ar-Rahmaan</p>
+                      <p class="v1-mini-meaning">The Extremely Merciful</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الرحْمَنُ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="24">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">24</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-Hayy</p>
+                      <p class="v1-mini-meaning">The Ever-Living</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْحَيُّ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="25">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">25</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-Qayyoom</p>
+                      <p class="v1-mini-meaning">The Self-Subsisting Sustainer</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْقَيُّومُ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="43">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">43</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-'Afuww</p>
+                      <p class="v1-mini-meaning">The One Who pardons again and again</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْعَفُوُ</span>
+                </button>
+
+                <button type="button" class="v1-mini-name-card" data-open-name="79">
+                  <div class="v1-mini-left">
+                    <span class="v1-mini-diamond">79</span>
+                    <div class="v1-mini-info">
+                      <p class="v1-mini-translit">Al-Wakeel</p>
+                      <p class="v1-mini-meaning">The Trustworthy Disposer of Affairs</p>
+                    </div>
+                  </div>
+                  <span class="v1-mini-arabic" lang="ar" dir="rtl">الْوَكِيلُ</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Playable Video Lessons from the 4 Scholar Series -->
+            <div>
+              <div class="shelf-header">
+                <div class="shelf-title-group">
+                  <h3 class="shelf-title">🎬 Watch Video Lessons</h3>
+                  <span class="shelf-subtitle">154 videos · 4 series</span>
+                </div>
+                <button type="button" class="shelf-link" data-switch-view="videos">All 154 videos →</button>
+              </div>
+
+              <div class="v1-video-stack">
+                <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                  <div class="v1-video-thumb">
+                    <img src="https://i.ytimg.com/vi/D6IfMaJ143w/mqdefault.jpg" alt="" loading="lazy">
+                    <span class="v1-video-play-badge">▶</span>
+                  </div>
+                  <div class="v1-video-meta">
+                    <p class="v1-video-title">Ash-Shakoor (The Appreciative)</p>
+                    <p class="v1-video-sub">Sheikh Haitham Al-Haddad · 5:03 · Short Reflection</p>
+                  </div>
+                </button>
+
+                <button type="button" class="v1-video-card" data-open-video="m7tYVnMOUEQ" data-video-title="Al-Hayy Al-Qayyum — Ustadh Muhammad Tim Humble">
+                  <div class="v1-video-thumb">
+                    <img src="https://i.ytimg.com/vi/m7tYVnMOUEQ/mqdefault.jpg" alt="" loading="lazy">
+                    <span class="v1-video-play-badge">▶</span>
+                  </div>
+                  <div class="v1-video-meta">
+                    <p class="v1-video-title">Al-Hayy & Al-Qayyum (Part 4)</p>
+                    <p class="v1-video-sub">Muhammad Tim Humble · 56:00 · Deep Explanation</p>
+                  </div>
+                </button>
+
+                <button type="button" class="v1-video-card" data-open-video="OjQzhRf9SK4" data-video-title="Aayat Al-Kursi (Part 1) — Ustadh Abu Bakr Zoud">
+                  <div class="v1-video-thumb">
+                    <img src="https://i.ytimg.com/vi/OjQzhRf9SK4/mqdefault.jpg" alt="" loading="lazy">
+                    <span class="v1-video-play-badge">▶</span>
+                  </div>
+                  <div class="v1-video-meta">
+                    <p class="v1-video-title">SHIELD: Aayat Al-Kursi in Daily Dhikr</p>
+                    <p class="v1-video-sub">Abu Bakr Zoud · 1:13:36 · Morning & Evening Athkaar</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             ITERATION 2: COMPACT BENTO SANCTUARY (All 6 App Pillars in 1 Grid)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="v2" aria-label="Iteration 2: Bento Sanctuary">
+
+          <div class="v2-bento-grid">
+
+            <!-- Bento Cell 1 (7 Cols): Interactive Name Spotlight with Worship Lenses -->
+            <div class="bento-cell bento-hero-name">
+              <div>
+                <div class="bento-hero-top">
+                  <div>
+                    <span class="iter-studio-badge">Name in Focus · Interactive</span>
+                    <h2 style="color:#FFF; font-size:22px; margin:6px 0 2px" id="v2SpotTranslit">#90 Ash-Shaafee</h2>
+                    <p style="color:var(--gold-300); font-weight:600; font-size:14px; margin:0" id="v2SpotMeaning">The One Who Cures</p>
+                  </div>
+                  <div class="bento-hero-Arabic" id="v2SpotArabic" lang="ar" dir="rtl">الشَّافِي</div>
+                </div>
+
+                <!-- Interactive Lens Switcher -->
+                <div class="bento-worship-pills" role="tablist">
+                  <button type="button" class="bento-worship-pill active" data-v2-lens="when_to_invoke">When to Invoke</button>
+                  <button type="button" class="bento-worship-pill" data-v2-lens="in_salah">In Salah</button>
+                  <button type="button" class="bento-worship-pill" data-v2-lens="in_dua">In Du'a</button>
+                  <button type="button" class="bento-worship-pill" data-v2-lens="al_ghazali">Al-Ghazali</button>
+                </div>
+
+                <div class="bento-worship-box" id="v2SpotLensBox">
+                  When you or a loved one are sick, in pain, or seeking healing of the body and heart.
+                </div>
+              </div>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap">
+                <button type="button" class="v1-quick-pill" id="v2ShuffleBtn">↻ Try Another Name</button>
+                <button type="button" class="v1-search-btn" style="background:var(--gold-400); color:#162624" id="v2SpotExplore" data-open-name="90">
+                  Open Full Name Card →
+                </button>
+              </div>
+            </div>
+
+            <!-- Bento Cell 2 (5 Cols): Find Your Situation (6 Tappable Situation Chips) -->
+            <div class="bento-cell bento-situations">
+              <div>
+                <div class="shelf-header" style="margin-bottom:4px">
+                  <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                  <button type="button" class="shelf-link" data-switch-view="situations">All 27 →</button>
+                </div>
+                <p class="text-xs text-muted" style="margin:0">Tap what you are facing to see the Names that help:</p>
+
+                <div class="bento-sit-chips">
+                  <button type="button" class="bento-sit-chip" data-open-situation="S05">
+                    <span class="bento-sit-chip-title">Anxious about the future</span>
+                    <span class="bento-sit-chip-names">Al-Wakeel · Al-Qaadir →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S03">
+                    <span class="bento-sit-chip-title">Money or job is tight</span>
+                    <span class="bento-sit-chip-names">Ar-Razzaaq · Al-Ghaniyy →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S02">
+                    <span class="bento-sit-chip-title">Waiting for a cure</span>
+                    <span class="bento-sit-chip-names">Ash-Shaafee · Al-Baari' →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S06">
+                    <span class="bento-sit-chip-title">Du'a feels delayed</span>
+                    <span class="bento-sit-chip-names">Al-Qareeb · Al-Hayyiyu →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S07">
+                    <span class="bento-sit-chip-title">Repeating the same sin</span>
+                    <span class="bento-sit-chip-names">Al-'Afuww · Al-Ghafoor →</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S09">
+                    <span class="bento-sit-chip-title">Feeling completely alone</span>
+                    <span class="bento-sit-chip-names">Al-Ahad · Al-Baatin →</span>
+                  </button>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Covers 11 life categories · 27 situations</span>
+            </div>
+
+            <!-- Bento Cell 3 (6 Cols): Browse All 99 Names (6 Calligraphy Tiles + Filters) -->
+            <div class="bento-cell bento-browse">
+              <div>
+                <div class="shelf-header" style="margin-bottom:4px">
+                  <h3 class="shelf-title">📖 Browse All 99 Names</h3>
+                  <button type="button" class="shelf-link" data-switch-view="browse">Open Directory →</button>
+                </div>
+                <p class="text-xs text-muted" style="margin:0">Tap any Name to inspect Quranic proof, Hadith, and worship notes:</p>
+
+                <div class="bento-arabic-strip">
+                  <button type="button" class="bento-arabic-tile" data-open-name="1">
+                    <span class="bento-arabic-tile-ar" lang="ar">الله</span>
+                    <span class="bento-arabic-tile-en">#1 Allah</span>
+                    <span class="bento-arabic-tile-sub">The True God</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="30">
+                    <span class="bento-arabic-tile-ar" lang="ar">الرحْمَنُ</span>
+                    <span class="bento-arabic-tile-en">#30 Ar-Rahmaan</span>
+                    <span class="bento-arabic-tile-sub">Extremely Merciful</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="24">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْحَيُّ</span>
+                    <span class="bento-arabic-tile-en">#24 Al-Hayy</span>
+                    <span class="bento-arabic-tile-sub">The Ever-Living</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="25">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْقَيُّومُ</span>
+                    <span class="bento-arabic-tile-en">#25 Al-Qayyoom</span>
+                    <span class="bento-arabic-tile-sub">All-Sustaining</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="47">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْغَفُورُ</span>
+                    <span class="bento-arabic-tile-en">#47 Al-Ghafoor</span>
+                    <span class="bento-arabic-tile-sub">All-Forgiving</span>
+                  </button>
+                  <button type="button" class="bento-arabic-tile" data-open-name="79">
+                    <span class="bento-arabic-tile-ar" lang="ar">الْوَكِيلُ</span>
+                    <span class="bento-arabic-tile-en">#79 Al-Wakeel</span>
+                    <span class="bento-arabic-tile-sub">Trustworthy Disposer</span>
+                  </button>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:6px; flex-wrap:wrap">
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="quran">81 in Quran</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="sunnah">18 in Sunnah</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="videos">63 with Videos</button>
+              </div>
+            </div>
+
+            <!-- Bento Cell 4 (6 Cols): 154 Videos Across 4 Scholar Series -->
+            <div class="bento-cell bento-videos">
+              <div>
+                <div class="shelf-header" style="margin-bottom:4px">
+                  <h3 class="shelf-title">🎬 154 Scholar Videos</h3>
+                  <button type="button" class="shelf-link" data-switch-view="videos">Video Gallery →</button>
+                </div>
+                <p class="text-xs text-muted" style="margin:0">Tap a series below to play a featured lesson immediately:</p>
+
+                <div class="bento-series-grid">
+                  <button type="button" class="bento-series-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                    <span class="bento-series-count">▶ 76 Short Videos (~5m)</span>
+                    <p class="bento-series-name">Ramadan 99 Names Series</p>
+                    <span class="bento-series-speaker">Sheikh Haitham Al-Haddad</span>
+                  </button>
+
+                  <button type="button" class="bento-series-card" data-open-video="IHhadArDjRs" data-video-title="Part 1: ALLAH — Muhammad Tim Humble">
+                    <span class="bento-series-count">▶ 35 Deep Lessons</span>
+                    <p class="bento-series-name">Explanation of the Names</p>
+                    <span class="bento-series-speaker">Ustadh Muhammad Tim Humble</span>
+                  </button>
+
+                  <button type="button" class="bento-series-card" data-open-video="7LyoBs9SCYc" data-video-title="Introduction | Allah — Hisham Abu Yusuf">
+                    <span class="bento-series-count">▶ 28 Lessons</span>
+                    <p class="bento-series-name">Names & Attributes</p>
+                    <span class="bento-series-speaker">Ustadh Hisham Abu Yusuf</span>
+                  </button>
+
+                  <button type="button" class="bento-series-card" data-open-video="OjQzhRf9SK4" data-video-title="SHIELD: Aayat Al-Kursi — Abu Bakr Zoud">
+                    <span class="bento-series-count">▶ 15 Dhikr Lessons</span>
+                    <p class="bento-series-name">SHIELD: Morning & Evening</p>
+                    <span class="bento-series-speaker">Ustadh Abu Bakr Zoud</span>
+                  </button>
+                </div>
+              </div>
+              <span class="text-xs text-muted">Sorted from 5-minute reflections to full 1-hour classes</span>
+            </div>
+
+            <!-- Bento Cell 5 (12 Cols): Practice, Mastery & Favorites Dock -->
+            <div class="bento-cell bento-practice-dock">
+              <div class="bento-dock-inner">
+                <div>
+                  <strong style="font-size:14px; color:var(--text-primary)">🧠 Memorization & Mastery</strong>
+                  <span class="text-sm text-secondary" style="margin-left:8px">
+                    <strong data-stat="mastered-count">0</strong>/99 Mastered ·
+                    <strong data-stat="learning-count">0</strong> Learning ·
+                    <strong data-stat="favorites-count">0</strong> Starred Favorites
+                  </span>
+                </div>
+                <div class="bento-dock-actions">
+                  <button type="button" class="btn btn-primary btn-sm" data-switch-view="memorize">🧠 Practice 5 Flashcards</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="progress">📈 99-Dot Mastery Grid</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="favorites">⭐ Saved Names</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             ITERATION 3: HEART & SITUATION COMPASS (Empathy First + Tab Deck)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="v3" aria-label="Iteration 3: Situation Compass">
+
+          <div class="v3-compass-header">
+            <div class="v3-compass-arabic" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+            <h2 class="v3-compass-title">What is your heart carrying today?</h2>
+            <p class="v3-compass-sub">Start from a real life moment to see the Names of Allah that speak to it, or use the compact deck below to browse, watch, and memorize.</p>
+          </div>
+
+          <!-- 6 Empathy Cards with Direct Name Remedies -->
+          <div class="v3-compass-grid">
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Worry & Waiting</span>
+                <h3 class="v3-compass-quote" data-open-situation="S05">“I am anxious about the future”</h3>
+                <p class="v3-compass-point">Place your affair with the Trustworthy Disposer Whose decree and power never fail.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="79">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْوَكِيلُ</span> Al-Wakeel
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="50">
+                  <span class="v3-remedy-pill-ar" lang="ar">القَادِر</span> Al-Qaadir
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S05">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Money & Provision</span>
+                <h3 class="v3-compass-quote" data-open-situation="S03">“I lost my job, or money is tight”</h3>
+                <p class="v3-compass-point">Your provision is written by the Great Provider Who is free of all need.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="32">
+                  <span class="v3-remedy-pill-ar" lang="ar">الرزاقُ</span> Ar-Razzaaq
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="48">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْغَنِيُّ</span> Al-Ghaniyy
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S03">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Worry & Waiting</span>
+                <h3 class="v3-compass-quote" data-open-situation="S06">“My du'a seems unanswered”</h3>
+                <p class="v3-compass-point">He is Near to everyone who calls, and shy to return raised hands empty.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="54">
+                  <span class="v3-remedy-pill-ar" lang="ar">القَرِيب</span> Al-Qareeb
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="85">
+                  <span class="v3-remedy-pill-ar" lang="ar">الحَيِي</span> Al-Hayyiyu
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S06">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Illness & Health</span>
+                <h3 class="v3-compass-quote" data-open-situation="S02">“I am ill and waiting for a cure”</h3>
+                <p class="v3-compass-point">Call upon the One Who cures every illness and originated your body.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="90">
+                  <span class="v3-remedy-pill-ar" lang="ar">الشَّافِي</span> Ash-Shaafee
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="10">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْبَارِئُ</span> Al-Baari'
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S02">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Sin & Returning to Allah</span>
+                <h3 class="v3-compass-quote" data-open-situation="S07">“I keep falling into the same sin”</h3>
+                <p class="v3-compass-point">Return to the One Who pardons again and again and covers faults extensively.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="43">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْعَفُوُ</span> Al-'Afuww
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="47">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْغَفُورُ</span> Al-Ghafoor
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S07">Open →</button>
+              </div>
+            </article>
+
+            <article class="v3-compass-card">
+              <div>
+                <span class="v1-sit-cat">Loss & Grief</span>
+                <h3 class="v3-compass-quote" data-open-situation="S01">“Someone I love has died”</h3>
+                <p class="v3-compass-point">Anchor your heart in the Ever-Living and the Last Who remains when all else passes.</p>
+              </div>
+              <div class="v3-compass-remedy-bar">
+                <button type="button" class="v3-remedy-pill" data-open-name="24">
+                  <span class="v3-remedy-pill-ar" lang="ar">الْحَيُّ</span> Al-Hayy
+                </button>
+                <button type="button" class="v3-remedy-pill" data-open-name="7">
+                  <span class="v3-remedy-pill-ar" lang="ar">الآخِرُ</span> Al-Aakhir
+                </button>
+                <button type="button" class="shelf-link" data-open-situation="S01">Open →</button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Compact Tabbed Lower Deck (Browse / Videos / Memorize in 1 Box) -->
+          <div class="v3-deck">
+            <div class="v3-deck-tabs">
+              <div class="v3-deck-tab-group" role="tablist">
+                <button type="button" class="v3-deck-tab active" data-v3-tab="names">📖 Explore 99 Names</button>
+                <button type="button" class="v3-deck-tab" data-v3-tab="videos">🎬 154 Scholar Videos</button>
+                <button type="button" class="v3-deck-tab" data-v3-tab="practice">🧠 Memorize & Progress</button>
+              </div>
+              <button type="button" class="shelf-link" data-switch-view="situations">Browse all 11 situation categories →</button>
+            </div>
+
+            <!-- Panel 1: Names -->
+            <div class="v3-deck-panel active" data-v3-panel="names">
+              <div class="v1-mini-names-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))">
+                <button type="button" class="v1-mini-name-card" data-open-name="1">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">1</span><div class="v1-mini-info"><p class="v1-mini-translit">Allah</p><p class="v1-mini-meaning">The One true God</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">الله</span>
+                </button>
+                <button type="button" class="v1-mini-name-card" data-open-name="30">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">30</span><div class="v1-mini-info"><p class="v1-mini-translit">Ar-Rahmaan</p><p class="v1-mini-meaning">The Extremely Merciful</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">الرحْمَنُ</span>
+                </button>
+                <button type="button" class="v1-mini-name-card" data-open-name="31">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">31</span><div class="v1-mini-info"><p class="v1-mini-translit">Ar-Raheem</p><p class="v1-mini-meaning">The Bestower of Mercy</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">الرحِيمُ</span>
+                </button>
+                <button type="button" class="v1-mini-name-card" data-open-name="97">
+                  <div class="v1-mini-left"><span class="v1-mini-diamond">97</span><div class="v1-mini-info"><p class="v1-mini-translit">Al-Mu'tee</p><p class="v1-mini-meaning">The Giver</p></div></div>
+                  <span class="v1-mini-arabic" lang="ar">المُعْطِي</span>
+                </button>
+              </div>
+              <div style="margin-top:10px; text-align:right">
+                <button type="button" class="shelf-link" data-switch-view="browse">Open full 99 Names directory →</button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Videos -->
+            <div class="v3-deck-panel" data-v3-panel="videos">
+              <div class="v1-video-stack" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px">
+                <button type="button" class="v1-video-card" data-open-video="IHhadArDjRs" data-video-title="Part 1: ALLAH — Muhammad Tim Humble">
+                  <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/IHhadArDjRs/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                  <div class="v1-video-meta"><p class="v1-video-title">Part 1: ALLAH</p><p class="v1-video-sub">Muhammad Tim Humble · 52:22</p></div>
+                </button>
+                <button type="button" class="v1-video-card" data-open-video="Nskkha--h9A" data-video-title="Ar-Rahman & Ar-Raheem — Muhammad Tim Humble">
+                  <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/Nskkha--h9A/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                  <div class="v1-video-meta"><p class="v1-video-title">Ar-Rahman & Ar-Raheem</p><p class="v1-video-sub">Muhammad Tim Humble · 1:00:51</p></div>
+                </button>
+                <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                  <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/D6IfMaJ143w/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                  <div class="v1-video-meta"><p class="v1-video-title">Ash-Shakoor (Ramadan Series)</p><p class="v1-video-sub">Sheikh Haitham Al-Haddad · 5:03</p></div>
+                </button>
+              </div>
+              <div style="margin-top:10px; text-align:right">
+                <button type="button" class="shelf-link" data-switch-view="videos">Browse all 154 videos →</button>
+              </div>
+            </div>
+
+            <!-- Panel 3: Practice -->
+            <div class="v3-deck-panel" data-v3-panel="practice">
+              <div class="bento-dock-inner">
+                <div>
+                  <p style="margin:0; font-weight:600; color:var(--text-primary)">Spaced Repetition Flashcards & 99-Dot Mastery</p>
+                  <p class="text-xs text-muted" style="margin:2px 0 0">
+                    Mastered: <strong data-stat="mastered-count">0</strong>/99 ·
+                    Learning: <strong data-stat="learning-count">0</strong> ·
+                    Favorites: <strong data-stat="favorites-count">0</strong>
+                  </p>
+                </div>
+                <div class="bento-dock-actions">
+                  <button type="button" class="btn btn-primary btn-sm" data-switch-view="memorize">Start Flashcards</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="progress">My Progress</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-switch-view="favorites">Favorites</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             ITERATION 4: DAILY COMPANION SPLIT-DECK (Worship Card + Stacks)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="v4" aria-label="Iteration 4: Daily Companion Split-Deck">
+
+          <div class="v4-split-layout">
+
+            <!-- Left Column: Interactive Daily Name & Worship Companion Card -->
+            <div class="v4-worship-card">
+              <div class="v4-worship-header">
+                <span class="v1-card-kicker">✨ Daily Worship Companion</span>
+                <button type="button" class="v1-shuffle-btn" id="v4ShuffleBtn">↻ Next Name</button>
+              </div>
+
+              <div class="v4-name-stage">
+                <div class="v4-name-arabic" id="v4SpotArabic" lang="ar" dir="rtl">القَرِيب</div>
+                <h2 class="v4-name-translit" id="v4SpotTranslit">#54 Al-Qareeb</h2>
+                <p class="v4-name-meaning" id="v4SpotMeaning">The One Who is near to the servants</p>
+              </div>
+
+              <!-- 4-Lens Switcher (Meaning / In Salah / In Du'a / Al-Ghazali) -->
+              <div class="v4-lens-tabs" role="tablist">
+                <button type="button" class="v4-lens-tab active" data-v4-lens="meaning">Aqeedah</button>
+                <button type="button" class="v4-lens-tab" data-v4-lens="salah">In Salah</button>
+                <button type="button" class="v4-lens-tab" data-v4-lens="dua">In Du'a</button>
+                <button type="button" class="v4-lens-tab" data-v4-lens="ghazali">Al-Ghazali</button>
+              </div>
+
+              <div class="v4-lens-body" id="v4SpotLensBody">
+                Allah is close to His servants by His knowledge, hearing, seeing, and mercy—especially when you bow, prostrate, and call upon Him sincerely.
+              </div>
+
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px">
+                <span class="text-xs text-muted" id="v4SpotRef">Surah Hud 11:61</span>
+                <button type="button" class="btn btn-primary btn-sm" id="v4SpotExplore" data-open-name="54">
+                  Full Details & Proof →
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Column: Compact Stacked Shelves -->
+            <div class="v4-right-stack">
+
+              <!-- Stack 1: Situations -->
+              <div class="v4-stack-box">
+                <div class="shelf-header" style="margin-bottom:6px">
+                  <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                  <button type="button" class="shelf-link" data-switch-view="situations">All 11 Categories →</button>
+                </div>
+                <div class="bento-sit-chips" style="margin:0">
+                  <button type="button" class="bento-sit-chip" data-open-situation="S05">
+                    <span class="bento-sit-chip-title">Anxious about the future</span>
+                    <span class="bento-sit-chip-names">Al-Wakeel · Al-Qaadir</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S03">
+                    <span class="bento-sit-chip-title">Money or job is tight</span>
+                    <span class="bento-sit-chip-names">Ar-Razzaaq · Al-Ghaniyy</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S02">
+                    <span class="bento-sit-chip-title">Ill & waiting for a cure</span>
+                    <span class="bento-sit-chip-names">Ash-Shaafee · Al-Baari'</span>
+                  </button>
+                  <button type="button" class="bento-sit-chip" data-open-situation="S08">
+                    <span class="bento-sit-chip-title">Wronged by people</span>
+                    <span class="bento-sit-chip-names">An-Naseer · Al-A'laa</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stack 2: Videos -->
+              <div class="v4-stack-box">
+                <div class="shelf-header" style="margin-bottom:6px">
+                  <h3 class="shelf-title">🎬 Featured Video Lessons</h3>
+                  <button type="button" class="shelf-link" data-switch-view="videos">All 154 Videos →</button>
+                </div>
+                <div class="v1-video-stack">
+                  <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
+                    <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/D6IfMaJ143w/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                    <div class="v1-video-meta"><p class="v1-video-title">Ash-Shakoor — 5-Min Reflection</p><p class="v1-video-sub">Sheikh Haitham Al-Haddad · 5:03</p></div>
+                  </button>
+                  <button type="button" class="v1-video-card" data-open-video="m7tYVnMOUEQ" data-video-title="Al-Hayy Al-Qayyum — Muhammad Tim Humble">
+                    <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/m7tYVnMOUEQ/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
+                    <div class="v1-video-meta"><p class="v1-video-title">Al-Hayy & Al-Qayyum (Part 4)</p><p class="v1-video-sub">Muhammad Tim Humble · 56:00</p></div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stack 3: Quick Directory & Practice -->
+              <div class="v4-stack-box">
+                <div class="bento-dock-inner">
+                  <div>
+                    <strong style="font-size:13.5px; color:var(--text-primary)">Directory & Memorization</strong>
+                    <p class="text-xs text-muted" style="margin:2px 0 0">
+                      <strong data-stat="mastered-count">0</strong>/99 Mastered · <strong data-stat="favorites-count">0</strong> Favorites
+                    </p>
+                  </div>
+                  <div class="bento-dock-actions">
+                    <button type="button" class="btn btn-secondary btn-sm" data-switch-view="browse">📖 All 99</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-switch-view="memorize">🧠 Memorize</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-switch-view="progress">📈 Progress</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ================================================================
+             BASELINE: CURRENT HOMEPAGE (For Direct Side-by-Side Comparison)
+             ================================================================ -->
+        <section class="iter-pane" data-iter-pane="baseline" aria-label="Baseline Current Homepage">
+          <div class="welcome-card">
+            <h2 class="arabic-large mb-md" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
+            <figure class="home-hadith" aria-roledescription="carousel" aria-label="The hadith of the 99 Names in 4 narrations">
+              <div class="hadith-slide" id="hadithSlide">
+                <p class="home-hadith-lead">The Prophet (ﷺ) said:</p>
+                <p class="home-hadith-arabic" id="hadithArabic" lang="ar" dir="rtl">إِنَّ لِلَّهِ تِسْعَةً وَتِسْعِينَ اسْمًا مِائَةً إِلاَّ وَاحِدًا، مَنْ <mark class="hadith-key">أَحْصَاهَا</mark> دَخَلَ الْجَنَّةَ</p>
+                <blockquote class="home-hadith-english">
+                  <p id="hadithEnglish">“Allah has ninety-nine Names, one-hundred less one; and he who <mark class="hadith-key">memorized them all by heart</mark> will enter Paradise.”</p>
+                </blockquote>
+                <figcaption class="home-hadith-ref" id="hadithRef">
+                  Narrated by Abu Huraira · <a href="https://sunnah.com/bukhari:7392" target="_blank" rel="noopener noreferrer">Sahih al-Bukhari 7392</a>
+                </figcaption>
+              </div>
+              <div class="hadith-phrase-dots" role="group" aria-label="Choose a narration">
+                  <button class="hadith-dot active" aria-pressed="true" aria-label="Narration 1 of 4: Sahih al-Bukhari 7392"></button>
+                  <button class="hadith-dot" aria-pressed="false" aria-label="Narration 2 of 4: Sahih al-Bukhari 2736"></button>
+                  <button class="hadith-dot" aria-pressed="false" aria-label="Narration 3 of 4: Sahih Muslim 2677b"></button>
+                  <button class="hadith-dot" aria-pressed="false" aria-label="Narration 4 of 4: Sahih al-Bukhari 6410"></button>
+              </div>
+            </figure>
+
+            <p class="text-lg mb-lg">Get to know the 99 Beautiful Names of Allah, and see what they mean for your life.</p>
+
+            <nav class="home-options" aria-label="Main sections">
+              <a href="#situations" class="home-option home-option-featured" data-view="situations">
+                <span class="home-option-icon" aria-hidden="true">🧭</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Find Your Situation</span>
+                  <span class="home-option-desc">What are you going through? See the Names that help.</span>
+                </span>
+              </a>
+              <a href="#browse" class="home-option" data-view="browse">
+                <span class="home-option-icon" aria-hidden="true">📖</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Browse All Names</span>
+                  <span class="home-option-desc">Meanings, references and how to use each Name.</span>
+                </span>
+              </a>
+              <a href="#videos" class="home-option" data-view="videos">
+                <span class="home-option-icon" aria-hidden="true">🎬</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Videos</span>
+                  <span class="home-option-desc">Video lessons from 4 series, grouped by Name.</span>
+                </span>
+              </a>
+              <a href="#memorize" class="home-option" data-view="memorize">
+                <span class="home-option-icon" aria-hidden="true">🧠</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Memorize</span>
+                  <span class="home-option-desc">Flashcards with spaced review.</span>
+                </span>
+              </a>
+              <a href="#progress" class="home-option" data-view="progress">
+                <span class="home-option-icon" aria-hidden="true">📈</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">My Progress</span>
+                  <span class="home-option-desc">See which Names you have learned.</span>
+                </span>
+              </a>
+              <a href="#favorites" class="home-option" data-view="favorites">
+                <span class="home-option-icon" aria-hidden="true">⭐</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Favorites</span>
+                  <span class="home-option-desc">Names you have saved.</span>
+                </span>
+              </a>
+            </nav>
+
+            <p class="home-footnote text-sm">Based on Shaykh Uthaymeen's list · Names work offline · Videos need internet</p>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Persistent Back to Homepage Studio bar for sub-views -->
+      <div id="subviewBackBar" class="subview-back-bar hidden">
+        <button type="button" class="subview-back-btn" data-switch-view="welcome">← Back to Homepage Studio</button>
+        <span id="subviewBackTitle" class="text-sm text-secondary" style="font-weight:700">Browse All 99 Names</span>
       </div>
 
       <!-- Browse View -->
