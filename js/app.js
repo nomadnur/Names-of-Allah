@@ -4,7 +4,7 @@
  */
 
 import { DataManager } from './data.js';
-import { UIRenderer } from './ui.js';
+import { UIRenderer, lockBodyScroll, unlockBodyScroll } from './ui.js';
 import { SessionController } from './session.js';
 import { ProgressDashboard } from './dashboard.js';
 import { SituationsView } from './situations.js';
@@ -98,14 +98,14 @@ function openNav() {
   elements.navDrawer.setAttribute('aria-hidden', 'false');
   elements.menuToggle.setAttribute('aria-expanded', 'true');
   elements.menuToggle.setAttribute('aria-label', 'Close menu');
-  document.body.style.overflow = 'hidden';
+  lockBodyScroll();
 }
 
 function closeNav() {
   elements.navDrawer.setAttribute('aria-hidden', 'true');
   elements.menuToggle.setAttribute('aria-expanded', 'false');
   elements.menuToggle.setAttribute('aria-label', 'Open menu');
-  document.body.style.overflow = '';
+  unlockBodyScroll();
 }
 
 const VIEW_TITLES = {
@@ -188,8 +188,8 @@ function switchView(viewName, options = {}) {
   // Close nav drawer
   closeNav();
 
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Scroll to top — instant on touch devices (smooth scroll janks low-end phones)
+  window.scrollTo({ top: 0, behavior: window.matchMedia('(pointer: coarse)').matches ? 'auto' : 'smooth' });
 }
 
 // ==================== PWA Install ====================
@@ -439,8 +439,11 @@ function initHadithNarrations() {
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(fitHeight, 200); });
 
   const stop = () => { clearInterval(timer); timer = null; };
+  // On touch devices the auto-advance surprises readers mid-ayah; taps
+  // advance manually via the dots instead.
+  const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
   const start = () => {
-    if (reduceMotion || timer || chosen) return;
+    if (reduceMotion || coarsePointer || timer || chosen) return;
     timer = setInterval(() => show((current + 1) % HADITH_NARRATIONS.length), 7000);
   };
 
@@ -450,6 +453,7 @@ function initHadithNarrations() {
   figure.addEventListener('mouseenter', stop);
   figure.addEventListener('mouseleave', start);
   figure.addEventListener('focusin', stop);
+  figure.addEventListener('pointerdown', stop); // touch press pauses too
   start();
 }
 
@@ -470,8 +474,14 @@ function showStudioToast(msg) {
 }
 
 function updateStudioStats() {
-  const stats = sessionController?.progress?.getStatistics() || { mastered: 0, learning: 0, currentStreak: 0 };
-  const favCount = uiRenderer.getFavorites().length;
+  // ProgressTracker exposes getStats() with totalMastered/totalLearned keys
+  const raw = sessionController?.progress?.getStats?.() || {};
+  const stats = {
+    mastered: raw.totalMastered ?? 0,
+    learning: raw.totalLearned ?? 0,
+    currentStreak: raw.currentStreak ?? 0,
+  };
+  const favCount = JSON.parse(localStorage.getItem('favorites') || '[]').length;
 
   document.querySelectorAll('[data-stat="mastered-count"]').forEach(el => {
     el.textContent = String(stats.mastered || 0);
@@ -676,25 +686,25 @@ function initHomepageStudio() {
 
       let html = '';
       if (matchedNames.length) {
-        html += '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);padding:6px 10px;">Names of Allah</div>';
+        html += '<div class="v1-drop-label">Names of Allah</div>';
         matchedNames.forEach(n => {
-          html += `<button type="button" data-open-name="${n.index}" style="width:100%;text-align:left;padding:8px 10px;border:none;background:transparent;color:var(--text-primary);display:flex;justify-content:space-between;align-items:center;border-radius:8px;cursor:pointer;">` +
-            `<span><strong>#${n.index} ${n.transliteration}</strong> — <span style="color:var(--text-secondary);font-size:0.85rem;">${n.english_meaning}</span></span>` +
-            `<span lang="ar" dir="rtl" style="font-family:var(--font-arabic);font-size:1.25rem;color:var(--primary-600);">${n.arabic}</span>` +
+          html += `<button type="button" class="v1-drop-item" data-open-name="${n.index}">` +
+            `<span><strong>#${n.index} ${n.transliteration}</strong> — <span class="v1-drop-meaning">${n.english_meaning}</span></span>` +
+            `<span lang="ar" dir="rtl" class="v1-drop-arabic">${n.arabic}</span>` +
           `</button>`;
         });
       }
       if (matchedSits.length) {
-        html += '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);padding:6px 10px;margin-top:4px;">Life Situations</div>';
+        html += '<div class="v1-drop-label v1-drop-label-sits">Life Situations</div>';
         matchedSits.forEach(s => {
-          html += `<button type="button" data-open-situation="${s.id}" style="width:100%;text-align:left;padding:8px 10px;border:none;background:transparent;color:var(--text-primary);display:flex;justify-content:space-between;align-items:center;border-radius:8px;cursor:pointer;">` +
-            `<span>🧭 <strong>${s.title}</strong> <span style="color:var(--text-muted);font-size:0.78rem;">(${s.category})</span></span>` +
-            `<span style="font-size:0.78rem;color:var(--primary-600);font-weight:600;">Open →</span>` +
+          html += `<button type="button" class="v1-drop-item" data-open-situation="${s.id}">` +
+            `<span>🧭 <strong>${s.title}</strong> <span class="v1-drop-cat">(${s.category})</span></span>` +
+            `<span class="v1-drop-open">Open →</span>` +
           `</button>`;
         });
       }
       if (!html) {
-        html = `<div style="padding:12px;color:var(--text-muted);font-size:0.85rem;">No direct matches for "${q}". Try "mercy", "anxious", "Razzaq", or "Shaafee".</div>`;
+        html = `<div class="v1-drop-empty">No direct matches for "${q}". Try "mercy", "anxious", "Razzaq", or "Shaafee".</div>`;
       }
       v1Drop.innerHTML = html;
       v1Drop.classList.remove('hidden');

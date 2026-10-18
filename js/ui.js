@@ -3,6 +3,39 @@
  * Beautiful rendering of names with reverent design
  */
 
+// Shared body scroll lock. iOS Safari ignores overflow: hidden on body, so we
+// pin the body with position: fixed and restore the scroll offset on release.
+// Counter-based: the video player can open on top of the name modal.
+const scrollLock = {
+  count: 0,
+  y: 0,
+};
+
+export function lockBodyScroll() {
+  if (scrollLock.count++ === 0) {
+    scrollLock.y = window.scrollY;
+    const { style } = document.body;
+    style.position = 'fixed';
+    style.top = `-${scrollLock.y}px`;
+    style.left = '0';
+    style.right = '0';
+    style.width = '100%';
+  }
+}
+
+export function unlockBodyScroll() {
+  if (scrollLock.count === 0) return;
+  if (--scrollLock.count === 0) {
+    const { style } = document.body;
+    style.position = '';
+    style.top = '';
+    style.left = '';
+    style.right = '';
+    style.width = '';
+    window.scrollTo(0, scrollLock.y);
+  }
+}
+
 export class UIRenderer {
   constructor(dataManager) {
     this.dataManager = dataManager;
@@ -512,7 +545,7 @@ export class UIRenderer {
 
     // Add to DOM
     document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
+    lockBodyScroll();
 
     // Trigger animation
     setTimeout(() => modal.classList.add('active'), 10);
@@ -535,10 +568,11 @@ export class UIRenderer {
 
     // Event listeners
     const closeModal = () => {
+      document.removeEventListener('keydown', handleKeyboard);
       modal.classList.remove('active');
       setTimeout(() => {
         document.body.removeChild(modal);
-        document.body.style.overflow = '';
+        unlockBodyScroll();
       }, 300);
     };
 
@@ -560,9 +594,6 @@ export class UIRenderer {
       if (e.key === 'Escape') closeModal();
     };
     document.addEventListener('keydown', handleKeyboard);
-    modal.addEventListener('remove', () => {
-      document.removeEventListener('keydown', handleKeyboard);
-    });
   }
 
   // One compact video row. `currentIndex` hides the current Name from "Also covers".
@@ -685,6 +716,7 @@ export class UIRenderer {
       </div>
     `;
     document.body.appendChild(player);
+    lockBodyScroll();
     requestAnimationFrame(() => player.classList.add('active'));
 
     // Capture Escape first so it closes only the video, not the Name modal too
@@ -697,6 +729,7 @@ export class UIRenderer {
     const close = () => {
       window.removeEventListener('keydown', onKey, true);
       player.remove();
+      unlockBodyScroll();
       returnFocusTo?.focus();
     };
     window.addEventListener('keydown', onKey, true);

@@ -36,7 +36,7 @@
 
 .situation-category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); /* min() guard: track never exceeds container */
   gap: var(--space-4);
   padding-bottom: var(--space-12);
 }
@@ -120,7 +120,7 @@
 
 .situation-names {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr)); /* min() guard: track never exceeds container */
   gap: var(--space-4);
   padding-bottom: var(--space-12);
 }

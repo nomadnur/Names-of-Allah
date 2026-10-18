@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Learn the 99 Beautiful Names of Allah: meanings, Quran and hadith references, video lessons, and help for life situations. Demo version, not yet verified by scholars.">
   <meta name="theme-color" content="#2A5F5C">
 
@@ -39,6 +39,7 @@
       align-items: center;
       gap: 6px;
       padding: 5px 11px;
+      min-height: 36px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.1);
@@ -69,16 +70,17 @@
     }
     .subview-back-btn {
       padding: 6px 14px;
+      min-height: 44px;
       border-radius: 999px;
-      border: 1px solid var(--primary-600);
-      background: var(--primary-600);
+      border: 1px solid var(--teal-600);
+      background: var(--teal-600);
       color: #fff;
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
     }
     .subview-back-btn:hover {
-      background: var(--primary-700);
+      background: var(--teal-700);
     }
     .iter-toast {
       position: fixed;
@@ -115,7 +117,7 @@
     <div class="iter-studio-inner">
       <div class="iter-studio-brand">
         <span class="iter-studio-badge">Homepage Studio</span>
-        <span>Compare 4 Compact Designs + Baseline</span>
+        <span class="iter-studio-tagline">Compare 4 Compact Designs + Baseline</span>
       </div>
       <div class="iter-tabs" role="tablist">
         <button type="button" class="iter-tab active" role="tab" aria-selected="true" data-iter="v1">
@@ -258,7 +260,7 @@
       </ul>
 
       <div class="nav-footer">
-        <p class="text-sm text-muted">Demo version · v1.16</p>
+        <p class="text-sm text-muted">Demo version · v1.21</p>
         <p class="text-sm text-muted">Based on Shaykh Uthaymeen's list</p>
       </div>
     </div>
@@ -941,7 +943,7 @@
 
             <!-- Panel 1: Names -->
             <div class="v3-deck-panel active" data-v3-panel="names">
-              <div class="v1-mini-names-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))">
+              <div class="v1-mini-names-grid">
                 <button type="button" class="v1-mini-name-card" data-open-name="1">
                   <div class="v1-mini-left"><span class="v1-mini-diamond">1</span><div class="v1-mini-info"><p class="v1-mini-translit">Allah</p><p class="v1-mini-meaning">The One true God</p></div></div>
                   <span class="v1-mini-arabic" lang="ar">الله</span>
@@ -966,7 +968,7 @@
 
             <!-- Panel 2: Videos -->
             <div class="v3-deck-panel" data-v3-panel="videos">
-              <div class="v1-video-stack" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:10px">
+              <div class="v1-video-stack">
                 <button type="button" class="v1-video-card" data-open-video="IHhadArDjRs" data-video-title="Part 1: ALLAH — Muhammad Tim Humble">
                   <div class="v1-video-thumb"><img src="https://i.ytimg.com/vi/IHhadArDjRs/mqdefault.jpg" alt="" loading="lazy"><span class="v1-video-play-badge">▶</span></div>
                   <div class="v1-video-meta"><p class="v1-video-title">Part 1: ALLAH</p><p class="v1-video-sub">Muhammad Tim Humble · 52:22</p></div>

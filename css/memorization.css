@@ -375,3 +375,26 @@
     font-size: 2rem;
   }
 }
+
+/* ---------- Touch: no sticky hover transform on assessment buttons ---------- */
+@media (hover: none) {
+  .assessment-btn:hover {
+    transform: none;
+  }
+  .assessment-btn:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ---------- Phones / short screens: fit the card, scroll long content ---------- */
+@media (max-width: 640px), (max-height: 700px) {
+  .flashcard {
+    height: min(34rem, calc(100dvh - 10rem));
+    min-height: 20rem;
+  }
+  .card-face {
+    justify-content: safe center; /* falls back to top-aligned when overflowing */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Homepage Design Iterations for Names of Allah PWA — Inspired by Quran.com & Usul.ai">
   <meta name="theme-color" content="#2A5F5C">
 
@@ -47,7 +47,7 @@
     <div class="iter-studio-inner">
       <div class="iter-studio-brand">
         <span class="iter-studio-badge">Homepage Studio</span>
-        <span>Compare 4 Compact Designs + Baseline</span>
+        <span class="iter-studio-tagline">Compare 4 Compact Designs + Baseline</span>
       </div>
       <div class="iter-tabs" role="tablist">
         <button type="button" class="iter-tab active" role="tab" aria-selected="true" data-iter="v1">
@@ -1247,9 +1247,7 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
     [data-theme="dark"] .v1-hadith-ribbon,
-    [data-theme="dark"] .bento-hadith,
-    [data-theme="dark"] .v3-hadith-footer,
-    [data-theme="dark"] .v4-hadith-card {
+    [data-theme="dark"] .v3-hadith-footer {
       background: linear-gradient(135deg, rgba(212, 180, 74, 0.12) 0%, rgba(45, 138, 110, 0.12) 100%);
       border-color: rgba(212, 180, 74, 0.35);
     }
@@ -1257,13 +1255,10 @@
     [data-theme="dark"] .v1-situation-pill,
     [data-theme="dark"] .v1-video-card,
     [data-theme="dark"] .bento-cell,
-    [data-theme="dark"] .bento-sit-btn,
-    [data-theme="dark"] .v3-compass-btn,
     [data-theme="dark"] .v3-panel,
     [data-theme="dark"] .v3-sit-rx-card,
     [data-theme="dark"] .v3-rx-name-chip,
     [data-theme="dark"] .v4-card,
-    [data-theme="dark"] .v4-sit-chip,
     [data-theme="dark"] .v4-lens-box,
     [data-theme="dark"] .v4-video-row,
     [data-theme="dark"] .name-card,
@@ -1660,12 +1655,36 @@
       var browseQuery = '';
       var activeSituationId = null;
 
+      var __scrollLockCount = 0;
+      var __scrollLockY = 0;
+      function lockBodyScroll() {
+        if (__scrollLockCount++ === 0) {
+          __scrollLockY = window.scrollY;
+          document.body.style.position = 'fixed';
+          document.body.style.top = '-' + __scrollLockY + 'px';
+          document.body.style.left = '0';
+          document.body.style.right = '0';
+          document.body.style.width = '100%';
+        }
+      }
+      function unlockBodyScroll() {
+        if (__scrollLockCount === 0) return;
+        if (--__scrollLockCount === 0) {
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.right = '';
+          document.body.style.width = '';
+          window.scrollTo(0, __scrollLockY);
+        }
+      }
+
       function closeNavDrawer() {
         var drawer = document.getElementById('navDrawer');
         var toggle = document.getElementById('menuToggle');
         if (drawer) drawer.setAttribute('aria-hidden', 'true');
         if (toggle) toggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+        unlockBodyScroll();
       }
 
       function openNavDrawer() {
@@ -1673,7 +1692,7 @@
         var toggle = document.getElementById('menuToggle');
         if (drawer) drawer.setAttribute('aria-hidden', 'false');
         if (toggle) toggle.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
+        lockBodyScroll();
       }
 
       function injectBackToHomeBanner(containerEl, titleText) {
@@ -1941,7 +1960,7 @@
           modal.id = 'nameModal';
           modal.style.cssText = 'position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,0.68);display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto;';
           modal.innerHTML =
-            '<div class="modal-content" style="background:var(--bg-card, #fff);color:var(--text-primary, #1e2422);max-width:640px;width:100%;max-height:90vh;overflow-y:auto;border-radius:16px;padding:22px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.4);border:1px solid var(--border-light, #e2dcd0);">' +
+            '<div class="modal-content" style="background:var(--bg-card, #fff);color:var(--text-primary, #1e2422);max-width:640px;width:100%;max-height:min(90vh,90dvh);overflow-y:auto;border-radius:16px;padding:22px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.4);border:1px solid var(--border-light, #e2dcd0);">' +
               '<button type="button" id="modalClose" aria-label="Close modal" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>' +
               '<div id="modalBody"></div>' +
             '</div>';
@@ -2065,7 +2084,7 @@
           vModal.id = 'videoPlayerModal';
           vModal.style.cssText = 'position:fixed;inset:0;z-index:9600;background:rgba(0,0,0,0.75);display:none;align-items:center;justify-content:center;padding:16px;';
           vModal.innerHTML =
-            '<div class="modal-content" style="background:var(--bg-card, #fff);color:var(--text-primary, #1e2422);max-width:680px;width:100%;border-radius:16px;padding:20px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.45);border:1px solid var(--border-light);">' +
+            '<div class="modal-content" style="background:var(--bg-card, #fff);color:var(--text-primary, #1e2422);max-width:680px;width:100%;max-height:min(90vh,90dvh);overflow-y:auto;border-radius:16px;padding:20px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.45);border:1px solid var(--border-light);">' +
               '<button type="button" id="videoModalClose" aria-label="Close" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border-medium);background:var(--bg-secondary);color:var(--text-primary);font-size:1.2rem;cursor:pointer;">×</button>' +
               '<div id="videoModalBody"></div>' +
             '</div>';

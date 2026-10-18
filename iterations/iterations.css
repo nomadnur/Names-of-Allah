@@ -5,14 +5,23 @@
    ========================================================================== */
 
 /* ---------- 1. Sticky Iteration Switcher Bar (Studio Controls) ---------- */
+/* Bar height is exposed as --studio-bar-h so the app header can pin below it
+   (components.css: .header { top: var(--studio-bar-h) }). Keep these values
+   in sync with the bar's padding + one content row. */
+:root {
+  --studio-bar-h: 53px; /* 12px padding + 36px row + 4px tab strip pad + 1px border */
+}
+
 .iter-studio-bar {
   position: sticky;
   top: 0;
-  z-index: 250;
+  z-index: calc(var(--z-sticky, 1100) + 10); /* above the app header */
   background: var(--teal-800, #163836);
   color: #FAF8F3;
   border-bottom: 1px solid rgba(201, 169, 97, 0.35);
   padding: 6px 12px;
+  padding-left: max(12px, env(safe-area-inset-left, 0px));
+  padding-right: max(12px, env(safe-area-inset-right, 0px));
   font-size: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
 }
@@ -24,7 +33,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* one row at every width; tabs scroll instead */
 }
 
 .iter-studio-brand {
@@ -53,9 +62,15 @@
   align-items: center;
   gap: 4px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   max-width: 100%;
+  min-width: 0; /* shrink inside the nowrap bar row, then scroll */
   padding: 2px 0;
   scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  /* fade hints that the strip continues past the right edge */
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 18px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 18px), transparent 100%);
 }
 .iter-tabs::-webkit-scrollbar {
   display: none;
@@ -105,6 +120,30 @@
 }
 .iter-tab.active .iter-tab-num {
   background: rgba(22, 38, 36, 0.18);
+}
+
+/* Desktop controls match --studio-bar-h: 48px = 12px padding + 36px row */
+.iter-tab {
+  min-height: 36px;
+}
+
+/* Phones: tab strip only — the brand badge is noise here and the page header
+   already carries a theme toggle, so both are dropped to save vertical space. */
+@media (max-width: 767px) {
+  :root {
+    --studio-bar-h: 47px; /* 12px padding + 30px tabs + 4px strip pad + 1px border */
+  }
+  .iter-studio-brand,
+  .studio-theme-btn {
+    /* !important: both pages ship a later inline <style> with
+       display:inline-flex on this button; phones must not show it */
+    display: none !important;
+  }
+  .iter-tab {
+    min-height: 30px;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
 }
 
 /* Adjust main container for tighter, modern layout */
@@ -265,7 +304,7 @@
 
 .shelf-subtitle {
   font-size: 12px;
-  color: var(--text-muted);
+  color: var(--text-quaternary);
 }
 
 .shelf-link {
@@ -325,6 +364,7 @@
 
 .v1-hero-title-block {
   text-align: left;
+  min-width: 0; /* share the row safely with the calligraphy */
 }
 
 .v1-hero-eyebrow {
@@ -350,6 +390,19 @@
   color: var(--gold-300, #DCC68E);
   line-height: 1.2;
   white-space: nowrap;
+  min-width: 0;
+}
+
+/* Narrow phones: let the calligraphy take its own row and wrap instead of
+   pushing the hero ~94px past the viewport */
+@media (max-width: 519px) {
+  .v1-hero-top {
+    flex-wrap: wrap;
+  }
+  .v1-hero-calligraphy {
+    white-space: normal;
+    line-height: 1.45;
+  }
 }
 
 /* Prominent Search Bar (Quran.com centerpiece) */
@@ -437,8 +490,74 @@
   box-shadow: var(--shadow-xl);
   max-height: 320px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   z-index: 100;
   padding: 6px;
+}
+
+/* v1 search dropdown rows (built by app.js; 44px touch targets) */
+.v1-drop-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-quaternary);
+  padding: 6px 10px;
+}
+
+.v1-drop-label-sits {
+  margin-top: 4px;
+}
+
+.v1-drop-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.v1-drop-item:hover,
+.v1-drop-item:active {
+  background: var(--bg-subtle);
+}
+
+.v1-drop-meaning {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.v1-drop-arabic {
+  font-family: var(--font-arabic);
+  font-size: 1.25rem;
+  color: var(--teal-600);
+  flex-shrink: 0;
+}
+
+.v1-drop-cat {
+  color: var(--text-quaternary);
+  font-size: 0.78rem;
+}
+
+.v1-drop-open {
+  font-size: 0.78rem;
+  color: var(--teal-600);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.v1-drop-empty {
+  padding: 12px;
+  color: var(--text-quaternary);
+  font-size: 0.85rem;
 }
 
 .v1-search-result-item {
@@ -470,7 +589,7 @@
 .v1-search-result-num {
   font-size: 11px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text-quaternary);
   background: var(--bg-subtle);
   padding: 2px 6px;
   border-radius: 4px;
@@ -657,7 +776,7 @@
 }
 
 .v1-spotlight-ref {
-  color: var(--text-muted);
+  color: var(--text-quaternary);
   font-size: 11.5px;
 }
 
@@ -772,34 +891,34 @@
 .v1-sit-count {
   font-size: 11px;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text-quaternary);
   white-space: nowrap;
 }
 
 /* Row 4: Two-Column Split — Featured Names Grid (Left) + Featured Video Series (Right) */
 .v1-bottom-split {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); /* 0 min: cards must shrink, not push wide */
   gap: 14px;
   align-items: start;
 }
 
 @media (max-width: 860px) {
   .v1-bottom-split {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 /* Compact Quran.com-style Name Mini-Cards */
 .v1-mini-names-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
 @media (max-width: 520px) {
   .v1-mini-names-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -847,6 +966,7 @@
 
 .v1-mini-info {
   min-width: 0;
+  overflow: hidden; /* lets the ellipsis meaning clip instead of sizing the card */
 }
 
 .v1-mini-translit {
@@ -944,7 +1064,7 @@
 
 .v1-video-sub {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-quaternary);
   margin: 0;
 }
 
@@ -1098,9 +1218,15 @@
 
 .bento-arabic-strip {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 0 min lets tracks shrink, content wraps */
   gap: 7px;
   margin: 10px 0;
+}
+
+@media (max-width: 400px) {
+  .bento-arabic-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 22px Arabic needs ~120px per tile */
+  }
 }
 
 .bento-arabic-tile {
@@ -1135,9 +1261,8 @@
 
 .bento-arabic-tile-sub {
   font-size: 10px;
-  color: var(--text-muted);
+  color: var(--text-quaternary);
   display: block;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -1179,7 +1304,7 @@
 
 .bento-series-speaker {
   font-size: 11px;
-  color: var(--text-muted);
+  color: var(--text-quaternary);
 }
 
 .bento-dock-inner {
@@ -1372,6 +1497,18 @@
 .v3-deck-panel {
   display: none;
 }
+/* v3 deck overrides: wider auto grids, min()-guarded so tracks never exceed
+   the container on narrow phones (was inline style in index.html) */
+.v3-deck .v1-mini-names-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+}
+
+.v3-deck .v1-video-stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 10px;
+}
+
 .v3-deck-panel.active {
   display: block;
 }
@@ -1382,14 +1519,14 @@
 
 .v4-split-layout {
   display: grid;
-  grid-template-columns: 1.05fr 1.25fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.25fr); /* 0 min: worship card stays in bounds */
   gap: 16px;
   align-items: start;
 }
 
 @media (max-width: 860px) {
   .v4-split-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1420,7 +1557,8 @@
 
 .v4-name-arabic {
   font-family: var(--font-arabic);
-  font-size: 46px;
+  /* unbreakable Arabic word: scale down on phones so it never exceeds the stage */
+  font-size: clamp(34px, 12.5vw, 46px);
   color: var(--color-arabic-card);
   line-height: 1.15;
   margin-bottom: 4px;
@@ -1442,7 +1580,7 @@
 
 .v4-lens-tabs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* 0 min: labels wrap, card stays in bounds */
   gap: 4px;
   background: var(--bg-subtle);
   padding: 4px;
@@ -1485,6 +1623,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
 }
 
 .v4-stack-box {
@@ -1493,4 +1632,87 @@
   border-radius: var(--radius-md);
   padding: 13px 15px;
   box-shadow: var(--shadow-xs);
+}
+
+/* ---------- Touch targets & tap feedback (phones) ---------- */
+@media (pointer: coarse) {
+  .v1-quick-pill,
+  .compact-narration-pill,
+  .shelf-link,
+  .v1-shuffle-btn,
+  .bento-worship-pill,
+  .v1-sit-ar-chip,
+  .v4-lens-tab,
+  .v3-deck-tab {
+    min-height: 30px; /* compact by request — 44px rows of pills ate phone screens */
+    padding-top: max(3px, calc((30px - 1.4em) / 2));
+    padding-bottom: max(3px, calc((30px - 1.4em) / 2));
+  }
+  /* Arabic with harakat is illegible below 18px on tappable chips */
+  .v1-sit-ar-chip {
+    font-size: 18px;
+  }
+  .v1-quick-pill-ar {
+    font-size: 18px;
+  }
+}
+
+/* Hover transforms latch on touch (sticky :hover) — disable without hover */
+@media (hover: none) {
+  .v1-mini-name-card:hover,
+  .v1-quick-pill:hover,
+  .bento-arabic-tile:hover,
+  .v1-video-card:hover,
+  .v1-sit-card:hover,
+  .v3-compass-card:hover,
+  .v4-worship-card:hover {
+    transform: none;
+  }
+}
+
+/* Pressed feedback replaces hover affordance on touch */
+.v1-mini-name-card:active,
+.v1-quick-pill:active,
+.bento-arabic-tile:active,
+.v1-video-card:active,
+.iter-tab:active {
+  transform: scale(0.98);
+  transition-duration: 80ms;
+}
+
+/* ---------- Text floors on phones (≤640px) ---------- */
+@media (max-width: 640px) {
+  .iter-tab {
+    font-size: 12px;
+  }
+  .iter-studio-badge {
+    font-size: 11px; /* floor also serves the v2 pane's "Name in Focus" label */
+  }
+  .v1-mini-meaning {
+    font-size: 12.5px;
+  }
+  .v1-sit-count {
+    font-size: 12.5px;
+  }
+  .v1-video-title {
+    font-size: 14px;
+  }
+  .v1-video-sub {
+    font-size: 12.5px;
+  }
+  .bento-arabic-tile-en {
+    font-size: 12.5px;
+  }
+  .bento-arabic-tile-sub {
+    font-size: 11.5px;
+  }
+  .v4-lens-tab {
+    font-size: 12.5px;
+  }
+  .v1-shuffle-btn {
+    font-size: 12.5px;
+  }
+  .shelf-link {
+    font-size: 13px;
+  }
 }

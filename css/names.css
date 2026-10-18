@@ -257,7 +257,9 @@
   position: relative;
   width: min(92vw, var(--container-4xl));
   max-height: 90vh;
+  max-height: min(90vh, 90dvh); /* dvh tracks the iOS dynamic toolbar */
   overflow-y: auto;
+  overscroll-behavior: contain; /* scrolling stops at the modal edge */
   background: var(--bg-card);
   border: var(--border-width-1) solid var(--border-subtle);
   border-radius: var(--radius-modal);
@@ -484,20 +486,21 @@
   padding: var(--space-12);
 }
 
-.modal-body::-webkit-scrollbar {
+/* the scrolling element is .modal-content (overflow-y: auto), not .modal-body */
+.modal-content::-webkit-scrollbar {
   width: 8px;
 }
 
-.modal-body::-webkit-scrollbar-track {
+.modal-content::-webkit-scrollbar-track {
   background: var(--bg-subtle);
 }
 
-.modal-body::-webkit-scrollbar-thumb {
+.modal-content::-webkit-scrollbar-thumb {
   background: var(--teal-200);
   border-radius: var(--border-radius-full);
 }
 
-.modal-body::-webkit-scrollbar-thumb:hover {
+.modal-content::-webkit-scrollbar-thumb:hover {
   background: var(--teal-300);
 }
 
@@ -891,8 +894,10 @@
 
 .video-player-box {
   position: relative;
-  width: 100%;
-  max-width: 60rem;
+  /* never taller than the screen: cap width by available height so the
+     16:9 frame + title bar stay reachable in landscape */
+  width: min(100%, calc((100dvh - 6.5rem) * 16 / 9), 60rem);
+  margin: 0 auto;
 }
 
 .video-player-bar {
@@ -919,6 +924,7 @@
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  max-height: calc(100dvh - 6.5rem);
   border: 0;
   border-radius: var(--border-radius-lg);
   background: #000;
@@ -1050,5 +1056,24 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .video-parts-toggle {
     color: var(--teal-300);
+  }
+}
+
+/* ---------- Touch targets ---------- */
+@media (pointer: coarse) {
+  .video-parts-toggle {
+    min-height: 44px;
+  }
+  .video-row {
+    min-height: 44px;
+  }
+}
+
+/* ---------- Text floors on phones ---------- */
+@media (max-width: 640px) {
+  .video-row-detail,
+  .video-row-topic,
+  .video-row-also {
+    font-size: 12.5px;
   }
 }

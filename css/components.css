@@ -5,7 +5,8 @@
 /* Header */
 .header {
   position: sticky;
-  top: 0;
+  /* pin below the sticky studio bar (set in iterations.css); 0 when absent */
+  top: var(--studio-bar-h, 0px);
   z-index: var(--z-sticky);
   background: var(--paper);
   border-bottom: var(--border-width-1) solid var(--border-light);
@@ -272,7 +273,9 @@
 .nav-menu {
   flex: 1;
   padding: var(--space-3) 0;
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .nav-link {
@@ -303,6 +306,7 @@
 /* Main */
 .main {
   min-height: calc(100vh - 5.5rem);
+  min-height: calc(100dvh - 5.5rem); /* dvh tracks the iOS dynamic toolbar */
   padding: var(--space-section-sm) 0;
 }
 
@@ -463,6 +467,7 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4) var(--space-6);
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
 }
 
 .install-text {
@@ -503,7 +508,7 @@
 /* ==================== Toast Notifications ==================== */
 .toast {
   position: fixed;
-  bottom: var(--space-2xl);
+  bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%) translateY(100px);
   background: var(--ink);
@@ -702,5 +707,32 @@
 @media (prefers-reduced-motion: reduce) {
   .hadith-slide {
     transition: none;
+  }
+}
+
+/* ---------- Touch: hadith dots 32px (compact — 44px rows ate phone space),
+   no sticky hover transforms ---------- */
+@media (pointer: coarse) {
+  .hadith-dot {
+    width: 2rem;
+    height: 2rem;
+  }
+  .hadith-dot::after {
+    inset: 0.5rem;
+  }
+}
+
+@media (hover: none) {
+  .name-card:hover,
+  .home-option:hover,
+  .hadith-dot:hover {
+    transform: none;
+  }
+}
+
+/* ---------- Text floors on phones ---------- */
+@media (max-width: 640px) {
+  .demo-banner {
+    font-size: 14px; /* real sentence, not decoration */
   }
 }
