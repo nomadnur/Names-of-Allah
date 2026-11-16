@@ -1,6 +1,6 @@
 # Content Strategy — Names of Allah Dataset
 
-**Status:** v1.28 — core scholarly proofs, Ghazali repairs, and EN/BM dhikr split complete; practical field cleanup and *Nazm al-Durar* expansion in progress.
+**Status:** v1.29 — core scholarly proofs, Ghazali repairs, EN/BM dhikr split, and 83/83 Qur'anic *Nazm al-Durar* insights complete; practical field cleanup in progress.
 **Owner:** Nur Ahmad Furlong
 **Last updated:** 2026-11-16
 
@@ -36,7 +36,7 @@ Each of the 99 names should have:
 | `aqeedah_belief` | 2–3 sentences on what this name means for belief | ✅ 99/99 (8 cut-off entries repaired) |
 | `ghazali_insight` | *Al-Maqsad al-Asna* insight where available | 🟡 78/99 (repaired from Burrell & Daher; 21 not in *Maqsad*) |
 | `al_jalil_commentary` | Shaykh Al-Jalil commentary | ✅ 97/99 |
-| `nazm_al_durar_insight` | *Nazm al-Durar* (Turath 9098) ayah-fit notes | 🟡 9/99 (with Arabic/English ayahs & links) |
+| `nazm_al_durar_insight` | *Nazm al-Durar* (Turath 9098) ayah-fit notes | ✅ 83/83 Qur'anic Names (with Arabic/English ayahs & links) |
 | `secondary_quran_refs` | Additional definite/indefinite Qur'an mentions | 🟡 1/99 (started on #79 Al-Wakeel) |
 | `when_to_invoke` | Practical: when in life to call on this name | 🟡 99/99 (48 boilerplate entries queued) |
 | `salah_usage` | How to bring this name into prayer | 🟡 74/99 (25 missing + boilerplate cleanup) |
@@ -137,7 +137,6 @@ Full dataset quality is the prerequisite for:
 
 ## Next Action
 
-1. Expand `nazm_al_durar_insight` (starting with #25 Al-Qayyoom and #79 Al-Wakeel)
-2. Expand `secondary_quran_refs` across more Qur'anic Names
-3. Replace the 48 boilerplate `when_to_invoke` / `salah_usage` entries and fill the 24 missing `dhikr_usage_en` / `_ms` entries
-4. Run final Stage 5 accessibility & Lighthouse 90+ audit
+1. Expand `secondary_quran_refs` across more Qur'anic Names
+2. Replace the 48 boilerplate `when_to_invoke` / `salah_usage` entries and fill the 24 missing `dhikr_usage_en` / `_ms` entries
+3. Run final Stage 5 accessibility & Lighthouse 90+ audit

@@ -42,6 +42,9 @@ python3 -m http.server 8000
 
 2. **Menu** (click ☰ icon):
    - Browse All
+   - Find Your Situation
+   - Videos
+   - Qur'an Gems
    - Memorize
    - My Progress
    - Favorites
@@ -145,4 +148,4 @@ Once you see the welcome screen working:
 3. ✅ Test the install prompt (if it appears)
 4. ✅ Check browser console for any errors
 
-**Live at:** `http://localhost:8000` (all 99 Names, Situations, Video Gallery, Memorization SRS, and Progress Dashboard).
+**Live at:** `http://localhost:8000` (all 99 Names, Situations, Video Gallery, Qur'an Gems, Memorization SRS, and Progress Dashboard).

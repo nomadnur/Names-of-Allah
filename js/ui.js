@@ -496,46 +496,84 @@ export class UIRenderer {
             </section>
           ` : ''}
 
-          ${hasGhazaliQuote ? `
-            <section class="detail-section ghazali-section">
-              <h3 class="section-title">✨ Imam Al-Ghazali's Insight</h3>
-              <p class="section-content ghazali-text">${name.ghazali_insight}</p>
-            </section>
-          ` : ''}
-
-          ${hasJalilQuote ? `
-            <section class="detail-section jalil-section">
-              <h3 class="section-title">💡 Shaykh Al-Jalil's Lesson</h3>
-              <p class="section-content jalil-text">${name.al_jalil_commentary}</p>
-            </section>
-          ` : ''}
-
-          ${name.nazm_al_durar_insight?.note ? `
-            <section class="detail-section nazm-section">
-              <h3 class="section-title">🔍 Why This Name in the Ayah (Nazm al-Durar)</h3>
-              ${name.nazm_al_durar_insight.ayah_arabic ? `
-                <blockquote class="proof-text proof-text-quran" style="margin-bottom:0.65rem;">
-                  <p class="proof-translation">${name.nazm_al_durar_insight.ayah_translation || ''}</p>
-                  <p class="proof-arabic" lang="ar" dir="rtl">${name.nazm_al_durar_insight.ayah_arabic}</p>
-                  <cite>
-                    <a class="quran-link quran-ref-link" href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">
-                      ${name.nazm_al_durar_insight.ayah_ref || `Ayah ${name.nazm_al_durar_insight.ayah}`}
+          ${(() => {
+            const scholarTabs = [];
+            if (hasGhazaliQuote) {
+              scholarTabs.push({
+                id: 'ghazali',
+                label: 'Al-Ghazali',
+                html: `<p class="section-content ghazali-text">${name.ghazali_insight}</p>`,
+              });
+            }
+            if (hasJalilQuote) {
+              scholarTabs.push({
+                id: 'jalil',
+                label: 'Shaykh Al-Jalil',
+                html: `<p class="section-content jalil-text">${name.al_jalil_commentary}</p>`,
+              });
+            }
+            if (name.nazm_al_durar_insight?.note) {
+              const nd = name.nazm_al_durar_insight;
+              scholarTabs.push({
+                id: 'nazm',
+                label: "Al-Biqa'i — Nazm al-Durar",
+                html: `
+                  ${nd.ayah_arabic ? `
+                    <blockquote class="proof-text proof-text-quran" style="margin-bottom:0.65rem;">
+                      <p class="proof-translation">${nd.ayah_translation || ''}</p>
+                      <p class="proof-arabic" lang="ar" dir="rtl">${nd.ayah_arabic}</p>
+                      <cite>
+                        <a class="quran-link quran-ref-link" href="${nd.ayah_url}" target="_blank" rel="noopener noreferrer">
+                          ${nd.ayah_ref || `Ayah ${nd.ayah}`}
+                        </a>
+                        <a class="quran-link" href="${nd.ayah_url}" target="_blank" rel="noopener noreferrer">
+                          Open on Quran.com
+                        </a>
+                      </cite>
+                    </blockquote>
+                  ` : ''}
+                  <p class="section-content">${nd.note}</p>
+                  <p class="section-meta" style="margin-top:0.35rem;font-size:0.85rem;opacity:0.8;">
+                    ${nd.ayah_url ? `<a href="${nd.ayah_url}" target="_blank" rel="noopener noreferrer">Ayah ${nd.ayah}</a>` : `Ayah ${nd.ayah}`} ·
+                    <a href="${nd.turath_url}" target="_blank" rel="noopener noreferrer">
+                      ${nd.source_attribution}
                     </a>
-                    <a class="quran-link" href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">
-                      Open on Quran.com
-                    </a>
-                  </cite>
-                </blockquote>
-              ` : ''}
-              <p class="section-content">${name.nazm_al_durar_insight.note}</p>
-              <p class="section-meta" style="margin-top:0.35rem;font-size:0.85rem;opacity:0.8;">
-                ${name.nazm_al_durar_insight.ayah_url ? `<a href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">Ayah ${name.nazm_al_durar_insight.ayah}</a>` : `Ayah ${name.nazm_al_durar_insight.ayah}`} ·
-                <a href="${name.nazm_al_durar_insight.turath_url}" target="_blank" rel="noopener noreferrer">
-                  ${name.nazm_al_durar_insight.source_attribution}
-                </a>
-              </p>
-            </section>
-          ` : ''}
+                  </p>
+                `,
+              });
+            }
+            if (!scholarTabs.length) return '';
+            return `
+              <section class="detail-section scholarly-insights-section">
+                <h3 class="section-title">🎓 Scholarly Insights</h3>
+                <div class="scholar-tabs" role="tablist" aria-label="Scholarly Insights">
+                  ${scholarTabs.map((t, i) => `
+                    <button
+                      type="button"
+                      class="scholar-tab-pill ${i === 0 ? 'active' : ''}"
+                      role="tab"
+                      id="scholar-tab-${t.id}"
+                      aria-selected="${i === 0 ? 'true' : 'false'}"
+                      aria-controls="scholar-panel-${t.id}"
+                      data-scholar-tab="${t.id}"
+                    >${t.label}</button>
+                  `).join('')}
+                </div>
+                <div class="scholar-tab-panels">
+                  ${scholarTabs.map((t, i) => `
+                    <div
+                      class="scholar-tab-panel ${i === 0 ? '' : 'hidden'}"
+                      role="tabpanel"
+                      id="scholar-panel-${t.id}"
+                      aria-labelledby="scholar-tab-${t.id}"
+                      data-scholar-panel="${t.id}"
+                      ${i === 0 ? '' : 'hidden'}
+                    >${t.html}</div>
+                  `).join('')}
+                </div>
+              </section>
+            `;
+          })()}
 
           ${description ? `
             <section class="detail-section">
@@ -586,6 +624,9 @@ export class UIRenderer {
 
     // Open a video in a player on top of the modal
     this.bindVideoRows(modal);
+
+    // Switch scholarly insight tabs
+    this.bindScholarTabs(modal);
 
     // Set initial favorite button state
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -704,6 +745,38 @@ export class UIRenderer {
         </div>
       `;
     }).join('');
+  }
+
+  bindScholarTabs(container) {
+    const tabs = Array.from(container.querySelectorAll('.scholar-tab-pill'));
+    const panels = Array.from(container.querySelectorAll('.scholar-tab-panel'));
+    if (!tabs.length) return;
+
+    const activate = (tabId) => {
+      tabs.forEach(tab => {
+        const active = tab.dataset.scholarTab === tabId;
+        tab.classList.toggle('active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panels.forEach(panel => {
+        const active = panel.dataset.scholarPanel === tabId;
+        panel.classList.toggle('hidden', !active);
+        panel.hidden = !active;
+      });
+    };
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', () => activate(tab.dataset.scholarTab));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const nextIdx = e.key === 'ArrowRight'
+          ? (idx + 1) % tabs.length
+          : (idx - 1 + tabs.length) % tabs.length;
+        tabs[nextIdx].focus();
+        activate(tabs[nextIdx].dataset.scholarTab);
+      });
+    });
   }
 
   bindVideoRows(container) {

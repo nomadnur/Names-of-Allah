@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.28.0';
+const CACHE_VERSION = 'v1.29.0';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install
@@ -30,6 +30,7 @@ const STATIC_ASSETS = [
   './js/dashboard.js',
   './js/situations.js',
   './js/gallery.js',
+  './js/quranGems.js',
   './data/names.json',
   './data/situations.json',
   './data/videos.json',

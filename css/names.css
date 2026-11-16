@@ -35,7 +35,8 @@
 }
 
 #searchInput,
-#gallerySearch {
+#gallerySearch,
+#gemsSearch {
   width: 100%;
   padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
   border: 1px solid var(--border-default);
@@ -50,16 +51,19 @@
 }
 
 #searchInput:focus,
-#gallerySearch:focus {
+#gallerySearch:focus,
+#gemsSearch:focus {
   border-color: var(--teal-500);
   box-shadow: 0 0 0 3px rgba(90, 163, 155, 0.18);
 }
 
 #searchInput::placeholder,
-#gallerySearch::placeholder { color: var(--text-quaternary); }
+#gallerySearch::placeholder,
+#gemsSearch::placeholder { color: var(--text-quaternary); }
 
 #searchInput::-webkit-search-cancel-button,
-#gallerySearch::-webkit-search-cancel-button {
+#gallerySearch::-webkit-search-cancel-button,
+#gemsSearch::-webkit-search-cancel-button {
   -webkit-appearance: none;
   width: 16px; height: 16px;
   cursor: pointer;
@@ -1076,4 +1080,222 @@
   .video-row-also {
     font-size: 12.5px;
   }
+}
+
+
+/* ==================== Tabbed Scholarly Insights ==================== */
+.scholar-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.scholar-tab-pill {
+  appearance: none;
+  border: var(--border-width-1) solid var(--border-subtle);
+  background: var(--bg-secondary, transparent);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.3;
+  min-height: 32px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.scholar-tab-pill:hover {
+  border-color: var(--color-primary);
+  color: var(--text-primary);
+}
+
+.scholar-tab-pill.active {
+  background: var(--btn-bg, var(--color-primary));
+  color: var(--btn-text, #ffffff);
+  border-color: transparent;
+}
+
+.scholar-tab-pill:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.scholar-tab-panel {
+  background: var(--gold-50, rgba(212, 175, 55, 0.06));
+  border-left: var(--border-width-4) solid var(--gold-400);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-5);
+}
+
+.scholar-tab-panel.hidden {
+  display: none;
+}
+
+/* ==================== Qur'an Gems View ==================== */
+.gems-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+.gems-controls .search-wrapper {
+  flex: 1 1 240px;
+  margin-top: 0;
+}
+
+.gems-surah-select {
+  flex: 0 1 240px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: var(--border-radius-md);
+  border: var(--border-width-1) solid var(--border-subtle);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+.gems-surah-group {
+  margin-bottom: var(--space-8);
+}
+
+.gems-surah-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-4);
+  border-bottom: var(--border-width-1) solid var(--border-subtle);
+}
+
+.gems-surah-title {
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.gems-surah-count {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.gems-ayah-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.gems-ayah-card {
+  background: var(--bg-card);
+  border: var(--border-width-1) solid var(--border-subtle);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-5);
+}
+
+.gems-ayah-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.gems-ayah-ref {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.gems-ayah-arabic {
+  margin-bottom: var(--space-2);
+}
+
+.gems-ayah-translation {
+  margin-bottom: var(--space-4);
+  color: var(--text-secondary);
+}
+
+.gems-entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-top: var(--border-width-1) solid var(--border-subtle);
+  padding-top: var(--space-4);
+}
+
+.gems-entry-head {
+  margin-bottom: var(--space-2);
+}
+
+.gems-name-pill {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: var(--border-width-1) solid var(--border-subtle);
+  background: var(--bg-secondary, transparent);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.gems-name-pill:hover,
+.gems-name-pill:focus-visible {
+  border-color: var(--color-primary);
+}
+
+.gems-name-ar {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.gems-name-translit {
+  font-weight: 600;
+}
+
+.gems-name-meaning {
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
+}
+
+.gems-entry-note {
+  margin: 0 0 var(--space-1);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+.gems-entry-meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.v1-gem-note {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 500;
+}
+
+.v1-gem-translit {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: 600;
+  align-self: center;
+}
+
+.gems-ayah-card-highlight {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(90, 163, 155, 0.22);
 }

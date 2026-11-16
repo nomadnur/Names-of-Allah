@@ -32,6 +32,8 @@
   <link rel="stylesheet" href="css/progress.css">
   <link rel="stylesheet" href="css/situations.css">
   <link rel="stylesheet" href="iterations/iterations.css">
+  <link rel="stylesheet" href="css/refine.css">
+  <link rel="stylesheet" href="iterations/palette.css">
   <style>
     .studio-theme-btn {
       margin-left: auto;
@@ -108,44 +110,29 @@
   <title>Names of Allah - Asma'ul Husna</title>
 </head>
 <body data-default-iter="v1">
+  <!-- Color-scheme boot (pre-paint): restores the user's palette choice before first paint.
+       'baseline' or an unknown value leaves the shipped CSS fully in charge.
+       data-resolved-theme mirrors app.js's theme resolution (auto = OS preference)
+       because palette.css directions key off the RESOLVED mode, not data-theme. -->
+  <script>
+    (function () {
+      var s = null, t = null;
+      try { s = localStorage.getItem('color-scheme'); t = localStorage.getItem('theme'); } catch (e) { /* private mode */ }
+      document.body.setAttribute('data-palette',
+        ['teal', 'emerald', 'lapis', 'saffron', 'burgundy'].indexOf(s) > -1 ? s : 'baseline');
+      var dark = t === 'dark' || (t !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.setAttribute('data-resolved-theme', dark ? 'dark' : 'light');
+    })();
+  </script>
 
   <!-- Skip to main content (a11y) -->
   <a href="#mainContent" class="skip-link">Skip to main content</a>
-
-  <!-- Sticky Iteration Switcher Bar -->
-  <div class="iter-studio-bar" role="region" aria-label="Homepage iteration switcher">
-    <div class="iter-studio-inner">
-      <div class="iter-studio-brand">
-        <span class="iter-studio-badge">Homepage Studio</span>
-        <span class="iter-studio-tagline">Compare 4 Compact Designs + Baseline</span>
-      </div>
-      <div class="iter-tabs" role="tablist">
-        <button type="button" class="iter-tab active" role="tab" aria-selected="true" data-iter="v1">
-          <span class="iter-tab-num">1</span> Quran.com Shelves
-        </button>
-        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v2">
-          <span class="iter-tab-num">2</span> Bento Sanctuary
-        </button>
-        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v3">
-          <span class="iter-tab-num">3</span> Situation Compass
-        </button>
-        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="v4">
-          <span class="iter-tab-num">4</span> Daily Companion
-        </button>
-        <button type="button" class="iter-tab" role="tab" aria-selected="false" data-iter="baseline">
-          Baseline (Current)
-        </button>
-      </div>
-      <button type="button" class="studio-theme-btn" id="studioThemeBtn" aria-label="Toggle dark or light theme">
-        <span id="studioThemeIcon">🌙</span> <span id="studioThemeLabel">Dark Mode</span>
-      </button>
-    </div>
-  </div>
 
   <!-- Header -->
   <header class="header">
     <div class="container">
       <div class="header-content">
+        <div class="header-side">
         <button class="btn-icon btn-menu" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer" id="menuToggle">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -153,6 +140,7 @@
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
+        </div>
 
         <h1 class="header-title">
           <a href="#welcome" class="header-link" id="headerHomeLink">
@@ -161,6 +149,113 @@
           </a>
         </h1>
 
+        <div class="header-side header-side-end">
+          <!-- Homepage layout menu (other layouts live here, out of the way) -->
+          <div class="layout-switch">
+            <button class="btn-icon btn-layout" id="layoutToggle" aria-label="Change homepage layout" title="Homepage layout" aria-haspopup="true" aria-expanded="false" aria-controls="layoutMenu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+              </svg>
+            </button>
+            <div class="layout-menu" id="layoutMenu" role="menu" aria-label="Homepage layout" hidden>
+              <p class="layout-menu-title" aria-hidden="true">Homepage layout</p>
+              <button type="button" class="layout-option" role="menuitemradio" aria-checked="true" data-iter="v1">
+                <span class="layout-option-text">
+                  <span class="layout-option-name">Search first</span>
+                  <span class="layout-option-desc">Search, today's Name, situations and videos</span>
+                </span>
+                <svg class="layout-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="layout-option" role="menuitemradio" aria-checked="false" data-iter="v2">
+                <span class="layout-option-text">
+                  <span class="layout-option-name">Overview grid</span>
+                  <span class="layout-option-desc">Every section at a glance in one grid</span>
+                </span>
+                <svg class="layout-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="layout-option" role="menuitemradio" aria-checked="false" data-iter="v3">
+                <span class="layout-option-text">
+                  <span class="layout-option-name">Start with a feeling</span>
+                  <span class="layout-option-desc">Choose what you are going through, then see the Names</span>
+                </span>
+                <svg class="layout-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="layout-option" role="menuitemradio" aria-checked="false" data-iter="v4">
+                <span class="layout-option-text">
+                  <span class="layout-option-name">Daily companion</span>
+                  <span class="layout-option-desc">One Name for today, with your practice beside it</span>
+                </span>
+                <svg class="layout-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="layout-option" role="menuitemradio" aria-checked="false" data-iter="baseline">
+                <span class="layout-option-text">
+                  <span class="layout-option-name">Simple list</span>
+                  <span class="layout-option-desc">The original menu of sections</span>
+                </span>
+                <svg class="layout-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <!-- Color scheme menu (test: pick a palette live; wiring in iterations/scheme.js) -->
+          <div class="scheme-switch">
+            <button class="btn-icon btn-scheme" id="schemeToggle" aria-label="Change color scheme" title="Color scheme" aria-haspopup="true" aria-expanded="false" aria-controls="schemeMenu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="8.5" cy="9" r="5"/><circle cx="15.5" cy="9" r="5"/><circle cx="12" cy="15.5" r="5"/>
+              </svg>
+            </button>
+            <div class="scheme-menu" id="schemeMenu" role="menu" aria-label="Color scheme" hidden>
+              <p class="scheme-menu-title" aria-hidden="true">Color scheme</p>
+              <button type="button" class="scheme-option" role="menuitemradio" aria-checked="true" data-palette="baseline">
+                <span class="scheme-dots" aria-hidden="true"><span style="background:#2A5F5C"></span><span style="background:#C9A961"></span><span style="background:#0F111A"></span></span>
+                <span class="scheme-option-text">
+                  <span class="scheme-option-name">Classic Teal</span>
+                  <span class="scheme-option-desc">The colors of the app today</span>
+                </span>
+                <svg class="scheme-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="scheme-option" role="menuitemradio" aria-checked="false" data-palette="teal">
+                <span class="scheme-dots" aria-hidden="true"><span style="background:#2C6662"></span><span style="background:#C6A962"></span><span style="background:#0E1B1A"></span></span>
+                <span class="scheme-option-text">
+                  <span class="scheme-option-name">Dusk Teal</span>
+                  <span class="scheme-option-desc">Calmer teal on warm paper</span>
+                </span>
+                <svg class="scheme-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="scheme-option" role="menuitemradio" aria-checked="false" data-palette="emerald">
+                <span class="scheme-dots" aria-hidden="true"><span style="background:#1F6E4F"></span><span style="background:#C6A962"></span><span style="background:#0B1511"></span></span>
+                <span class="scheme-option-text">
+                  <span class="scheme-option-name">Emerald &amp; Gold</span>
+                  <span class="scheme-option-desc">Rich Prophetic green with gold</span>
+                </span>
+                <svg class="scheme-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="scheme-option" role="menuitemradio" aria-checked="false" data-palette="lapis">
+                <span class="scheme-dots" aria-hidden="true"><span style="background:#36488D"></span><span style="background:#C2A45E"></span><span style="background:#0E1220"></span></span>
+                <span class="scheme-option-text">
+                  <span class="scheme-option-name">Lapis &amp; Gold</span>
+                  <span class="scheme-option-desc">Deep blue like Qur'an covers</span>
+                </span>
+                <svg class="scheme-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="scheme-option" role="menuitemradio" aria-checked="false" data-palette="saffron">
+                <span class="scheme-dots" aria-hidden="true"><span style="background:#6A5026"></span><span style="background:#C69E4B"></span><span style="background:#141210"></span></span>
+                <span class="scheme-option-text">
+                  <span class="scheme-option-name">Ink &amp; Saffron</span>
+                  <span class="scheme-option-desc">Simple ink with one gold accent</span>
+                </span>
+                <svg class="scheme-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="scheme-option" role="menuitemradio" aria-checked="false" data-palette="burgundy">
+                <span class="scheme-dots" aria-hidden="true"><span style="background:#722F3B"></span><span style="background:#C6A962"></span><span style="background:#170F12"></span></span>
+                <span class="scheme-option-text">
+                  <span class="scheme-option-name">Burgundy &amp; Gold</span>
+                  <span class="scheme-option-desc">Deep red and gold, Ottoman style</span>
+                </span>
+                <svg class="scheme-option-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </div>
         <!-- Theme toggle -->
         <button class="btn-icon btn-theme" id="themeToggle" aria-label="Switch to dark mode" title="Toggle dark mode">
           <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -174,6 +269,7 @@
             <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
           </svg>
         </button>
+        </div>
       </div>
     </div>
     <p class="demo-banner" role="note">
@@ -233,6 +329,15 @@
           </a>
         </li>
         <li>
+          <a href="#quran-gems" class="nav-link" data-view="quranGems">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 19 9 12 22 5 9 12 2"></polygon>
+              <line x1="5" y1="9" x2="19" y2="9"></line>
+            </svg>
+            <span>Qur'an Gems</span>
+          </a>
+        </li>
+        <li>
           <a href="#memorize" class="nav-link" data-view="memorize">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
@@ -260,7 +365,7 @@
       </ul>
 
       <div class="nav-footer">
-        <p class="text-sm text-muted">Demo version · v1.21</p>
+        <p class="text-sm text-muted">Demo version · v1.29.0</p>
         <p class="text-sm text-muted">Based on Shaykh Uthaymeen's list</p>
       </div>
     </div>
@@ -278,7 +383,7 @@
         <!-- ================================================================
              ITERATION 1: QURAN.COM INSPIRED (Hero Search + Continue + Shelves)
              ================================================================ -->
-        <section class="iter-pane active" data-iter-pane="v1" aria-label="Iteration 1: Quran.com Inspired">
+        <section class="iter-pane active" data-iter-pane="v1" aria-label="Search first">
 
           <!-- 1A. Compact Hero with Instant Search & Popular Pills -->
           <div class="v1-hero">
@@ -324,15 +429,6 @@
               <button type="button" class="v1-quick-pill" data-open-name="79">
                 <span class="v1-quick-pill-ar" lang="ar">الْوَكِيلُ</span> Al-Wakeel
               </button>
-              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="quran">
-                📖 Quranic (81)
-              </button>
-              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="sunnah">
-                📿 Sunnah (18)
-              </button>
-              <button type="button" class="v1-quick-pill" data-switch-view="browse" data-filter-type="videos">
-                🎬 With Videos (63)
-              </button>
             </div>
           </div>
 
@@ -368,7 +464,7 @@
             <!-- Card 1: Name in Focus (Interactive Shuffle) -->
             <div class="v1-spotlight-card primary-spotlight">
               <div class="v1-card-kicker">
-                <span>✨ Name in Focus</span>
+                <span>Name in focus</span>
                 <button type="button" class="v1-shuffle-btn" id="v1ShuffleBtn" title="Show another Name">↻ Shuffle</button>
               </div>
               <div class="v1-spotlight-main">
@@ -390,8 +486,7 @@
             <!-- Card 2: Daily Practice (Memorize) -->
             <div class="v1-spotlight-card">
               <div class="v1-card-kicker">
-                <span>🧠 Daily Practice</span>
-                <span class="text-xs text-muted">Spaced Review</span>
+                <span>Memorise</span>
               </div>
               <div>
                 <h3 class="v1-spotlight-translit">5 Names / Day</h3>
@@ -400,7 +495,7 @@
               <div class="v1-spotlight-footer">
                 <span class="v1-spotlight-ref"><strong data-stat="learning-count">0</strong> learning · <strong data-stat="streak-count">0</strong>d streak</span>
                 <button type="button" class="v1-spotlight-cta" data-switch-view="memorize">
-                  Start Session →
+                  Start a session →
                 </button>
               </div>
             </div>
@@ -408,17 +503,17 @@
             <!-- Card 3: My Progress & Favorites -->
             <div class="v1-spotlight-card">
               <div class="v1-card-kicker">
-                <span>📈 My Journey</span>
-                <button type="button" class="shelf-link" data-switch-view="favorites">⭐ <span data-stat="favorites-count">0</span> Saved</button>
+                <span>Your progress</span>
+                <button type="button" class="shelf-link" data-switch-view="favorites"><span data-stat="favorites-count">0</span> saved</button>
               </div>
               <div>
                 <h3 class="v1-spotlight-translit"><span data-stat="mastered-count">0</span> / 99 Mastered</h3>
                 <p class="v1-spotlight-invoke">Track your 99-dot mastery grid and review queue.</p>
               </div>
               <div class="v1-spotlight-footer">
-                <span class="v1-spotlight-ref">Offline-ready progress</span>
+                
                 <button type="button" class="v1-spotlight-cta" data-switch-view="progress">
-                  View 99 Grid →
+                  See all 99 →
                 </button>
               </div>
             </div>
@@ -428,8 +523,8 @@
           <div class="v1-shelf-section">
             <div class="shelf-header">
               <div class="shelf-title-group">
-                <h3 class="shelf-title">🧭 Find Your Situation</h3>
-                <span class="shelf-subtitle">27 life moments across 11 categories, paired with the Names to call upon</span>
+                <h3 class="shelf-title">Find your situation</h3>
+                <span class="shelf-subtitle">27 life moments, with the Names to call upon</span>
               </div>
               <button type="button" class="shelf-link" data-switch-view="situations">All 11 categories →</button>
             </div>
@@ -472,7 +567,7 @@
                 <div class="v1-sit-names-preview">
                   <div class="v1-sit-ar-chips">
                     <span class="v1-sit-ar-chip" lang="ar" data-open-name="54" title="Al-Qareeb">القَرِيب</span>
-                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="85" title="Al-Hayyiyu">الحَيِي</span>
+                    <span class="v1-sit-ar-chip" lang="ar" data-open-name="85" title="Al-Hayiyy">الحَيِي</span>
                   </div>
                   <span class="v1-sit-count">4 Names →</span>
                 </div>
@@ -494,14 +589,26 @@
             </div>
           </div>
 
+          <!-- 1D-2. Horizontal Shelf: "Qur'an Gems" (Random sample from Nazm al-Durar) -->
+          <div class="v1-shelf-section">
+            <div class="shelf-header">
+              <div class="shelf-title-group">
+                <h3 class="shelf-title">Qur'an Gems</h3>
+                <span class="shelf-subtitle">Why Allah chose each Name in its Qur'anic ayah</span>
+              </div>
+              <button type="button" class="shelf-link" data-switch-view="quranGems">All 83 gems →</button>
+            </div>
+
+            <div class="v1-situation-scroller" id="v1GemsScroller"></div>
+          </div>
+
           <!-- 1E. Bottom 2-Column Split: Featured Names (Left) + Featured Video Lessons (Right) -->
           <div class="v1-bottom-split">
             <!-- Left: Compact Quran.com Chapter-Card Style Featured Names -->
             <div>
               <div class="shelf-header">
                 <div class="shelf-title-group">
-                  <h3 class="shelf-title">📖 Featured Names</h3>
-                  <span class="shelf-subtitle">Tap any Name for Quran, Hadith, Salah & Du'a</span>
+                  <h3 class="shelf-title">Featured Names</h3>
                 </div>
                 <button type="button" class="shelf-link" data-switch-view="browse">All 99 Names →</button>
               </div>
@@ -579,10 +686,10 @@
             <div>
               <div class="shelf-header">
                 <div class="shelf-title-group">
-                  <h3 class="shelf-title">🎬 Watch Video Lessons</h3>
+                  <h3 class="shelf-title">Video lessons</h3>
                   <span class="shelf-subtitle">154 videos · 4 series</span>
                 </div>
-                <button type="button" class="shelf-link" data-switch-view="videos">All 154 videos →</button>
+                <button type="button" class="shelf-link" data-switch-view="videos">All videos →</button>
               </div>
 
               <div class="v1-video-stack">
@@ -627,7 +734,7 @@
         <!-- ================================================================
              ITERATION 2: COMPACT BENTO SANCTUARY (All 6 App Pillars in 1 Grid)
              ================================================================ -->
-        <section class="iter-pane" data-iter-pane="v2" aria-label="Iteration 2: Bento Sanctuary">
+        <section class="iter-pane" data-iter-pane="v2" aria-label="Overview grid">
 
           <div class="v2-bento-grid">
 
@@ -668,7 +775,7 @@
             <div class="bento-cell bento-situations">
               <div>
                 <div class="shelf-header" style="margin-bottom:4px">
-                  <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                  <h3 class="shelf-title">Find your situation</h3>
                   <button type="button" class="shelf-link" data-switch-view="situations">All 27 →</button>
                 </div>
                 <p class="text-xs text-muted" style="margin:0">Tap what you are facing to see the Names that help:</p>
@@ -688,7 +795,7 @@
                   </button>
                   <button type="button" class="bento-sit-chip" data-open-situation="S06">
                     <span class="bento-sit-chip-title">Du'a feels delayed</span>
-                    <span class="bento-sit-chip-names">Al-Qareeb · Al-Hayyiyu →</span>
+                    <span class="bento-sit-chip-names">Al-Qareeb · Al-Hayiyy →</span>
                   </button>
                   <button type="button" class="bento-sit-chip" data-open-situation="S07">
                     <span class="bento-sit-chip-title">Repeating the same sin</span>
@@ -747,9 +854,9 @@
               </div>
 
               <div style="display:flex; gap:6px; flex-wrap:wrap">
-                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="quran">81 in Quran</button>
-                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="sunnah">18 in Sunnah</button>
-                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="videos">63 with Videos</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="quran"><span data-browse-count="quran">81</span> in Quran</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="sunnah"><span data-browse-count="sunnah">18</span> in Sunnah</button>
+                <button type="button" class="compact-narration-pill" data-switch-view="browse" data-filter-type="videos"><span data-browse-count="videos">89</span> with videos</button>
               </div>
             </div>
 
@@ -817,7 +924,7 @@
         <!-- ================================================================
              ITERATION 3: HEART & SITUATION COMPASS (Empathy First + Tab Deck)
              ================================================================ -->
-        <section class="iter-pane" data-iter-pane="v3" aria-label="Iteration 3: Situation Compass">
+        <section class="iter-pane" data-iter-pane="v3" aria-label="Start with a feeling">
 
           <div class="v3-compass-header">
             <div class="v3-compass-arabic" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
@@ -872,7 +979,7 @@
                   <span class="v3-remedy-pill-ar" lang="ar">القَرِيب</span> Al-Qareeb
                 </button>
                 <button type="button" class="v3-remedy-pill" data-open-name="85">
-                  <span class="v3-remedy-pill-ar" lang="ar">الحَيِي</span> Al-Hayyiyu
+                  <span class="v3-remedy-pill-ar" lang="ar">الحَيِي</span> Al-Hayiyy
                 </button>
                 <button type="button" class="shelf-link" data-open-situation="S06">Open →</button>
               </div>
@@ -983,7 +1090,7 @@
                 </button>
               </div>
               <div style="margin-top:10px; text-align:right">
-                <button type="button" class="shelf-link" data-switch-view="videos">Browse all 154 videos →</button>
+                <button type="button" class="shelf-link" data-switch-view="videos">All videos →</button>
               </div>
             </div>
 
@@ -1012,7 +1119,7 @@
         <!-- ================================================================
              ITERATION 4: DAILY COMPANION SPLIT-DECK (Worship Card + Stacks)
              ================================================================ -->
-        <section class="iter-pane" data-iter-pane="v4" aria-label="Iteration 4: Daily Companion Split-Deck">
+        <section class="iter-pane" data-iter-pane="v4" aria-label="Daily companion">
 
           <div class="v4-split-layout">
 
@@ -1055,7 +1162,7 @@
               <!-- Stack 1: Situations -->
               <div class="v4-stack-box">
                 <div class="shelf-header" style="margin-bottom:6px">
-                  <h3 class="shelf-title">🧭 Find Your Situation</h3>
+                  <h3 class="shelf-title">Find your situation</h3>
                   <button type="button" class="shelf-link" data-switch-view="situations">All 11 Categories →</button>
                 </div>
                 <div class="bento-sit-chips" style="margin:0">
@@ -1082,7 +1189,7 @@
               <div class="v4-stack-box">
                 <div class="shelf-header" style="margin-bottom:6px">
                   <h3 class="shelf-title">🎬 Featured Video Lessons</h3>
-                  <button type="button" class="shelf-link" data-switch-view="videos">All 154 Videos →</button>
+                  <button type="button" class="shelf-link" data-switch-view="videos">All videos →</button>
                 </div>
                 <div class="v1-video-stack">
                   <button type="button" class="v1-video-card" data-open-video="D6IfMaJ143w" data-video-title="Ash-Shakoor — Sheikh Haitham Al-Haddad">
@@ -1122,7 +1229,7 @@
         <!-- ================================================================
              BASELINE: CURRENT HOMEPAGE (For Direct Side-by-Side Comparison)
              ================================================================ -->
-        <section class="iter-pane" data-iter-pane="baseline" aria-label="Baseline Current Homepage">
+        <section class="iter-pane" data-iter-pane="baseline" aria-label="Simple list">
           <div class="welcome-card">
             <h2 class="arabic-large mb-md" lang="ar" dir="rtl">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
             <figure class="home-hadith" aria-roledescription="carousel" aria-label="The hadith of the 99 Names in 4 narrations">
@@ -1168,6 +1275,13 @@
                   <span class="home-option-desc">Video lessons from 4 series, grouped by Name.</span>
                 </span>
               </a>
+              <a href="#quran-gems" class="home-option" data-view="quranGems">
+                <span class="home-option-icon" aria-hidden="true">💎</span>
+                <span class="home-option-text">
+                  <span class="home-option-title">Qur'an Gems</span>
+                  <span class="home-option-desc">83 verse-context insights from Al-Biqa'i, by Surah and Ayah.</span>
+                </span>
+              </a>
               <a href="#memorize" class="home-option" data-view="memorize">
                 <span class="home-option-icon" aria-hidden="true">🧠</span>
                 <span class="home-option-text">
@@ -1199,8 +1313,7 @@
 
       <!-- Persistent Back to Homepage Studio bar for sub-views -->
       <div id="subviewBackBar" class="subview-back-bar hidden">
-        <button type="button" class="subview-back-btn" data-switch-view="welcome">← Back to Homepage Studio</button>
-        <span id="subviewBackTitle" class="text-sm text-secondary" style="font-weight:700">Browse All 99 Names</span>
+        <button type="button" class="subview-back-btn" data-switch-view="welcome">← Home</button>
       </div>
 
       <!-- Browse View -->
@@ -1221,7 +1334,13 @@
             >
           </div>
         </div>
-        <p id="searchCount" class="search-count hidden"></p>
+        <div class="browse-filters" role="group" aria-label="Filter names by source">
+          <button type="button" class="browse-filter active" data-browse-filter="all" aria-pressed="true">All <span class="browse-filter-count" data-browse-count="all">99</span></button>
+          <button type="button" class="browse-filter" data-browse-filter="quran" aria-pressed="false"><span class="mark mark-quran" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span>In the Quran <span class="browse-filter-count" data-browse-count="quran"></span></button>
+          <button type="button" class="browse-filter" data-browse-filter="sunnah" aria-pressed="false"><span class="mark mark-sunnah" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 7h6v6c0 3.6-1.9 5.9-5.2 6.9l-.8-1.8c2-.8 3-2.2 3.1-4.1H4z"/><path d="M14 7h6v6c0 3.6-1.9 5.9-5.2 6.9l-.8-1.8c2-.8 3-2.2 3.1-4.1H14z"/></svg></span>In the Sunnah <span class="browse-filter-count" data-browse-count="sunnah"></span></button>
+          <button type="button" class="browse-filter" data-browse-filter="videos" aria-pressed="false"><span class="mark mark-video" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>With video <span class="browse-filter-count" data-browse-count="videos"></span></button>
+        </div>
+        <p id="searchCount" class="search-count hidden" aria-live="polite"></p>
         <div id="namesList">
           <!-- Names will be loaded here by JavaScript -->
           <p class="text-muted">Loading names...</p>
@@ -1240,13 +1359,17 @@
         <div id="videosContent"></div>
       </div>
 
+      <!-- Qur'an Gems View -->
+      <div class="view hidden" id="quranGemsView">
+        <div id="quranGemsContent"></div>
+      </div>
+
       <!-- Memorize View -->
       <div class="view hidden" id="memorizeView">
 
         <!-- Session Start Screen -->
         <div id="sessionStart" class="session-start">
           <h2 class="mb-lg">Daily Practice</h2>
-          <p class="text-lg text-muted mb-lg">Continue your journey of memorizing Allah's Beautiful Names</p>
 
           <div class="session-stats">
             <div class="stat-card">
@@ -1357,6 +1480,9 @@
       <!-- Progress View -->
       <div class="view hidden" id="progressView">
         <div class="progress-view-inner">
+          <div class="favorites-header">
+            <h2>Your progress</h2>
+          </div>
 
           <!-- Stats Row -->
           <div class="progress-stats" role="list" aria-label="Learning statistics">
@@ -1376,10 +1502,6 @@
               <span class="stat-value" id="statStreak">0</span>
               <span class="stat-label">Day Streak</span>
             </div>
-            <div class="stat-card stat-completion" role="listitem">
-              <span class="stat-value" id="statCompletion">0%</span>
-              <span class="stat-label">Complete</span>
-            </div>
           </div>
 
           <!-- Journey / Progress Bar -->
@@ -1389,7 +1511,6 @@
             <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressTrack">
               <div class="progress-fill" id="progressFillBar"></div>
             </div>
-            <p class="progress-percentage" id="progressPercentageLabel">0% of 99 names mastered</p>
           </div>
 
           <!-- 99-Dot Grid -->
@@ -1428,7 +1549,6 @@
       <div class="view hidden" id="favoritesView">
         <div class="favorites-header">
           <h2>Favorites</h2>
-          <p class="text-secondary">Names you've marked for quick access</p>
         </div>
 
         <!-- Favorites grid (populated by JS) -->
@@ -1463,6 +1583,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="iterations/scheme.js"></script>
   <script src="js/app.js" type="module"></script>
 
 </body>

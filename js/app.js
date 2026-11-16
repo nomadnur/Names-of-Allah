@@ -9,6 +9,7 @@ import { SessionController } from './session.js';
 import { ProgressDashboard } from './dashboard.js';
 import { SituationsView } from './situations.js';
 import { VideoGallery } from './gallery.js';
+import { QuranGemsView } from './quranGems.js';
 
 // ==================== Theme ====================
 function getSystemDark() {
@@ -66,6 +67,7 @@ const state = {
   language: localStorage.getItem('language') || 'en',
   theme: localStorage.getItem('theme') || 'auto',
   names: [],
+  browseFilter: 'all',
   favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
 };
 
@@ -76,6 +78,7 @@ let sessionController = null; // Initialized after data loads
 let progressDashboard = null; // Initialized after data + session controller
 const situationsView = new SituationsView(dataManager, uiRenderer, document.getElementById('situationsContent'));
 const videoGallery = new VideoGallery(dataManager, uiRenderer, document.getElementById('videosContent'));
+const quranGemsView = new QuranGemsView(dataManager, uiRenderer, document.getElementById('quranGemsContent'));
 
 // ==================== DOM Elements ====================
 const elements = {
@@ -112,6 +115,7 @@ const VIEW_TITLES = {
   browse: '📖 Browse All 99 Names',
   situations: '🧭 Find Your Situation',
   videos: '🎬 154 Scholar Videos',
+  quranGems: "💎 Qur'an Gems (Nazm al-Durar)",
   memorize: '🧠 Memorize Flashcards',
   progress: '📈 My Progress & 99-Dot Grid',
   favorites: '⭐ Saved Favorites',
@@ -152,12 +156,10 @@ function switchView(viewName, options = {}) {
 
   // Reset browse filter when switching to browse normally (unless skipBrowseReset is passed)
   if (viewName === 'browse' && !options.skipBrowseReset && state.names.length) {
-    const namesList = document.getElementById('namesList');
     const searchInput = document.getElementById('searchInput');
-    const searchCount = document.getElementById('searchCount');
     if (searchInput) searchInput.value = '';
-    if (searchCount) searchCount.classList.add('hidden');
-    if (namesList) uiRenderer.renderNamesList(state.names, namesList);
+    state.browseFilter = 'all';
+    renderBrowse();
   }
 
   // Initialize memorization session if switching to memorize view
@@ -178,6 +180,11 @@ function switchView(viewName, options = {}) {
   // Render the video gallery on every switch
   if (viewName === 'videos') {
     videoGallery.render();
+  }
+
+  // Render Qur'an Gems on every switch (unless opening a specific Surah/Ayah)
+  if (viewName === 'quranGems' && !options.skipGemsRender) {
+    quranGemsView.render();
   }
 
   // Render progress dashboard on every progress view switch
@@ -297,6 +304,50 @@ elements.headerHomeLink.addEventListener('click', (e) => {
 elements.installBtn.addEventListener('click', installApp);
 elements.dismissInstallBtn.addEventListener('click', dismissInstallPrompt);
 
+// ==================== Browse: source filter + search ====================
+const BROWSE_FILTERS = {
+  all: () => true,
+  quran: n => n.source_type === 'quran',
+  sunnah: n => n.source_type === 'sunnah',
+  videos: n => dataManager.getVideosForName(n.index).length > 0,
+};
+const BROWSE_LABELS = {
+  all: 'All sources',
+  quran: 'In the Quran',
+  sunnah: 'In the Sunnah',
+  videos: 'With video',
+};
+
+// Filter and search narrow the list together
+function renderBrowse() {
+  const namesList = document.getElementById('namesList');
+  const searchInput = document.getElementById('searchInput');
+  const searchCount = document.getElementById('searchCount');
+  if (!namesList || !state.names.length) return;
+
+  const query = searchInput ? searchInput.value.trim() : '';
+  const pool = query ? dataManager.searchNames(query) : state.names;
+  const results = pool.filter(BROWSE_FILTERS[state.browseFilter] || BROWSE_FILTERS.all);
+  uiRenderer.renderNamesList(results, namesList);
+
+  document.querySelectorAll('[data-browse-filter]').forEach(btn => {
+    const isActive = btn.dataset.browseFilter === state.browseFilter;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
+
+  if (searchCount) {
+    const label = BROWSE_LABELS[state.browseFilter] || BROWSE_LABELS.all;
+    searchCount.textContent = `Showing ${results.length} of 99 Names · ${label}${query ? ` · matching “${query}”` : ''}`;
+    searchCount.classList.remove('hidden');
+  }
+}
+
+function setBrowseFilter(filter) {
+  state.browseFilter = BROWSE_FILTERS[filter] ? filter : 'all';
+  renderBrowse();
+}
+
 // ==================== Load Names ====================
 async function loadNamesData() {
   const namesList = document.getElementById('namesList');
@@ -312,27 +363,23 @@ async function loadNamesData() {
     const names = dataManager.getAllNames();
     state.names = names;
 
-    // Render names list
-    uiRenderer.renderNamesList(names, namesList);
+    // Fill the filter counts from the data, then render
+    document.querySelectorAll('[data-browse-count]').forEach(el => {
+      const test = BROWSE_FILTERS[el.dataset.browseCount];
+      if (test) el.textContent = String(names.filter(test).length);
+    });
+    document.querySelectorAll('[data-browse-filter]').forEach(btn => {
+      btn.addEventListener('click', () => setBrowseFilter(btn.dataset.browseFilter));
+    });
+    renderBrowse();
 
     // Wire search with debounce
     const searchInput = document.getElementById('searchInput');
-    const searchCount = document.getElementById('searchCount');
     if (searchInput) {
       let debounceTimer;
       searchInput.addEventListener('input', () => {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          const query = searchInput.value.trim();
-          const results = query ? dataManager.searchNames(query) : names;
-          uiRenderer.renderNamesList(results, namesList);
-          if (query && searchCount) {
-            searchCount.textContent = `${results.length} of 99 names`;
-            searchCount.classList.remove('hidden');
-          } else if (searchCount) {
-            searchCount.classList.add('hidden');
-          }
-        }, 280);
+        debounceTimer = setTimeout(renderBrowse, 280);
       });
     }
 
@@ -349,7 +396,9 @@ async function loadNamesData() {
 // ==================== Home Hadith Narrations ====================
 // Four narrations of the 99 Names hadith. Each slide keeps one narration's own
 // Arabic and its own English together, verbatim from that hadith (fawazahmed0
-// hadith-api, which follows sunnah.com numbering). arWord/enKey are highlighted.
+// hadith-api). Caution: fawazahmed0's numbering matches sunnah.com for Bukhari,
+// Tirmidhi and Abu Dawud, but NOT for Muslim — every Muslim URL here was
+// live-verified on sunnah.com individually. arWord/enKey are highlighted.
 const HADITH_NARRATIONS = [
   {
     "ref": "Sahih al-Bukhari 7392",
@@ -498,24 +547,73 @@ function updateStudioStats() {
 }
 
 function initHomepageStudio() {
-  // 1. Sticky Iteration Tabs (v1, v2, v3, v4, baseline)
-  document.querySelectorAll('.iter-tab[data-iter]').forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault();
-      const key = tab.getAttribute('data-iter');
+  // 1. Homepage layout menu (v1, v2, v3, v4, baseline) — tucked behind the header button
+  const layoutToggle = document.getElementById('layoutToggle');
+  const layoutMenu = document.getElementById('layoutMenu');
+  const layoutOptions = [...document.querySelectorAll('.layout-option[data-iter]')];
+
+  const setLayoutMenu = (open) => {
+    if (!layoutMenu || !layoutToggle) return;
+    layoutMenu.hidden = !open;
+    layoutToggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      (layoutOptions.find(o => o.getAttribute('aria-checked') === 'true') || layoutOptions[0])?.focus();
+    }
+  };
+
+  const applyLayout = (key) => {
+    const panes = document.querySelectorAll('.iter-pane[data-iter-pane]');
+    if (![...panes].some(p => p.getAttribute('data-iter-pane') === key)) return false;
+    panes.forEach(pane => {
+      pane.classList.toggle('active', pane.getAttribute('data-iter-pane') === key);
+    });
+    layoutOptions.forEach(o => {
+      o.setAttribute('aria-checked', String(o.getAttribute('data-iter') === key));
+    });
+    return true;
+  };
+
+  try {
+    const saved = localStorage.getItem('homeLayout');
+    if (saved) applyLayout(saved);
+  } catch (_) { /* storage blocked: keep the default layout */ }
+
+  layoutToggle?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setLayoutMenu(layoutMenu.hidden);
+  });
+
+  layoutOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const key = option.getAttribute('data-iter');
       if (state.currentView !== 'welcome') {
         switchView('welcome');
       }
-      document.querySelectorAll('.iter-pane[data-iter-pane]').forEach(pane => {
-        pane.classList.toggle('active', pane.getAttribute('data-iter-pane') === key);
-      });
-      document.querySelectorAll('.iter-tab[data-iter]').forEach(t => {
-        const isActive = t === tab;
-        t.classList.toggle('active', isActive);
-        t.setAttribute('aria-selected', String(isActive));
-      });
-      showStudioToast('Viewing: ' + tab.textContent.trim());
+      applyLayout(key);
+      try { localStorage.setItem('homeLayout', key); } catch (_) { /* not critical */ }
+      setLayoutMenu(false);
+      layoutToggle?.focus();
+      showStudioToast('Layout: ' + option.querySelector('.layout-option-name').textContent.trim());
     });
+  });
+
+  layoutMenu?.addEventListener('keydown', (e) => {
+    const i = layoutOptions.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); layoutOptions[(i + 1) % layoutOptions.length].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); layoutOptions[(i - 1 + layoutOptions.length) % layoutOptions.length].focus(); }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && layoutMenu && !layoutMenu.hidden) {
+      setLayoutMenu(false);
+      layoutToggle?.focus();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (layoutMenu && !layoutMenu.hidden && !e.target.closest('.layout-switch')) {
+      setLayoutMenu(false);
+    }
   });
 
   // 2. Spotlights & Worship Lenses (V1, V2, V4) backed by full 99 Names dataset
@@ -754,34 +852,29 @@ function initHomepageStudio() {
       return;
     }
 
+    // 6C-2. Open Specific Qur'an Gem: [data-open-gem-surah]
+    const gemTrigger = e.target.closest('[data-open-gem-surah]');
+    if (gemTrigger) {
+      e.preventDefault();
+      e.stopPropagation();
+      const surahNum = Number(gemTrigger.getAttribute('data-open-gem-surah'));
+      const ayahKey = gemTrigger.getAttribute('data-open-gem-ayah') || '';
+      if (v1Drop) v1Drop.classList.add('hidden');
+      switchView('quranGems', { skipGemsRender: true });
+      quranGemsView.buildGroups();
+      quranGemsView.renderSurahDetail(surahNum, ayahKey);
+      return;
+    }
+
     // 6D. Browse with Filter Pill: [data-filter-type]
     const filterTrigger = e.target.closest('[data-filter-type]');
     if (filterTrigger) {
       e.preventDefault();
       const fType = filterTrigger.getAttribute('data-filter-type');
       switchView('browse', { skipBrowseReset: true });
-      const namesList = document.getElementById('namesList');
-      const searchCount = document.getElementById('searchCount');
       const searchInput = document.getElementById('searchInput');
       if (searchInput) searchInput.value = '';
-      let filtered = dataManager.getAllNames();
-      let label = 'All 99 names';
-      if (fType === 'quran') {
-        filtered = dataManager.getNamesBySource('quran');
-        label = `${filtered.length} Quranic names`;
-      } else if (fType === 'sunnah') {
-        filtered = dataManager.getNamesBySource('sunnah');
-        label = `${filtered.length} Sunnah names`;
-      } else if (fType === 'videos') {
-        filtered = dataManager.getAllNames().filter(n => dataManager.getVideosForName(n.index).length > 0);
-        label = `${filtered.length} names with video lessons`;
-      }
-      if (namesList) uiRenderer.renderNamesList(filtered, namesList);
-      if (searchCount) {
-        searchCount.textContent = label;
-        searchCount.classList.remove('hidden');
-      }
-      showStudioToast(`Showing: ${label}`);
+      setBrowseFilter(fType);
       return;
     }
 
@@ -799,6 +892,46 @@ function initHomepageStudio() {
   document.getElementById('modalOverlay')?.addEventListener('click', () => setTimeout(updateStudioStats, 50));
 }
 
+function renderHomepageGemsShelf() {
+  const scroller = document.getElementById('v1GemsScroller');
+  if (!scroller) return;
+  const pool = state.names.filter(n => n.nazm_al_durar_insight?.note);
+  if (!pool.length) return;
+
+  const shuffled = [...pool];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const picks = shuffled.slice(0, 5);
+
+  const escape = (s) => String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  scroller.innerHTML = picks.map(n => {
+    const nd = n.nazm_al_durar_insight;
+    const surahNum = String(nd.ayah || '').split(':')[0];
+    return `
+      <article class="v1-sit-card" data-open-gem-surah="${escape(surahNum)}" data-open-gem-ayah="${escape(nd.ayah)}" tabindex="0" role="button" aria-label="Open Qur'an Gem for ${escape(n.transliteration)} (${escape(nd.ayah_ref || nd.ayah)})">
+        <div>
+          <span class="v1-sit-cat">${escape(nd.ayah_ref || `Ayah ${nd.ayah}`)}</span>
+          <h4 class="v1-sit-title v1-gem-note">${escape(nd.note)}</h4>
+        </div>
+        <div class="v1-sit-names-preview">
+          <div class="v1-sit-ar-chips">
+            <span class="v1-sit-ar-chip" lang="ar" dir="rtl">${escape(n.arabic)}</span>
+            <span class="v1-gem-translit">${escape(n.transliteration)}</span>
+          </div>
+          <span class="v1-sit-count">Read gem →</span>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
 // ==================== Initialize App ====================
 async function init() {
 
@@ -814,6 +947,7 @@ async function init() {
 
   initHadithNarrations();
   initHomepageStudio();
+  renderHomepageGemsShelf();
   updateStudioStats();
 
   // Home screen is the main menu, so every visit starts there

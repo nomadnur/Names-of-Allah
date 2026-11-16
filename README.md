@@ -16,10 +16,10 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 | 2 | Browse mode — 99 names, detail modals, search, favorites | ✅ Done |
 | 3 | Memorization mode — spaced repetition (SRS), flashcards, sessions | ✅ Done |
 | 4 | Progress dashboard — 99-dot grid, stats, review queue | ✅ Done |
-| 4.5 | Situations finder & video gallery (`situations.js`, `gallery.js`) | ✅ Done |
+| 4.5 | Situations finder, video gallery, & Qur'an Gems (`situations.js`, `gallery.js`, `quranGems.js`) + tabbed scholar pills | ✅ Done |
 | 5 | Polish — dark mode & share (✅ Done); full a11y & Lighthouse 90+ audit (⏳ Pending) | 🟡 In Progress |
 
-### Content (v1.28 — active verification & enrichment)
+### Content (v1.29 — active verification & enrichment)
 
 > **Note:** The dataset (`data/names.json`) is actively verified against primary Qur'an, Hadith, Ghazali (*Al-Maqsad al-Asna*), Shaykh Al-Jalil, and Al-Biqa'i (*Nazm al-Durar*, Turath 9098) sources. Practical fields (`when_to_invoke`, `salah_usage`, `dhikr_usage`) still have boilerplate/coverage gaps in progress. See [`CONTENT_STRATEGY.md`](CONTENT_STRATEGY.md) for the roadmap.
 
@@ -34,7 +34,7 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 | aqeedah_belief | ✅ 99/99 | From Ghazali / Uthaymeen / verified summaries |
 | ghazali_insight | 🟡 78/99 | Repaired from Burrell & Daher; remaining 21 are not in *Al-Maqsad al-Asna* |
 | al_jalil_commentary | ✅ 97/99 | Shaykh Abdul Aziz Al-Jalil (*ولله الأسماء الحسنى فادعوه بها*) |
-| nazm_al_durar_insight | 🟡 9/99 | Al-Biqa'i (*Nazm al-Durar*, Turath 9098) with linked Arabic/English ayahs |
+| nazm_al_durar_insight | ✅ 83/83 Qur'anic Names | Al-Biqa'i (*Nazm al-Durar*, Turath 9098) with linked Arabic/English ayahs |
 | secondary_quran_refs | 🟡 1/99 | Additional Qur'an mentions (indefinite/extra verses; started on #79 Al-Wakeel) |
 | when_to_invoke | 🟡 99/99 | Filled, 48 boilerplate entries queued for replacement |
 | salah_usage | 🟡 74/99 | 25 missing + boilerplate cleanup queued |
@@ -46,7 +46,7 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 
 - **Pure Web Standards** — no frameworks, no build tools
 - HTML5, CSS3, JavaScript (ES6 modules)
-- Service Worker (offline-first, cache version `v1.28.0`)
+- Service Worker (offline-first, cache version `v1.29.0`)
 - LocalStorage (progress persistence)
 - Google Fonts: Inter + Scheherazade New (Arabic)
 
@@ -73,9 +73,10 @@ pwa/
 │   ├── session.js          # Session controller
 │   ├── dashboard.js        # Progress dashboard
 │   ├── situations.js       # Situations finder view
-│   └── gallery.js          # Video explanations & dhikr gallery
+│   ├── gallery.js          # Video explanations & dhikr gallery
+│   └── quranGems.js        # Qur'an Gems view (Nazm al-Durar by Surah/Ayah)
 ├── data/
-│   ├── names.json          # 99 names dataset (v1.28 — see CONTENT_STRATEGY.md)
+│   ├── names.json          # 99 names dataset (v1.29 — see CONTENT_STRATEGY.md)
 │   ├── situations.json     # Situation-to-Name mappings
 │   └── videos.json         # Video explanations & dhikr links
 └── assets/
@@ -107,4 +108,4 @@ Currently hosted on nurahmadfurlong.com. To deploy to any static host (Netlify, 
 
 ---
 
-**Version:** 1.28.0 | **Last updated:** 2026-11-16
+**Version:** 1.29.0 | **Last updated:** 2026-11-16
