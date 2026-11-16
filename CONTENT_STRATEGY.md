@@ -1,8 +1,8 @@
 # Content Strategy — Names of Allah Dataset
 
-**Status:** v1 dataset is demo-quality. Production enrichment not yet started.
+**Status:** v1.28 — core scholarly proofs, Ghazali repairs, and EN/BM dhikr split complete; practical field cleanup and *Nazm al-Durar* expansion in progress.
 **Owner:** Nur Ahmad Furlong
-**Last updated:** 2026-03-21
+**Last updated:** 2026-11-16
 
 ---
 
@@ -30,17 +30,18 @@ Each of the 99 names should have:
 | `arabic` | 99/99 with verified tashkeel | ✅ 99/99 |
 | `transliteration` | 99/99 | ✅ 99/99 |
 | `english_meaning` | 99/99 — concise, Uthaymeen-faithful | ✅ 99/99 |
-| `bahasa_meaning` | 99/99 | ~65/99 |
-| `proof_quran` | Verified ayah + surah for all 81 Quranic names | ~70% |
-| `proof_hadith` | Verified hadith ref for all 18 Sunnah names | ~20% |
-| `aqeedah_belief` | 2–3 sentences on what this name means for belief | ~80% |
-| `ghazali_insight` | Al-Maqsad al-Asna insight where available | ~40% |
-| `when_to_invoke` | Practical: when in life to call on this name | ~65% |
-| `salah_usage` | How to bring this name into prayer | ~65% |
-| `dua_usage` | Dua guidance | ~65% |
-| `dhikr_usage` | Dhikr guidance | ~65% |
-| `description_en` | 1–2 para rich description (EN) | ~50% |
-| `description_ms` | 1–2 para rich description (BM) | ~30% |
+| `bahasa_meaning` | 99/99 | ✅ 99/99 |
+| `proof_quran` | Verified ayah + surah for all Qur'anic names | ✅ 83/99 (direct `quran.com` links) |
+| `proof_hadith` | Verified hadith ref for Sunnah names | ✅ 16/99 (15/16 `sunnah.com` links; #96 At-Tabarani *Al-Sahihah* 470) |
+| `aqeedah_belief` | 2–3 sentences on what this name means for belief | ✅ 99/99 (8 cut-off entries repaired) |
+| `ghazali_insight` | *Al-Maqsad al-Asna* insight where available | 🟡 78/99 (repaired from Burrell & Daher; 21 not in *Maqsad*) |
+| `al_jalil_commentary` | Shaykh Al-Jalil commentary | ✅ 97/99 |
+| `nazm_al_durar_insight` | *Nazm al-Durar* (Turath 9098) ayah-fit notes | 🟡 9/99 (with Arabic/English ayahs & links) |
+| `secondary_quran_refs` | Additional definite/indefinite Qur'an mentions | 🟡 1/99 (started on #79 Al-Wakeel) |
+| `when_to_invoke` | Practical: when in life to call on this name | 🟡 99/99 (48 boilerplate entries queued) |
+| `salah_usage` | How to bring this name into prayer | 🟡 74/99 (25 missing + boilerplate cleanup) |
+| `dua_usage` | Dua guidance | 🟡 ~68 short entries queued for expansion |
+| `dhikr_usage_en` / `_ms` | Separate EN and BM dhikr guidance | 🟡 75/99 split (24 remaining) |
 
 ---
 
@@ -136,7 +137,7 @@ Full dataset quality is the prerequisite for:
 
 ## Next Action
 
-1. Share the NotebookLM notebook sources list
-2. Define a priority order (which 20 names to enrich first — likely the most well-known: Ar-Rahman, Ar-Rahim, Al-Malik, Al-Quddus, etc.)
-3. Run Phase 1 audit to generate the exact gap list
-4. Begin systematic Phase 2 queries
+1. Expand `nazm_al_durar_insight` (starting with #25 Al-Qayyoom and #79 Al-Wakeel)
+2. Expand `secondary_quran_refs` across more Qur'anic Names
+3. Replace the 48 boilerplate `when_to_invoke` / `salah_usage` entries and fill the 24 missing `dhikr_usage_en` / `_ms` entries
+4. Run final Stage 5 accessibility & Lighthouse 90+ audit

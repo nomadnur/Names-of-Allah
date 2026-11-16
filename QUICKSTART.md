@@ -145,4 +145,4 @@ Once you see the welcome screen working:
 3. ✅ Test the install prompt (if it appears)
 4. ✅ Check browser console for any errors
 
-**Ready for Stage 2**: Once canonical data arrives, we'll populate the names list!
+**Live at:** `http://localhost:8000` (all 99 Names, Situations, Video Gallery, Memorization SRS, and Progress Dashboard).

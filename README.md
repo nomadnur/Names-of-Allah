@@ -71,9 +71,13 @@ pwa/
 │   ├── memorization.js     # SRS algorithm (intervals: 1/3/7/14/30d)
 │   ├── progress.js         # localStorage tracker
 │   ├── session.js          # Session controller
-│   └── dashboard.js        # Progress dashboard
+│   ├── dashboard.js        # Progress dashboard
+│   ├── situations.js       # Situations finder view
+│   └── gallery.js          # Video explanations & dhikr gallery
 ├── data/
-│   └── names.json          # 99 names dataset (v1 — see CONTENT_STRATEGY.md)
+│   ├── names.json          # 99 names dataset (v1.28 — see CONTENT_STRATEGY.md)
+│   ├── situations.json     # Situation-to-Name mappings
+│   └── videos.json         # Video explanations & dhikr links
 └── assets/
     └── icons/              # icon.svg, icon-192.png, icon-512.png, maskable
 ```
@@ -97,10 +101,10 @@ Currently hosted on nurahmadfurlong.com. To deploy to any static host (Netlify, 
 ## Credits
 
 - Names classification: Shaykh Muhammad ibn Salih al-Uthaymeen, *Al-Qawaa'id al-Muthlaa*
-- Theological content: Al-Ghazali, *Al-Maqsad al-Asna*
+- Theological content: Al-Ghazali, *Al-Maqsad al-Asna* (Burrell & Daher), Shaykh Abdul Aziz Al-Jalil (*ولله الأسماء الحسنى فادعوه بها*), Al-Biqa'i (*Nazm al-Durar*, Turath 9098)
 - Arabic typography: Google Fonts — Scheherazade New
-- Built with Claude Code + Codex (Feb 2026)
+- Built with Claude Code + Codex (Feb 2026); content verification & enrichment with Gemini / Antigravity (Nov 2026)
 
 ---
 
-**Version:** 1.7.1 | **Last updated:** 2026-03-21
+**Version:** 1.28.0 | **Last updated:** 2026-11-16
