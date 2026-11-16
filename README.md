@@ -8,7 +8,7 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 
 ## Current Status
 
-### App (Stages 1–4 complete)
+### App (Stages 1–4 complete; Stage 5 mostly built)
 
 | Stage | Feature | Status |
 |-------|---------|--------|
@@ -16,7 +16,8 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 | 2 | Browse mode — 99 names, detail modals, search, favorites | ✅ Done |
 | 3 | Memorization mode — spaced repetition (SRS), flashcards, sessions | ✅ Done |
 | 4 | Progress dashboard — 99-dot grid, stats, review queue | ✅ Done |
-| 5 | Polish — dark mode, full a11y, share, Lighthouse 90+ | ⏳ Pending |
+| 4.5 | Situations finder & video gallery (`situations.js`, `gallery.js`) | ✅ Done |
+| 5 | Polish — dark mode & share (✅ Done); full a11y & Lighthouse 90+ audit (⏳ Pending) | 🟡 In Progress |
 
 ### Content (v1.28 — active verification & enrichment)
 
