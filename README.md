@@ -18,22 +18,26 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 | 4 | Progress dashboard — 99-dot grid, stats, review queue | ✅ Done |
 | 5 | Polish — dark mode, full a11y, share, Lighthouse 90+ | ⏳ Pending |
 
-### Content (v1 — demo quality)
+### Content (v1.28 — active verification & enrichment)
 
-> **Important:** The current dataset (`data/names.json`) is a first-pass merge from three sources. It is functional but not production-ready. Several fields have gaps and scholarly depth is limited. See [`CONTENT_STRATEGY.md`](CONTENT_STRATEGY.md) for the enrichment roadmap.
+> **Note:** The dataset (`data/names.json`) is actively verified against primary Qur'an, Hadith, Ghazali (*Al-Maqsad al-Asna*), Shaykh Al-Jalil, and Al-Biqa'i (*Nazm al-Durar*, Turath 9098) sources. Practical fields (`when_to_invoke`, `salah_usage`, `dhikr_usage`) still have boilerplate/coverage gaps in progress. See [`CONTENT_STRATEGY.md`](CONTENT_STRATEGY.md) for the roadmap.
 
 | Field | Completeness | Notes |
 |-------|-------------|-------|
 | arabic | ✅ 99/99 | With tashkeel (diacritics) |
 | transliteration | ✅ 99/99 | Uthaymeen romanisation |
 | english_meaning | ✅ 99/99 | Concise |
-| bahasa_meaning | ~65/99 | ~37 names missing |
-| proof_quran | ~70% | References need verification |
-| proof_hadith | ~20% | Low coverage |
-| aqeedah_belief | ~80% | From Ghazali/Uthaymeen |
-| when_to_invoke | ~65% | Practical guidance gaps |
-| salah_usage | ~65% | Gaps |
-| dhikr_usage | ~65% | Gaps |
+| bahasa_meaning | ✅ 99/99 | Malay translations complete |
+| proof_quran | ✅ 83/99 | Direct `quran.com` verse links |
+| proof_hadith | ✅ 16/99 | 15/16 linked to `sunnah.com`; #96 Al-Muhsin cites At-Tabarani (*Al-Sahihah* 470) |
+| aqeedah_belief | ✅ 99/99 | From Ghazali / Uthaymeen / verified summaries |
+| ghazali_insight | 🟡 78/99 | Repaired from Burrell & Daher; remaining 21 are not in *Al-Maqsad al-Asna* |
+| al_jalil_commentary | ✅ 97/99 | Shaykh Abdul Aziz Al-Jalil (*ولله الأسماء الحسنى فادعوه بها*) |
+| nazm_al_durar_insight | 🟡 9/99 | Al-Biqa'i (*Nazm al-Durar*, Turath 9098) with linked Arabic/English ayahs |
+| secondary_quran_refs | 🟡 1/99 | Additional Qur'an mentions (indefinite/extra verses; started on #79 Al-Wakeel) |
+| when_to_invoke | 🟡 99/99 | Filled, 48 boilerplate entries queued for replacement |
+| salah_usage | 🟡 74/99 | 25 missing + boilerplate cleanup queued |
+| dhikr_usage_en / _ms | 🟡 75/99 | Split into separate EN and BM fields; 24 remaining |
 
 ---
 
@@ -41,7 +45,7 @@ A mobile-first Progressive Web App for learning and memorizing the 99 Beautiful 
 
 - **Pure Web Standards** — no frameworks, no build tools
 - HTML5, CSS3, JavaScript (ES6 modules)
-- Service Worker (offline-first, cache version `v1.7.1-a11y`)
+- Service Worker (offline-first, cache version `v1.28.0`)
 - LocalStorage (progress persistence)
 - Google Fonts: Inter + Scheherazade New (Arabic)
 
