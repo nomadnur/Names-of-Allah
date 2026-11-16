@@ -3,6 +3,15 @@
  * Beautiful rendering of names with reverent design
  */
 
+// Small coloured icons on name cards. The same shapes sit on the Browse
+// filter buttons (index.html), which serve as their legend.
+const MARK_ICONS = {
+  quran: '<span class="mark mark-quran" title="In the Quran"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/></svg></span>',
+  sunnah: '<span class="mark mark-sunnah" title="In the Sunnah"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 7h6v6c0 3.6-1.9 5.9-5.2 6.9l-.8-1.8c2-.8 3-2.2 3.1-4.1H4z"/><path d="M14 7h6v6c0 3.6-1.9 5.9-5.2 6.9l-.8-1.8c2-.8 3-2.2 3.1-4.1H14z"/></svg></span>',
+  video: '<span class="mark mark-video" title="Has video"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>',
+  saved: '<span class="mark mark-saved" title="Saved"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4L12 17.6l-5.8 3 1.1-6.4-4.7-4.6 6.5-.9z"/></svg></span>',
+};
+
 // Shared body scroll lock. iOS Safari ignores overflow: hidden on body, so we
 // pin the body with position: fixed and restore the scroll offset on release.
 // Counter-based: the video player can open on top of the name modal.
@@ -92,54 +101,14 @@ export class UIRenderer {
     };
   }
 
-  extractHadithCollectionHints(reference) {
-    if (!reference) return [];
-
-    const lowerRef = reference.toLowerCase();
-    const hints = [];
-
-    if (/(al-)?bukhaaree|bukhari/.test(lowerRef)) hints.push('bukhari');
-    if (/muslim/.test(lowerRef)) hints.push('muslim');
-    if (/(at-)?tirmidhee|tirmidhi/.test(lowerRef)) hints.push('tirmidhi');
-    if (/abu\s*daawood|abu\s*dawud|abudawud/.test(lowerRef)) hints.push('abudawud');
-    if (/ahmad/.test(lowerRef)) hints.push('ahmad');
-
-    return hints;
-  }
-
+  // A reference link must open one specific hadith page. Never a search query.
+  // Unverified Names carry no proof_hadith_url and simply render no link.
   buildSunnahUrl(name) {
-    if (!name?.proof_hadith) return null;
-    if (name.proof_hadith_url && /^https?:\/\/(www\.)?sunnah\.com\//i.test(name.proof_hadith_url)) {
-      return name.proof_hadith_url;
+    const url = name?.proof_hadith_url;
+    if (url && /^https?:\/\/(www\.)?sunnah\.com\/[a-z]+:\d+[a-z]?$/i.test(url)) {
+      return url;
     }
-
-    const collectionHints = this.extractHadithCollectionHints(name.proof_hadith);
-    const normalizedReference = name.proof_hadith
-      .replace(/^reported by\s*/i, '')
-      .replace(/[():]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    const normalizedText = (name.proof_text || '')
-      .replace(/…|\.\.\./g, ' ')
-      .replace(/\[[^\]]*\]/g, ' ')
-      .replace(/\([^)]*\)/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    const snippetWords = normalizedText.split(/\s+/).filter(Boolean).slice(0, 24);
-    const textSnippet = snippetWords.join(' ');
-
-    const queryParts = [];
-    if (collectionHints.length > 0) queryParts.push(collectionHints.join(' '));
-    if (textSnippet.length >= 20) {
-      queryParts.push(`"${textSnippet}"`);
-    } else {
-      queryParts.push(normalizedReference);
-    }
-
-    const query = queryParts.join(' ').trim();
-    return `https://sunnah.com/search?q=${encodeURIComponent(query)}`;
+    return null;
   }
 
   async fetchQuranAyahArabic(verseKey) {
@@ -204,11 +173,15 @@ export class UIRenderer {
     const html = names.map(name => this.createNameCard(name)).join('');
     container.innerHTML = `<div class="names-grid">${html}</div>`;
 
-    // Add click handlers
+    // Add click + keyboard handlers (the whole card is the control)
     container.querySelectorAll('.name-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const index = card.dataset.index;
-        this.showNameDetail(index);
+      const open = () => this.showNameDetail(card.dataset.index);
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open();
+        }
       });
     });
   }
@@ -218,24 +191,24 @@ export class UIRenderer {
       ? name.english_meaning
       : name.bahasa_meaning || name.english_meaning;
 
-    const preview = name.aqeedah_belief
-      ? name.aqeedah_belief.substring(0, 100) + '...'
-      : name.when_to_invoke?.substring(0, 100) + '...' || '';
-
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     const isFavorite = favorites.includes(name.index);
+    const hasVideo = this.dataManager.getVideosForName(name.index).length > 0;
+    const source = name.source_type === 'quran' ? 'quran' : 'sunnah';
+    const spoken = [
+      source === 'quran' ? 'In the Quran' : 'In the Sunnah',
+      hasVideo ? 'has video' : '',
+      isFavorite ? 'saved' : '',
+    ].filter(Boolean).join(', ');
 
     return `
-      <article class="name-card" data-index="${name.index}">
+      <article class="name-card" data-index="${name.index}" tabindex="0" role="button" aria-label="${name.transliteration}, ${meaning}. ${spoken}. Open details">
         <span class="name-number">#${name.index}</span>
-        ${this.dataManager.getVideosForName(name.index).length ? `
-          <span class="video-badge" title="Has video lessons">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-            <span>Video</span>
-          </span>
-        ` : ''}
-        <span class="source-badge ${name.source_type}">${name.source_type === 'quran' ? 'Quran' : 'Sunnah'}</span>
-        ${isFavorite ? '<span class="favorite-badge" title="Favorited">⭐</span>' : ''}
+        <span class="card-marks" aria-hidden="true">
+          ${MARK_ICONS[source]}
+          ${hasVideo ? MARK_ICONS.video : ''}
+          ${isFavorite ? MARK_ICONS.saved : ''}
+        </span>
 
         <div class="card-arabic" lang="ar" dir="rtl">${name.arabic}</div>
 
@@ -243,17 +216,6 @@ export class UIRenderer {
           <h3 class="card-transliteration">${name.transliteration}</h3>
           <p class="card-meaning">${meaning}</p>
         </div>
-
-        <div class="card-divider"></div>
-
-        <p class="card-preview">${preview}</p>
-
-        <button class="card-action" aria-label="Explore ${name.transliteration}">
-          <span>Explore</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </button>
       </article>
     `;
   }
@@ -269,6 +231,10 @@ export class UIRenderer {
     const description = this.currentLanguage === 'en'
       ? name.description_en
       : name.description_ms || name.description_en;
+
+    const dhikrText = this.currentLanguage === 'en'
+      ? (name.dhikr_usage_en || '')
+      : (name.dhikr_usage_ms || '');
     const quranRefInfo = this.parseQuranReference(name.proof_quran);
     const sunnahRefUrl = this.buildSunnahUrl(name);
 
@@ -289,9 +255,15 @@ export class UIRenderer {
                           !name.al_jalil_commentary.toLowerCase().includes('insufficient') && 
                           !name.al_jalil_commentary.toLowerCase().includes('none');
 
+    const hasNazmQuote = Boolean(name.nazm_al_durar_insight && name.nazm_al_durar_insight.note);
+    const hasSecondaryQuran = Array.isArray(name.secondary_quran_refs) && name.secondary_quran_refs.length > 0;
+
     const usedSources = [];
     if (name.proof_text) {
       usedSources.push(name.source_type === 'quran' ? `The Quran (${name.proof_quran})` : `Hadith (${name.proof_hadith})`);
+    }
+    if (hasSecondaryQuran) {
+      usedSources.push(`The Quran (additional mentions: ${name.secondary_quran_refs.map(r => r.verse_key || r.ref).join(', ')})`);
     }
     if (hasGhazaliQuote) {
       usedSources.push(`Al-Ghazali, Al-Maqsad al-Asna${ghazaliRef ? `, ${ghazaliRef}` : ''}`);
@@ -299,8 +271,11 @@ export class UIRenderer {
     if (hasJalilQuote) {
       usedSources.push(`Abdul Aziz Al-Jalil, ولله الأسماء الحسنى فادعوه بها${jalilRef ? `, ${jalilRef}` : ''}`);
     }
+    if (hasNazmQuote) {
+      usedSources.push(name.nazm_al_durar_insight.source_attribution || `Burhan al-Din al-Biqa'i, Nazm al-Durar (Turath ${name.nazm_al_durar_insight.turath_ref || '9098'})`);
+    }
 
-    if (name.proof_text || hasGhazaliQuote || hasJalilQuote) {
+    if (name.proof_text || hasGhazaliQuote || hasJalilQuote || hasNazmQuote || hasSecondaryQuran) {
       verificationHTML = `
         <section class="detail-section verification-section">
           <details class="verification-details">
@@ -341,17 +316,33 @@ export class UIRenderer {
                 </div>
               ` : ''}
 
+              ${hasNazmQuote ? `
+                <div class="verification-block">
+                  <h4 class="cite-header">🔍 Al-Biqa'i (Nazm al-Durar):</h4>
+                  <blockquote class="verification-quote classical-quote">
+                    "${name.nazm_al_durar_insight.note}"
+                  </blockquote>
+                  <p class="verification-quote-ref">— ${name.nazm_al_durar_insight.source_attribution || "Burhan al-Din al-Biqa'i, Nazm al-Durar fi Tanasub al-Ayat wa-l-Suwar"} ${name.nazm_al_durar_insight.ayah ? `(${name.nazm_al_durar_insight.ayah_url ? `<a href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">Ayah ${name.nazm_al_durar_insight.ayah}</a>` : `Ayah ${name.nazm_al_durar_insight.ayah}`})` : ''}</p>
+                </div>
+              ` : ''}
+
               <div class="scholarly-cite-block">
                 <h4 class="cite-header">Source list:</h4>
                 <ul class="cite-list">
                   ${name.proof_text ? `
-                    <li><strong>${name.source_type === 'quran' ? 'The Quran' : 'Hadith'}:</strong> <em>${name.proof_quran || name.proof_hadith || ''}</em></li>
+                    <li><strong>${name.source_type === 'quran' ? 'The Quran' : 'Hadith'}:</strong> ${name.source_type === 'quran' && quranRefInfo?.url ? `<a href="${quranRefInfo.url}" target="_blank" rel="noopener noreferrer"><em>${name.proof_quran || ''}</em></a>` : (sunnahRefUrl ? `<a href="${sunnahRefUrl}" target="_blank" rel="noopener noreferrer"><em>${name.proof_hadith || ''}</em></a>` : `<em>${name.proof_quran || name.proof_hadith || ''}</em>`)}</li>
+                  ` : ''}
+                  ${hasSecondaryQuran ? `
+                    <li><strong>Additional Quran mentions:</strong> ${name.secondary_quran_refs.map(r => `<a href="https://quran.com/${r.verse_key.replace(':', '/')}" target="_blank" rel="noopener noreferrer">${r.ref}</a> (${r.form})`).join('; ')}</li>
                   ` : ''}
                   ${hasGhazaliQuote ? `
                     <li><strong>Al-Ghazali:</strong> <em>Al-Maqsad al-Asna fi Sharh Ma'ani Asma' Allah al-Husna</em> (${ghazaliRef || 'page not recorded'})</li>
                   ` : ''}
                   ${hasJalilQuote ? `
                     <li><strong>Al-Jalil:</strong> <em>ولله الأسماء الحسنى فادعوه بها</em> (${jalilRef || 'page not recorded'})</li>
+                  ` : ''}
+                  ${hasNazmQuote ? `
+                    <li><strong>Al-Biqa'i:</strong> <em>Nazm al-Durar fi Tanasub al-Ayat wa-l-Suwar</em> (${name.nazm_al_durar_insight.turath_url ? `<a href="${name.nazm_al_durar_insight.turath_url}" target="_blank" rel="noopener noreferrer">Turath ${name.nazm_al_durar_insight.turath_ref || '9098'}</a>` : `Turath ${name.nazm_al_durar_insight.turath_ref || '9098'}`})</li>
                   ` : ''}
                 </ul>
               </div>
@@ -441,6 +432,19 @@ export class UIRenderer {
                   </cite>
                 </blockquote>
               ` : ''}
+              ${Array.isArray(name.secondary_quran_refs) && name.secondary_quran_refs.length ? `
+                <div class="secondary-refs" style="margin-top:0.65rem;font-size:0.9rem;opacity:0.9;">
+                  <strong>Other Qur'anic mentions:</strong>
+                  <ul style="margin:0.35rem 0 0 1.2rem;padding:0;">
+                    ${name.secondary_quran_refs.map(sr => `
+                      <li style="margin-bottom:0.25rem;">
+                        <a href="https://quran.com/${sr.verse_key.replace(':', '/')}" target="_blank" rel="noopener noreferrer">${sr.ref}</a>
+                        (${sr.form}: <span lang="ar" dir="rtl">${sr.arabic_word}</span>) — ${sr.translation}
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+              ` : ''}
               ${name.proof_hadith ? `
                 <blockquote class="proof-text">
                   ${name.proof_text ? `<p class="proof-translation">${name.proof_text}</p>` : ''}
@@ -448,7 +452,7 @@ export class UIRenderer {
                     <span>${name.proof_hadith}</span>
                     ${sunnahRefUrl ? `
                       <a class="sunnah-link" href="${sunnahRefUrl}" target="_blank" rel="noopener noreferrer">
-                        ${name.proof_hadith_url ? 'Open on Sunnah.com' : 'Find on Sunnah.com'}
+                        Open on Sunnah.com
                       </a>
                     ` : ''}
                   </cite>
@@ -485,10 +489,10 @@ export class UIRenderer {
             </section>
           ` : ''}
 
-          ${name.dhikr_usage ? `
+          ${dhikrText ? `
             <section class="detail-section">
               <h3 class="section-title">📿 In Remembrance</h3>
-              <p class="section-content">${name.dhikr_usage}</p>
+              <p class="section-content">${dhikrText}</p>
             </section>
           ` : ''}
 
@@ -503,6 +507,33 @@ export class UIRenderer {
             <section class="detail-section jalil-section">
               <h3 class="section-title">💡 Shaykh Al-Jalil's Lesson</h3>
               <p class="section-content jalil-text">${name.al_jalil_commentary}</p>
+            </section>
+          ` : ''}
+
+          ${name.nazm_al_durar_insight?.note ? `
+            <section class="detail-section nazm-section">
+              <h3 class="section-title">🔍 Why This Name in the Ayah (Nazm al-Durar)</h3>
+              ${name.nazm_al_durar_insight.ayah_arabic ? `
+                <blockquote class="proof-text proof-text-quran" style="margin-bottom:0.65rem;">
+                  <p class="proof-translation">${name.nazm_al_durar_insight.ayah_translation || ''}</p>
+                  <p class="proof-arabic" lang="ar" dir="rtl">${name.nazm_al_durar_insight.ayah_arabic}</p>
+                  <cite>
+                    <a class="quran-link quran-ref-link" href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">
+                      ${name.nazm_al_durar_insight.ayah_ref || `Ayah ${name.nazm_al_durar_insight.ayah}`}
+                    </a>
+                    <a class="quran-link" href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">
+                      Open on Quran.com
+                    </a>
+                  </cite>
+                </blockquote>
+              ` : ''}
+              <p class="section-content">${name.nazm_al_durar_insight.note}</p>
+              <p class="section-meta" style="margin-top:0.35rem;font-size:0.85rem;opacity:0.8;">
+                ${name.nazm_al_durar_insight.ayah_url ? `<a href="${name.nazm_al_durar_insight.ayah_url}" target="_blank" rel="noopener noreferrer">Ayah ${name.nazm_al_durar_insight.ayah}</a>` : `Ayah ${name.nazm_al_durar_insight.ayah}`} ·
+                <a href="${name.nazm_al_durar_insight.turath_url}" target="_blank" rel="noopener noreferrer">
+                  ${name.nazm_al_durar_insight.source_attribution}
+                </a>
+              </p>
             </section>
           ` : ''}
 
@@ -767,16 +798,16 @@ export class UIRenderer {
       }
     }
 
-    // Update browse view badge
-    const card = document.querySelector(`.name-card[data-index="${index}"]`);
+    // Update browse view marks
+    const card = document.querySelector(`#namesList .name-card[data-index="${index}"]`);
     if (card) {
-      const existingBadge = card.querySelector('.favorite-badge');
+      const marks = card.querySelector('.card-marks');
+      const existingMark = card.querySelector('.mark-saved');
 
-      if (isNowFavorite && !existingBadge) {
-        const sourceBadge = card.querySelector('.source-badge');
-        sourceBadge.insertAdjacentHTML('afterend', '<span class="favorite-badge" title="Favorited">⭐</span>');
-      } else if (!isNowFavorite && existingBadge) {
-        existingBadge.remove();
+      if (isNowFavorite && !existingMark && marks) {
+        marks.insertAdjacentHTML('beforeend', MARK_ICONS.saved);
+      } else if (!isNowFavorite && existingMark) {
+        existingMark.remove();
       }
     }
 

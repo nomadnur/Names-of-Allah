@@ -3,7 +3,7 @@
  * Offline-first caching strategy
  */
 
-const CACHE_VERSION = 'v1.21.0-mobile';
+const CACHE_VERSION = 'v1.28.0';
 const CACHE_NAME = `names-of-allah-${CACHE_VERSION}`;
 
 // Files to cache on install
@@ -18,6 +18,9 @@ const STATIC_ASSETS = [
   './css/progress.css',
   './css/situations.css',
   './iterations/iterations.css',
+  './css/refine.css',
+  './iterations/palette.css',
+  './iterations/scheme.js',
   './js/app.js',
   './js/data.js',
   './js/ui.js',
